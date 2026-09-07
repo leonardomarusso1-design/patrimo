@@ -30,20 +30,20 @@ export function BudgetTabs({
   return (
     <div>
       <div className="flex flex-wrap items-center justify-between gap-3 border-b border-border pb-3">
-        <div className="flex gap-1">
+        <div className="-mx-1 flex gap-1 overflow-x-auto px-1">
           {tabs.map((t) => (
             <button
               key={t.key}
               onClick={() => setActive(t.key)}
               className={cn(
-                "rounded-lg px-3 py-1.5 text-sm font-medium transition-colors",
+                "shrink-0 whitespace-nowrap rounded-lg px-3 py-1.5 text-sm font-medium transition-colors",
                 active === t.key
                   ? "bg-brand-50 text-brand-700"
                   : "text-muted hover:text-ink",
               )}
             >
               {t.label}
-              <span className="ml-1.5 text-xs text-muted">{t.total}</span>
+              <span className="ml-1.5 hidden text-xs text-muted sm:inline">{t.total}</span>
             </button>
           ))}
         </div>
