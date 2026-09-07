@@ -1,0 +1,112 @@
+"use client";
+
+import { useState } from "react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { Menu, X, LogOut } from "lucide-react";
+import { NAV } from "./nav";
+import { cn } from "@/lib/utils";
+import { planName } from "@/lib/plans";
+import type { PlanId } from "@/types/database";
+import { signOut } from "@/app/auth/actions";
+
+function NavLinks({ onNavigate }: { onNavigate?: () => void }) {
+  const pathname = usePathname();
+  return (
+    <nav className="space-y-0.5">
+      {NAV.map((item) => {
+        const active =
+          item.href === "/app" ? pathname === "/app" : pathname.startsWith(item.href);
+        return (
+          <Link
+            key={item.href}
+            href={item.href}
+            onClick={onNavigate}
+            className={cn(
+              "flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-colors",
+              active
+                ? "bg-accent/10 text-accent-dim"
+                : "text-muted hover:bg-ink/[0.04] hover:text-ink",
+            )}
+          >
+            <item.icon className="h-[18px] w-[18px]" />
+            {item.label}
+          </Link>
+        );
+      })}
+    </nav>
+  );
+}
+
+export function AppSidebar({
+  name,
+  plan,
+}: {
+  name: string;
+  plan: PlanId;
+}) {
+  const [open, setOpen] = useState(false);
+
+  return (
+    <>
+      {/* topbar mobile */}
+      <div className="flex items-center justify-between border-b border-border bg-card px-4 py-3 lg:hidden">
+        <span className="font-display text-lg font-extrabold text-ink">
+          Patri<span className="text-accent">mo</span>
+        </span>
+        <button onClick={() => setOpen(true)} aria-label="Abrir menu">
+          <Menu className="h-6 w-6 text-ink" />
+        </button>
+      </div>
+
+      {/* sidebar desktop */}
+      <aside className="hidden w-64 shrink-0 flex-col border-r border-border bg-card p-4 lg:flex">
+        <Link href="/" className="px-3 py-2 font-display text-xl font-extrabold text-ink">
+          Patri<span className="text-accent">mo</span>
+        </Link>
+        <div className="mt-4 flex-1">
+          <NavLinks />
+        </div>
+        <SidebarFooter name={name} plan={plan} />
+      </aside>
+
+      {/* drawer mobile */}
+      {open && (
+        <div className="fixed inset-0 z-50 lg:hidden">
+          <div className="absolute inset-0 bg-ink/40" onClick={() => setOpen(false)} />
+          <div className="absolute inset-y-0 left-0 flex w-72 flex-col bg-card p-4">
+            <div className="flex items-center justify-between px-3 py-2">
+              <span className="font-display text-lg font-extrabold text-ink">
+                Patri<span className="text-accent">mo</span>
+              </span>
+              <button onClick={() => setOpen(false)} aria-label="Fechar menu">
+                <X className="h-6 w-6 text-ink" />
+              </button>
+            </div>
+            <div className="mt-4 flex-1 overflow-y-auto">
+              <NavLinks onNavigate={() => setOpen(false)} />
+            </div>
+            <SidebarFooter name={name} plan={plan} />
+          </div>
+        </div>
+      )}
+    </>
+  );
+}
+
+function SidebarFooter({ name, plan }: { name: string; plan: PlanId }) {
+  return (
+    <div className="border-t border-border pt-3">
+      <div className="px-3 py-2">
+        <p className="truncate text-sm font-semibold text-ink">{name}</p>
+        <p className="text-xs text-muted">Plano {planName(plan)}</p>
+      </div>
+      <form action={signOut}>
+        <button className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-muted hover:bg-ink/[0.04] hover:text-ink">
+          <LogOut className="h-[18px] w-[18px]" />
+          Sair
+        </button>
+      </form>
+    </div>
+  );
+}

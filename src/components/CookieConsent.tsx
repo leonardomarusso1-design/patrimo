@@ -45,6 +45,9 @@ export function CookieConsent() {
   const [marketing, setMarketing] = useState(false);
 
   useEffect(() => {
+    // consentimento vive no localStorage (sistema externo); só mostramos o
+    // banner no cliente se ainda não houver escolha registrada.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     if (!readConsent()) setVisible(true);
   }, []);
 

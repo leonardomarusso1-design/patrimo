@@ -20,27 +20,25 @@ export default function OpengraphImage() {
           fontFamily: "sans-serif",
         }}
       >
-        <div style={{ fontSize: 40, fontWeight: 800, color: "#17141a" }}>
-          Patri<span style={{ color: "#ff4d6d" }}>mo</span>
-        </div>
-        <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
-          <div style={{ fontSize: 76, fontWeight: 800, color: "#17141a", lineHeight: 1.05 }}>
-            Seu dinheiro inteiro,
-            <br />
-            numa tela só.
-          </div>
-          <div style={{ fontSize: 30, color: "#6b6560" }}>
-            Orçamento · Reserva · Metas · Investimentos · Patrimônio · IA
-          </div>
+        <div style={{ display: "flex", fontSize: 40, fontWeight: 800, color: "#17141a" }}>
+          Patrimo
         </div>
         <div
           style={{
-            height: 10,
-            width: "100%",
-            background: "linear-gradient(90deg,#ff4d6d,#8b5cf6)",
-            borderRadius: 999,
+            display: "flex",
+            flexDirection: "column",
+            fontSize: 74,
+            fontWeight: 800,
+            color: "#17141a",
+            lineHeight: 1.1,
           }}
-        />
+        >
+          <span>Seu dinheiro inteiro,</span>
+          <span>numa tela só.</span>
+        </div>
+        <div style={{ display: "flex", fontSize: 28, color: "#6b6560" }}>
+          Orçamento · Reserva · Metas · Investimentos · Patrimônio · IA
+        </div>
       </div>
     ),
     size,
