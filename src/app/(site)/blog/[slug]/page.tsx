@@ -4,6 +4,7 @@ import type { Metadata } from "next";
 import { ArrowLeft } from "lucide-react";
 import { BLOG_POSTS, getPost } from "@/content/blog";
 import { Markdown } from "@/components/Markdown";
+import { BlogCover } from "@/components/BlogCover";
 import { formatDate } from "@/lib/utils";
 import { SITE_URL } from "@/lib/seo";
 import { ButtonLink } from "@/components/ui/Button";
@@ -65,6 +66,8 @@ export default async function BlogPostPage({
       >
         <ArrowLeft className="h-4 w-4" /> Todos os artigos
       </Link>
+
+      <BlogCover slug={post.slug} tag={post.tags[0]} className="mt-6 h-44 sm:h-52" />
 
       <h1 className="mt-6 font-display text-3xl font-extrabold leading-tight text-ink sm:text-4xl">
         {post.title}

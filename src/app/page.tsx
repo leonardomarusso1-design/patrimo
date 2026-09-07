@@ -16,6 +16,8 @@ import {
 import { SiteHeader } from "@/components/marketing/SiteHeader";
 import { SiteFooter } from "@/components/marketing/SiteFooter";
 import { HeroPulse } from "@/components/marketing/HeroPulse";
+import { AppPreview } from "@/components/marketing/AppPreview";
+import { BlogCover } from "@/components/BlogCover";
 import { PricingTable } from "@/components/marketing/PricingTable";
 import { ButtonLink } from "@/components/ui/Button";
 import { LESSONS } from "@/lib/school";
@@ -78,6 +80,10 @@ export default function LandingPage() {
               R$ 97,90 por ano · <strong className="text-ink">em até 12x</strong> no cartão · Pix ou boleto
             </p>
           </div>
+        </section>
+
+        <section className="mx-auto -mt-6 max-w-5xl px-4 pb-8 sm:px-6">
+          <AppPreview />
         </section>
 
         <section className="mx-auto max-w-3xl px-4 py-16 sm:px-6">
@@ -207,17 +213,13 @@ export default function LandingPage() {
               Ver tudo
             </Link>
           </div>
-          <div className="mt-10 grid gap-5 md:grid-cols-3">
+          <div className="mt-10 grid gap-6 md:grid-cols-3">
             {BLOG_POSTS.slice(0, 3).map((p) => (
-              <Link
-                key={p.slug}
-                href={`/blog/${p.slug}`}
-                className="rounded-2xl border border-border bg-card p-6 transition-colors hover:border-ink/25"
-              >
-                <p className="text-xs font-semibold uppercase tracking-wide text-accent-dim">
-                  {p.tags[0]}
-                </p>
-                <h3 className="mt-2 font-display text-base font-bold text-ink">{p.title}</h3>
+              <Link key={p.slug} href={`/blog/${p.slug}`} className="group block">
+                <BlogCover slug={p.slug} tag={p.tags[0]} className="h-36" />
+                <h3 className="mt-3 font-display text-base font-bold text-ink group-hover:underline">
+                  {p.title}
+                </h3>
                 <p className="mt-2 text-sm text-muted">{p.excerpt}</p>
               </Link>
             ))}
