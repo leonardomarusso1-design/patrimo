@@ -147,5 +147,8 @@ function mask(email: string) {
 }
 
 export function GET() {
-  return NextResponse.json({ ok: true, hint: "POST only" }, { status: 405 });
+  return NextResponse.json(
+    { ok: true, hint: "POST only" },
+    { status: 405, headers: { Allow: "POST" } },
+  );
 }

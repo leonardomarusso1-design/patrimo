@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Menu, X, LogOut, Lock } from "lucide-react";
+import { Menu, X, LogOut, Lock, MoreHorizontal } from "lucide-react";
 import { NAV } from "./nav";
 import { cn } from "@/lib/utils";
 import { planName } from "@/lib/plans";
@@ -46,6 +46,10 @@ function NavLinks({ onNavigate }: { onNavigate?: () => void }) {
   );
 }
 
+const MOBILE_PRIMARY_NAV = NAV.filter((item) =>
+  ["/app", "/app/orcamento", "/app/metas", "/app/investimentos"].includes(item.href),
+);
+
 export function AppSidebar({
   name,
   plan,
@@ -54,6 +58,7 @@ export function AppSidebar({
   plan: PlanId;
 }) {
   const [open, setOpen] = useState(false);
+  const pathname = usePathname();
 
   return (
     <>
@@ -98,6 +103,38 @@ export function AppSidebar({
           </div>
         </div>
       )}
+
+      <nav
+        aria-label="Navegação principal mobile"
+        className="fixed inset-x-0 bottom-0 z-40 grid grid-cols-5 border-t border-border bg-card/95 px-2 pb-[env(safe-area-inset-bottom)] pt-2 shadow-[0_-8px_24px_rgba(20,33,28,0.08)] backdrop-blur lg:hidden"
+      >
+        {MOBILE_PRIMARY_NAV.map((item) => {
+          const active = item.href === "/app" ? pathname === "/app" : pathname.startsWith(item.href);
+          return (
+            <Link
+              key={item.href}
+              href={item.href}
+              aria-current={active ? "page" : undefined}
+              className={cn(
+                "flex min-h-11 flex-col items-center justify-center gap-0.5 rounded-xl px-1 text-[10px] font-semibold transition-colors active:scale-95",
+                active ? "text-accent-dim" : "text-muted",
+              )}
+            >
+              <item.icon className="h-[18px] w-[18px]" aria-hidden="true" />
+              <span>{item.label === "Investimentos" ? "Investir" : item.label}</span>
+            </Link>
+          );
+        })}
+        <button
+          type="button"
+          onClick={() => setOpen(true)}
+          className="flex min-h-11 flex-col items-center justify-center gap-0.5 rounded-xl px-1 text-[10px] font-semibold text-muted transition-colors active:scale-95"
+          aria-label="Abrir mais opções"
+        >
+          <MoreHorizontal className="h-[18px] w-[18px]" aria-hidden="true" />
+          <span>Mais</span>
+        </button>
+      </nav>
     </>
   );
 }

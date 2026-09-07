@@ -58,9 +58,24 @@ export async function checkRateLimit(
   };
   const c = config[bucket] ?? config.default;
   const rl = limiter(bucket, c.tokens, c.window);
-  if (!rl) return { ok: true };
+  if (!rl) {
+    if (process.env.NODE_ENV === "production") {
+      console.error("rate-limit: Upstash não configurado em produção — fail-open", { bucket });
+    }
+    return { ok: true };
+  }
 
-  const res = await rl.limit(identifier);
-  if (res.success) return { ok: true };
-  return { ok: false, retryAfter: Math.ceil((res.reset - Date.now()) / 1000) };
+  try {
+    const res = await rl.limit(identifier);
+    if (res.success) return { ok: true };
+    return { ok: false, retryAfter: Math.ceil((res.reset - Date.now()) / 1000) };
+  } catch (err) {
+    // erro de rede do Upstash: fail-open pra não derrubar auth/webhook.
+    // ponytail: revisitar se aparecer abuso durante indisponibilidade do Redis.
+    console.error("rate-limit: falha no Upstash — fail-open", {
+      bucket,
+      error: err instanceof Error ? err.message : String(err),
+    });
+    return { ok: true };
+  }
 }
