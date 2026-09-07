@@ -98,10 +98,6 @@ export default async function InicioPage() {
     <>
       <PageHeader title="Seu dinheiro hoje" subtitle="O retrato do mês e do patrimônio." />
 
-      <div className="mb-6">
-        <IndicadoresPanel data={indicators} />
-      </div>
-
       {alerts.length > 0 && (
         <div className="mb-6 space-y-2">
           {alerts.map((a, i) => (
@@ -248,6 +244,16 @@ export default async function InicioPage() {
               </li>
             ))}
           </ul>
+        </div>
+      </div>
+
+      <div className="mt-10">
+        <h2 className="font-display text-base font-bold text-ink">Mercado hoje</h2>
+        <p className="mt-0.5 text-xs text-muted">
+          Índices de referência do país — não são seus valores. Atualizados hoje.
+        </p>
+        <div className="mt-3">
+          <IndicadoresPanel data={indicators} />
         </div>
       </div>
     </>
