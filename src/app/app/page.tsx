@@ -17,15 +17,6 @@ function monthStart() {
   return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-01`;
 }
 
-function Line({ label, value, muted }: { label: string; value: string; muted?: boolean }) {
-  return (
-    <div className={`flex justify-between ${muted ? "text-muted" : "text-ink"}`}>
-      <dt>{label}</dt>
-      <dd className="tabular-nums">{value}</dd>
-    </div>
-  );
-}
-
 export default async function InicioPage() {
   const [{ user, supabase }, profile, indicators] = await Promise.all([
     requireUser(),
@@ -161,50 +152,62 @@ export default async function InicioPage() {
       )}
 
       <div className="grid gap-4 lg:grid-cols-2">
-        <div className="brand-panel flex flex-col justify-between rounded-2xl border border-transparent p-5 text-[#eaf5ee]">
-          <div>
-            <p className="text-xs font-semibold uppercase tracking-wide text-[#eaf5ee]/70">
-              Saldo de {monthName}
-            </p>
-            <p className="money mt-2 font-display text-3xl font-extrabold">
-              {formatCurrency(monthBalance, cur)}
-            </p>
-          </div>
-          <p className="mt-3 text-sm text-[#eaf5ee]/75">
-            Quanto {monthBalance >= 0 ? "sobrou" : "faltou"} este mês (receitas − despesas).{" "}
-            <Link href="/app/orcamento" className="underline">
-              ver orçamento
-            </Link>
+        {/* como foi o mês */}
+        <div className="rounded-2xl border border-border bg-card p-5 shadow-[var(--shadow-card)]">
+          <p className="text-xs font-semibold uppercase tracking-wide text-muted">
+            Como foi {monthName}
           </p>
+          <p className="mt-2 text-[15px] leading-relaxed text-ink">
+            {monthBalance < 0 ? (
+              <>
+                Você gastou{" "}
+                <strong className="text-danger">
+                  {formatCurrency(Math.abs(monthBalance), cur)}
+                </strong>{" "}
+                a mais do que ganhou este mês.
+              </>
+            ) : monthBalance > 0 ? (
+              <>
+                Sobraram{" "}
+                <strong className="text-success">{formatCurrency(monthBalance, cur)}</strong>{" "}
+                depois de pagar as contas do mês.
+              </>
+            ) : (
+              <>Você ainda não lançou receitas ou despesas de {monthName}.</>
+            )}
+          </p>
+          <Link
+            href="/app/orcamento"
+            className="mt-3 inline-flex items-center gap-1 text-sm font-medium text-accent-dim hover:underline"
+          >
+            Abrir o orçamento <ArrowUpRight className="h-3.5 w-3.5" />
+          </Link>
         </div>
 
+        {/* o que você tem */}
         <div className="rounded-2xl border border-border bg-card p-5 shadow-[var(--shadow-card)]">
-          <div className="flex items-baseline justify-between">
-            <p className="text-xs font-semibold uppercase tracking-wide text-muted">
-              Patrimônio líquido
-            </p>
-            <Link href="/app/patrimonio" className="text-xs text-accent-dim hover:underline">
-              abrir
-            </Link>
-          </div>
-          <p className="money mt-1 font-display text-3xl font-extrabold text-ink">
-            {formatCurrency(nw.netWorth, cur)}
+          <p className="text-xs font-semibold uppercase tracking-wide text-muted">
+            O que você tem hoje
           </p>
-          <p className="mt-1 text-xs text-muted">tudo que é seu, menos o que você deve</p>
-          <dl className="mt-3 space-y-1.5 border-t border-border pt-3 text-sm">
-            <Line label="Bens" value={formatCurrency(nw.assets, cur)} />
-            <Line
-              label="Investimentos"
-              value={formatCurrency(nw.wallet, cur)}
-              muted={nw.wallet === 0}
-            />
-            <Line
-              label="Reserva de emergência"
-              value={formatCurrency(nw.reserve, cur)}
-              muted={nw.reserve === 0}
-            />
-            <Line label="Dívidas" value={`− ${formatCurrency(nw.debts, cur)}`} muted={nw.debts === 0} />
-          </dl>
+          <p className="mt-2 text-[15px] leading-relaxed text-ink">
+            Seu patrimônio líquido é{" "}
+            <strong>{formatCurrency(nw.netWorth, cur)}</strong>: os seus bens
+            ({formatCurrency(nw.assets, cur)})
+            {nw.wallet > 0 ? ` mais investimentos (${formatCurrency(nw.wallet, cur)})` : ""}
+            {nw.reserve > 0 ? ` mais reserva (${formatCurrency(nw.reserve, cur)})` : ""}
+            {nw.debts > 0 ? `, menos as dívidas (${formatCurrency(nw.debts, cur)})` : ""}.
+          </p>
+          {nw.wallet === 0 && (
+            <p className="mt-2 text-sm text-muted">
+              Você ainda não lançou nenhum investimento.
+            </p>
+          )}
+          <Link
+            href="/app/patrimonio"
+            className="mt-3 inline-flex items-center gap-1 text-sm font-medium text-accent-dim hover:underline"
+          >
+            Abrir o patrimônio <ArrowUpRight className="h-3.5 w-3.5" />
+          </Link>
         </div>
       </div>
 
