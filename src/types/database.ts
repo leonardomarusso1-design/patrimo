@@ -237,6 +237,14 @@ export interface Database {
         last_synced_at: string | null;
         created_at: string;
       }>;
+      webhook_events: Table<{
+        id: string;
+        provider: string;
+        event_type: string | null;
+        order_ref: string | null;
+        body_hash: string;
+        created_at: string;
+      }>;
     };
     Views: { [_ in never]: never };
     Functions: { [_ in never]: never };

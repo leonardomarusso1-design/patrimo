@@ -5,12 +5,12 @@ export const SITE_URL =
 
 export const SITE_NAME = "Patrimo";
 export const SITE_DESCRIPTION =
-  "Orçamento, reserva de emergência, metas, investimentos e patrimônio em um só lugar. Com IA que lê o mercado e indica seus aportes.";
+  "Orçamento, reserva de emergência, metas, investimentos e patrimônio líquido em um só lugar. Do descontrole ao patrimônio, numa sequência só.";
 
 export const baseMetadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: "Patrimo — Controle financeiro completo, com IA",
+    default: "Patrimo — Controle financeiro pessoal completo",
     template: "%s · Patrimo",
   },
   description: SITE_DESCRIPTION,
@@ -33,13 +33,13 @@ export const baseMetadata: Metadata = {
     locale: "pt_BR",
     url: SITE_URL,
     siteName: SITE_NAME,
-    title: "Patrimo — Controle financeiro completo, com IA",
+    title: "Patrimo — Controle financeiro pessoal completo",
     description: SITE_DESCRIPTION,
     images: [{ url: "/opengraph-image", width: 1200, height: 630, alt: "Patrimo" }],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Patrimo — Controle financeiro completo, com IA",
+    title: "Patrimo — Controle financeiro pessoal completo",
     description: SITE_DESCRIPTION,
     images: ["/opengraph-image"],
   },

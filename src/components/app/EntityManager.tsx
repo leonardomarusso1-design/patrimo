@@ -143,6 +143,7 @@ export function AddButton({
   title,
   fullWidth,
   size = "sm",
+  autoOpen = false,
 }: {
   table: string;
   path: string;
@@ -152,8 +153,9 @@ export function AddButton({
   title?: string;
   fullWidth?: boolean;
   size?: "sm" | "md";
+  autoOpen?: boolean;
 }) {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(autoOpen);
   return (
     <>
       <Button size={size} onClick={() => setOpen(true)} className={fullWidth ? "w-full" : undefined}>
@@ -230,6 +232,7 @@ export function EntityManager({
   emptyDescription,
   flat,
   filterable,
+  autoOpen,
 }: {
   table: string;
   path: string;
@@ -242,6 +245,7 @@ export function EntityManager({
   emptyDescription?: string;
   flat?: boolean;
   filterable?: boolean;
+  autoOpen?: boolean;
 }) {
   const [query, setQuery] = useState("");
   const [cats, setCats] = useState<Set<string>>(new Set());
@@ -288,6 +292,7 @@ export function EntityManager({
           fields={fields}
           hidden={hidden}
           label={addLabel}
+          autoOpen={autoOpen}
         />
       </div>
 

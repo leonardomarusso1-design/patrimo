@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowUpRight, CheckCircle2, Circle } from "lucide-react";
 import { requireUser, getProfile } from "@/lib/data";
 import { PageHeader } from "@/components/app/PageHeader";
 import { StatTile, Progress } from "@/components/ui/Misc";
@@ -83,9 +83,61 @@ export default async function InicioPage() {
     { href: "/app/escola", label: "Continuar a Escola" },
   ];
 
+  const setup = [
+    {
+      href: "/app/orcamento?new=income",
+      label: "Lance sua renda e as despesas do mês",
+      done: b.length > 0,
+    },
+    {
+      href: "/app/reserva",
+      label: "Defina o custo essencial da sua reserva",
+      done: Number(fund.data?.essential_monthly_cost ?? 0) > 0,
+    },
+    {
+      href: "/app/metas",
+      label: "Crie sua primeira meta",
+      done: (goals.data ?? []).length > 0,
+    },
+  ];
+  const setupDone = setup.filter((s) => s.done).length;
+
   return (
     <>
       <PageHeader title="Seu dinheiro hoje" subtitle="O retrato do mês e do patrimônio." />
+
+      {setupDone < setup.length && (
+        <div className="mb-6 rounded-2xl border border-brand/30 bg-brand-50 p-5">
+          <div className="flex items-center justify-between">
+            <h3 className="font-display text-base font-bold text-brand-700">
+              Primeiros passos
+            </h3>
+            <span className="text-xs font-semibold text-brand-700">
+              {setupDone}/{setup.length}
+            </span>
+          </div>
+          <ul className="mt-3 divide-y divide-brand/15">
+            {setup.map((s) => (
+              <li key={s.href}>
+                <Link
+                  href={s.href}
+                  className="flex items-center gap-3 py-2.5 text-sm text-brand-700 hover:underline"
+                >
+                  {s.done ? (
+                    <CheckCircle2 className="h-4 w-4 shrink-0" />
+                  ) : (
+                    <Circle className="h-4 w-4 shrink-0 opacity-50" />
+                  )}
+                  <span className={s.done ? "line-through opacity-60" : "font-medium"}>
+                    {s.label}
+                  </span>
+                  {!s.done && <ArrowUpRight className="ml-auto h-4 w-4" />}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
 
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <StatTile

@@ -87,6 +87,22 @@ export async function POST(req: Request) {
     }
 
     const admin = createAdminClient();
+
+    // idempotência: Kiwify reenvia eventos. Se já processamos este corpo, ignora.
+    const bodyHash = crypto.createHash("sha256").update(rawBody).digest("hex");
+    const { error: dedupErr } = await admin.from("webhook_events").insert({
+      provider: "kiwify",
+      event_type: payload.webhook_event_type ?? null,
+      order_ref: payload.order_id ?? null,
+      body_hash: bodyHash,
+    });
+    if (dedupErr) {
+      if (dedupErr.code === "23505") {
+        return NextResponse.json({ ok: true, action: "duplicate" });
+      }
+      logger.error("kiwify.webhook.dedup_failed", { error: dedupErr.message });
+    }
+
     const userId = await findUserIdByEmail(email);
     const ref = payload.order_id ?? null;
 

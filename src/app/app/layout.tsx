@@ -1,6 +1,7 @@
 import { requirePaidAccess } from "@/lib/data";
 import { AppSidebar } from "@/components/app/AppSidebar";
 import { TopBarActions } from "@/components/app/TopBarActions";
+import { QuickExpenseFab } from "@/components/app/QuickExpenseFab";
 
 export const metadata = { title: "Painel", robots: { index: false, follow: false } };
 
@@ -26,6 +27,7 @@ export default async function AppLayout({
           {children}
         </div>
       </div>
+      <QuickExpenseFab />
     </div>
   );
 }

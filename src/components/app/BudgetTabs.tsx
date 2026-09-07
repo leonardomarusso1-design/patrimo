@@ -14,12 +14,16 @@ export function BudgetTabs({
   tabs,
   referenceMonth,
   monthLabel,
+  initialTab,
 }: {
   tabs: BudgetTab[];
   referenceMonth: string;
   monthLabel: string;
+  initialTab?: string;
 }) {
-  const [active, setActive] = useState(tabs[0]?.key);
+  const [active, setActive] = useState(
+    tabs.some((t) => t.key === initialTab) ? initialTab : tabs[0]?.key,
+  );
   const [confirmClear, setConfirmClear] = useState(false);
   const current = tabs.find((t) => t.key === active) ?? tabs[0];
 

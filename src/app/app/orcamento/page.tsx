@@ -47,9 +47,12 @@ function fieldsFor(kind: string, refMonth: string, entryDate: string): Field[] {
 export default async function OrcamentoPage({
   searchParams,
 }: {
-  searchParams: Promise<{ m?: string; from?: string; to?: string }>;
+  searchParams: Promise<{ m?: string; from?: string; to?: string; new?: string }>;
 }) {
   const sp = await searchParams;
+  const openKind = ["income", "fixed", "variable"].includes(sp.new ?? "")
+    ? sp.new!
+    : null;
   const rangeFrom = isoDate(sp.from);
   const rangeTo = isoDate(sp.to);
   const isRange = !!(rangeFrom && rangeTo);
@@ -152,6 +155,7 @@ export default async function OrcamentoPage({
           <BudgetTabs
             referenceMonth={refMonth}
             monthLabel={periodLabel}
+            initialTab={openKind ?? undefined}
             tabs={[
               {
                 key: "income",
@@ -165,6 +169,7 @@ export default async function OrcamentoPage({
                     addLabel="Adicionar receita"
                     fields={fieldsFor("income", refMonth, defaultEntryDate)}
                     hidden={{ kind: "income" }}
+                    autoOpen={openKind === "income"}
                     flat
                     filterable
                     rows={toRows(by("income"), false)}
@@ -185,6 +190,7 @@ export default async function OrcamentoPage({
                     addLabel="Adicionar despesa fixa"
                     fields={fieldsFor("expense_fixed", refMonth, defaultEntryDate)}
                     hidden={{ kind: "expense_fixed" }}
+                    autoOpen={openKind === "fixed"}
                     flat
                     filterable
                     rows={toRows(by("expense_fixed"), true)}
@@ -205,6 +211,7 @@ export default async function OrcamentoPage({
                     addLabel="Adicionar despesa variável"
                     fields={fieldsFor("expense_variable", refMonth, defaultEntryDate)}
                     hidden={{ kind: "expense_variable" }}
+                    autoOpen={openKind === "variable"}
                     flat
                     filterable
                     rows={toRows(by("expense_variable"), true)}
