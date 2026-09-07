@@ -245,6 +245,17 @@ export interface Database {
         body_hash: string;
         created_at: string;
       }>;
+      net_worth_snapshots: Table<{
+        id: string;
+        user_id: string;
+        month: string;
+        net_worth: number;
+        assets: number;
+        wallet: number;
+        reserve: number;
+        debts: number;
+        created_at: string;
+      }>;
     };
     Views: { [_ in never]: never };
     Functions: { [_ in never]: never };

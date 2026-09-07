@@ -1,12 +1,13 @@
 import Link from "next/link";
-import { ArrowUpRight, CheckCircle2, Circle } from "lucide-react";
+import { ArrowUpRight, CheckCircle2, Circle, AlertTriangle, Info } from "lucide-react";
 import { requireUser, getProfile } from "@/lib/data";
 import { PageHeader } from "@/components/app/PageHeader";
 import { StatTile, Progress } from "@/components/ui/Misc";
 import { formatCurrency } from "@/lib/utils";
 import { emergencyTarget } from "@/lib/finance";
 import { planAllows } from "@/lib/plans";
-import { getRates, convert } from "@/lib/fx";
+import { computeNetWorth } from "@/lib/networth";
+import { buildAlerts } from "@/lib/alerts";
 
 export const metadata = { title: "Início" };
 
@@ -16,65 +17,58 @@ function monthStart() {
 }
 
 export default async function InicioPage() {
-  const [{ user, supabase }, profile, rates] = await Promise.all([
-    requireUser(),
-    getProfile(),
-    getRates(),
-  ]);
+  const [{ user, supabase }, profile] = await Promise.all([requireUser(), getProfile()]);
   const cur = profile.display_currency;
   const ref = monthStart();
 
-  const [budget, fund, reserves, goals, contribs, invest, items, debts] = await Promise.all([
+  const nw = await computeNetWorth(supabase, user.id, cur);
+
+  const [budget, fund, goals, contribs] = await Promise.all([
     supabase.from("budget_entries").select("kind, amount").eq("user_id", user.id).eq("reference_month", ref),
     supabase.from("emergency_fund").select("*").eq("user_id", user.id).maybeSingle(),
-    supabase.from("emergency_reserves").select("amount").eq("user_id", user.id),
-    supabase.from("goals").select("id, target_amount").eq("user_id", user.id).eq("archived", false),
-    supabase.from("goal_contributions").select("amount").eq("user_id", user.id),
-    supabase.from("investments").select("current_amount, currency").eq("user_id", user.id),
-    supabase.from("patrimony_items").select("value, appraised_value, currency, linked_debt_id").eq("user_id", user.id),
-    supabase.from("debts").select("id, remaining_amount").eq("user_id", user.id),
+    supabase
+      .from("goals")
+      .select("id, name, target_amount, deadline")
+      .eq("user_id", user.id)
+      .eq("archived", false),
+    supabase.from("goal_contributions").select("goal_id, amount").eq("user_id", user.id),
   ]);
 
   const b = budget.data ?? [];
   const income = b.filter((r) => r.kind === "income").reduce((s, r) => s + Number(r.amount), 0);
   const expense = b.filter((r) => r.kind !== "income").reduce((s, r) => s + Number(r.amount), 0);
+  const variable = b.filter((r) => r.kind === "expense_variable").reduce((s, r) => s + Number(r.amount), 0);
   const monthBalance = income - expense;
 
-  const reserveSaved = (reserves.data ?? []).reduce((s, r) => s + Number(r.amount), 0);
+  const reserveSaved = nw.reserve;
   const reserveTarget = emergencyTarget(
     Number(fund.data?.essential_monthly_cost ?? 0),
     (fund.data?.protection_level ?? "basic") as "basic" | "shield",
   );
   const reservePct = reserveTarget > 0 ? (reserveSaved / reserveTarget) * 100 : 0;
 
-  const goalsTarget = (goals.data ?? []).reduce((s, r) => s + Number(r.target_amount), 0);
-  const goalsSaved = (contribs.data ?? []).reduce((s, r) => s + Number(r.amount), 0);
+  const savedByGoal = new Map<string, number>();
+  for (const c of contribs.data ?? []) {
+    savedByGoal.set(c.goal_id, (savedByGoal.get(c.goal_id) ?? 0) + Number(c.amount));
+  }
+  const goalsList = goals.data ?? [];
+  const goalsTarget = goalsList.reduce((s, g) => s + Number(g.target_amount), 0);
+  const goalsSaved = [...savedByGoal.values()].reduce((s, v) => s + v, 0);
 
-  const walletValue = (invest.data ?? []).reduce(
-    (s, r) => s + convert(Number(r.current_amount), r.currency ?? "BRL", cur, rates),
-    0,
-  );
-  const debtBal = new Map(
-    (debts.data ?? []).map((d) => [d.id, Number(d.remaining_amount)]),
-  );
-  // patrimônio dos bens = valor de mercado − saldo do financiamento vinculado
-  const equityAssets = (items.data ?? []).reduce((s, it) => {
-    const mv = convert(
-      Number(it.appraised_value ?? it.value),
-      it.currency ?? "BRL",
-      cur,
-      rates,
-    );
-    const linked = it.linked_debt_id ? (debtBal.get(it.linked_debt_id) ?? 0) : 0;
-    return s + (mv - linked);
-  }, 0);
-  const linkedIds = new Set(
-    (items.data ?? []).map((i) => i.linked_debt_id).filter(Boolean) as string[],
-  );
-  const freeDebtsTotal = (debts.data ?? [])
-    .filter((d) => !linkedIds.has(d.id))
-    .reduce((s, d) => s + Number(d.remaining_amount), 0);
-  const netWorth = equityAssets + walletValue + reserveSaved - freeDebtsTotal;
+  const alerts = buildAlerts({
+    currency: cur,
+    monthIncome: income,
+    monthExpense: expense,
+    variable,
+    reserveSaved,
+    reserveTarget,
+    goals: goalsList.map((g) => ({
+      name: g.name,
+      target: Number(g.target_amount),
+      saved: savedByGoal.get(g.id) ?? 0,
+      deadline: g.deadline,
+    })),
+  });
 
   const shortcuts = [
     { href: "/app/orcamento", label: "Lançar no orçamento" },
@@ -84,34 +78,46 @@ export default async function InicioPage() {
   ];
 
   const setup = [
-    {
-      href: "/app/orcamento?new=income",
-      label: "Lance sua renda e as despesas do mês",
-      done: b.length > 0,
-    },
-    {
-      href: "/app/reserva",
-      label: "Defina o custo essencial da sua reserva",
-      done: Number(fund.data?.essential_monthly_cost ?? 0) > 0,
-    },
-    {
-      href: "/app/metas",
-      label: "Crie sua primeira meta",
-      done: (goals.data ?? []).length > 0,
-    },
+    { href: "/app/orcamento?new=income", label: "Lance sua renda e as despesas do mês", done: b.length > 0 },
+    { href: "/app/reserva", label: "Defina o custo essencial da sua reserva", done: Number(fund.data?.essential_monthly_cost ?? 0) > 0 },
+    { href: "/app/metas", label: "Crie sua primeira meta", done: goalsList.length > 0 },
   ];
   const setupDone = setup.filter((s) => s.done).length;
+
+  const alertStyle = {
+    danger: "border-danger/30 bg-danger/10 text-danger",
+    warn: "border-gold/40 bg-gold/10 text-[#8a5e00]",
+    info: "border-brand/30 bg-brand-50 text-brand-700",
+  } as const;
 
   return (
     <>
       <PageHeader title="Seu dinheiro hoje" subtitle="O retrato do mês e do patrimônio." />
 
+      {alerts.length > 0 && (
+        <div className="mb-6 space-y-2">
+          {alerts.map((a, i) => (
+            <Link
+              key={i}
+              href={a.href}
+              className={`flex items-center gap-2.5 rounded-xl border px-4 py-3 text-sm font-medium ${alertStyle[a.level]}`}
+            >
+              {a.level === "info" ? (
+                <Info className="h-4 w-4 shrink-0" />
+              ) : (
+                <AlertTriangle className="h-4 w-4 shrink-0" />
+              )}
+              <span className="flex-1">{a.text}</span>
+              <ArrowUpRight className="h-4 w-4 shrink-0 opacity-70" />
+            </Link>
+          ))}
+        </div>
+      )}
+
       {setupDone < setup.length && (
         <div className="mb-6 rounded-2xl border border-brand/30 bg-brand-50 p-5">
           <div className="flex items-center justify-between">
-            <h3 className="font-display text-base font-bold text-brand-700">
-              Primeiros passos
-            </h3>
+            <h3 className="font-display text-base font-bold text-brand-700">Primeiros passos</h3>
             <span className="text-xs font-semibold text-brand-700">
               {setupDone}/{setup.length}
             </span>
@@ -128,9 +134,7 @@ export default async function InicioPage() {
                   ) : (
                     <Circle className="h-4 w-4 shrink-0 opacity-50" />
                   )}
-                  <span className={s.done ? "line-through opacity-60" : "font-medium"}>
-                    {s.label}
-                  </span>
+                  <span className={s.done ? "line-through opacity-60" : "font-medium"}>{s.label}</span>
                   {!s.done && <ArrowUpRight className="ml-auto h-4 w-4" />}
                 </Link>
               </li>
@@ -146,10 +150,10 @@ export default async function InicioPage() {
           tone="ink"
           hint={monthBalance >= 0 ? "sobrando este mês" : "no vermelho este mês"}
         />
-        <StatTile label="Patrimônio líquido" value={formatCurrency(netWorth, cur)} />
+        <StatTile label="Patrimônio líquido" value={formatCurrency(nw.netWorth, cur)} />
         <StatTile
           label="Carteira"
-          value={planAllows(profile.plan, "pro") ? formatCurrency(walletValue, cur) : "—"}
+          value={planAllows(profile.plan, "pro") ? formatCurrency(nw.wallet, cur) : "—"}
           hint={planAllows(profile.plan, "pro") ? undefined : "plano Pro"}
         />
         <StatTile label="Metas" value={formatCurrency(goalsSaved, cur)} hint={`de ${formatCurrency(goalsTarget, cur)}`} />

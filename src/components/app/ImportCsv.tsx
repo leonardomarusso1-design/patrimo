@@ -3,6 +3,7 @@
 import { useActionState, useEffect, useRef, useState } from "react";
 import { Upload } from "lucide-react";
 import { parseExtratoCsv, type ParsedTxn } from "@/lib/csv";
+import { suggestCategory, suggestKind } from "@/lib/categorize";
 import { importBudgetCsv, type ImportState } from "@/app/app/orcamento/actions";
 import { Modal } from "@/components/ui/Modal";
 import { Button } from "@/components/ui/Button";
@@ -38,8 +39,11 @@ export function ImportCsv({ referenceMonth }: { referenceMonth: string }) {
     setDrafts(
       txns.map((t) => ({
         ...t,
-        kind: t.amount >= 0 ? "income" : "expense_variable",
-        category: "",
+        kind:
+          t.amount >= 0
+            ? "income"
+            : (suggestKind(t.description) ?? "expense_variable"),
+        category: t.amount >= 0 ? "" : (suggestCategory(t.description) ?? ""),
         include: true,
       })),
     );
@@ -88,8 +92,8 @@ export function ImportCsv({ referenceMonth }: { referenceMonth: string }) {
               Escolher arquivo CSV
             </Button>
             <p className="text-xs text-muted">
-              Valores negativos entram como despesa variável; positivos, como receita.
-              Você ajusta tipo e categoria antes de confirmar.
+              Sugerimos tipo e categoria pela descrição (mercado, transporte,
+              assinaturas…). Confira e ajuste antes de confirmar.
             </p>
           </div>
         ) : (
