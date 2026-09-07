@@ -46,20 +46,33 @@ passam limpos. 43 rotas.
 - **Cloudflare** na frente do domínio; **Dependabot + Secret Scanning** no GitHub.
 - Nome **Patrimo** e domínio `patrimo.com.br` / `patrimo.app` — confirmar registro e INPI.
 
-## Ainda não construído (fases seguintes)
+## Construído depois (sessão 2)
 
-1. **Webhook Kiwify** (`/api/kiwify/webhook`) — ativar/renovar/cancelar plano na tabela
-   `subscriptions` + `profiles.plan`. Hoje o plano só muda direto no banco.
-2. **IA de investimentos (Elite)** — job diário lendo o mercado + sugestão por perfil.
-   Estrutura de perfil de investidor ainda não coletada.
-3. **Open Finance (Elite)** — integração com agregador (Pluggy/Belvo) para importar
-   transações. Botão "Importar extrato" no Orçamento ainda é placeholder.
-4. **Câmbio real multi-moeda** — hoje cada registro guarda sua moeda; falta a taxa de
-   conversão aplicada no consolidado (a moeda de exibição do perfil já existe).
-5. **Tabela FIPE** — campo `fipe_code` existe; falta o lookup de marca/modelo/ano.
-6. **Player de vídeo da Escola** — aulas ficam "em gravação"; plugar o host de vídeo
-   quando os conteúdos existirem.
-7. **Importar extrato (OFX/CSV)** no Orçamento.
-8. **E-mail transacional (Resend)** — boas-vindas, aviso de renovação.
-9. **MFA na UI** — Supabase suporta; falta a tela de ativação em Configurações.
-10. **Testes** — só o build/lint como gate hoje.
+- ✅ **Webhook Kiwify** (`/api/kiwify/webhook`) — HMAC-SHA1, libera/revoga plano, `pending_purchases`.
+- ✅ **Plano único** R$ 97,90/ano (12x) + hard paywall + `/ativar`.
+- ✅ **Perfil de investidor** — quiz de 5 perguntas, salva em `profiles.investor_profile`,
+  mostra alocação-alvo vs. real em renda variável na tela de Investimentos.
+- ✅ **Bem financiado vinculado à dívida** — `patrimony_items.linked_debt_id` +
+  `appraised_value`. Patrimônio líquido = valor de mercado − saldo do financiamento;
+  barra de "% quitado" por bem; dívida vinculada não conta duas vezes.
+- ✅ **Filtro no Orçamento** — busca por nome + chips de categoria (client-side).
+- ✅ **Importar extrato CSV** — parser BR (`;`/`,`, `1.234,56`), preview editável
+  (tipo + categoria por linha), insert em lote.
+- ✅ **MFA/2FA (TOTP)** — ativar/desativar em Configurações; gate AAL2 em `/mfa` no login.
+- ✅ **Consulta FIPE** — proxy `/api/fipe` (parallelum), marca→modelo→ano, adiciona o
+  veículo já com valor e código FIPE.
+- ✅ **Câmbio real multi-moeda** — `lib/fx.ts` (open.er-api, cache 6h). Investimentos e
+  patrimônio convertem cada ativo para a moeda de exibição do perfil.
+
+## Ainda não construído (precisa de chave/serviço externo)
+
+1. **IA de investimentos** — leitura diária do mercado + sugestão de aporte pelo perfil.
+   Base pronta (perfil de investidor coletado). Falta: `OPENAI_API_KEY` + um cron
+   (Vercel Cron) que gera a recomendação e uma tela para exibi-la.
+2. **Open Finance** — agregador Pluggy ou Belvo (conta + credenciais). Traria as
+   transações direto pro Orçamento sem CSV.
+3. **E-mail transacional (Resend)** — boas-vindas, aviso de renovação, recibo. Falta
+   `RESEND_API_KEY` e os templates.
+4. **Player de vídeo da Escola** — as aulas ficam "em gravação". Plugar Mux/Bunny/
+   YouTube não-listado quando os vídeos existirem (campo `video_url` a adicionar).
+5. **Testes automatizados** — só build + eslint como gate hoje.
