@@ -30,8 +30,15 @@ passam limpos. 43 rotas.
 
 ## Precisa de você / ambiente
 
-- **Projeto Supabase**: criar, aplicar a migration, configurar Email + Google OAuth, colar
-  `URL` e `anon key` no `.env.local` / Vercel. Sem isso o `/app` não carrega.
+- **Projeto Supabase**: ✅ criado — `patrimo` (ref `rhztczldzsopjkbaitqg`, org Marusso
+  Produções, região sa-east-1). Migrations `0001_init` + `0002_harden_functions`
+  aplicadas, 15 tabelas com RLS, advisors de segurança zerados. `.env.local` já
+  preenchido com URL + anon key. Testado ponta a ponta (cadastro → onboarding →
+  lançamento no orçamento → persistiu no banco).
+  - **Falta**: em Authentication → Providers, ativar **Google** (client id/secret do
+    Google Cloud) e cadastrar as redirect URLs (`http://localhost:3000/auth/callback`
+    e a de produção). Email já funciona (confirmação por link).
+  - Na Vercel, repetir as env vars e trocar `NEXT_PUBLIC_SITE_URL` para o domínio real.
 - **Upstash Redis**: criar e colar `UPSTASH_REDIS_REST_URL/TOKEN` para ativar o rate limiting
   em produção (fail-open sem isso).
 - **Kiwify**: criar os produtos dos 3 planos, pegar as URLs de checkout e o segredo do
