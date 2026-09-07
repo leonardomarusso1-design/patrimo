@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { ArrowLeft, BookOpen } from "lucide-react";
 import { Input, Label, Select } from "@/components/ui/Field";
@@ -494,7 +495,10 @@ const CALCS: CalcDef[] = [
 ];
 
 export function Calculadoras(market: MarketProps) {
-  const [active, setActive] = useState<string | null>(null);
+  const initial = useSearchParams().get("c");
+  const [active, setActive] = useState<string | null>(
+    CALCS.some((c) => c.id === initial) ? initial : null,
+  );
   const calc = CALCS.find((c) => c.id === active);
 
   if (!calc) {

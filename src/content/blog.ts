@@ -1,3 +1,11 @@
+export type BlogCategory =
+  | "Comece aqui"
+  | "Orçamento e dívidas"
+  | "Reserva e metas"
+  | "Investimentos"
+  | "Conceitos e indicadores"
+  | "Calculadoras";
+
 export type BlogPost = {
   slug: string;
   title: string;
@@ -6,9 +14,21 @@ export type BlogPost = {
   publishedAt: string;
   readingMinutes: number;
   tags: string[];
+  category: BlogCategory;
+  /** id da calculadora relacionada em /app/calculadoras (CTA no fim do artigo). */
+  calc?: string;
   /** Markdown simples (h1/h2, listas, tabelas, parágrafos, --- e *itálico*). */
   content: string;
 };
+
+export const BLOG_CATEGORY_ORDER: BlogCategory[] = [
+  "Comece aqui",
+  "Orçamento e dívidas",
+  "Reserva e metas",
+  "Investimentos",
+  "Conceitos e indicadores",
+  "Calculadoras",
+];
 
 /**
  * 10 artigos iniciais de educação financeira, com fontes citadas.
@@ -25,6 +45,8 @@ export const BLOG_POSTS: BlogPost[] = [
     publishedAt: "2026-08-01",
     readingMinutes: 6,
     tags: ["orçamento", "iniciante"],
+    category: "Orçamento e dívidas",
+    calc: "503020",
     content: `# A regra 50-30-20
 
 Criada pela senadora americana Elizabeth Warren e sua filha Amelia Warren Tyagi no livro *All Your Worth* (2005), a regra 50-30-20 é um dos métodos de orçamento mais usados no mundo.
@@ -59,6 +81,8 @@ O módulo de Orçamento calcula seus percentuais automaticamente e avisa quando 
     publishedAt: "2026-08-04",
     readingMinutes: 5,
     tags: ["reserva", "iniciante"],
+    category: "Reserva e metas",
+    calc: "reserva",
     content: `# Reserva de emergência: 6 ou 12 meses?
 
 A reserva é o alicerce de qualquer plano financeiro. A pergunta é quanto guardar.
@@ -95,6 +119,8 @@ O módulo de Reserva analisa seu custo de vida essencial e mostra o alvo (6 ou 1
     publishedAt: "2026-08-07",
     readingMinutes: 6,
     tags: ["investimentos", "juros compostos"],
+    category: "Conceitos e indicadores",
+    calc: "juros",
     content: `# Juros compostos
 
 Com juros compostos, o dinheiro rende — e o rendimento também rende. É uma bola de neve matemática.
@@ -131,6 +157,7 @@ As calculadoras mostram a projeção em tempo real: defina meta, veja o aporte n
     publishedAt: "2026-08-10",
     readingMinutes: 5,
     tags: ["investimentos", "perfil"],
+    category: "Comece aqui",
     content: `# Perfil de investidor
 
 A CVM exige que corretoras avaliem o perfil do investidor antes de liberar operações. O motivo é prático: carteira desalinhada do perfil gera decisões ruins.
@@ -161,6 +188,7 @@ No Patrimo, a IA observa seu comportamento real (não só o que você declara) e
     publishedAt: "2026-08-13",
     readingMinutes: 5,
     tags: ["open finance", "automação"],
+    category: "Comece aqui",
     content: `# Open Finance no Brasil
 
 Regulamentado pelo Banco Central desde 2021, o Open Finance permite compartilhar seus dados financeiros entre instituições de forma segura e controlada.
@@ -198,6 +226,7 @@ No Patrimo conectamos suas contas via Open Finance e as transações entram cate
     publishedAt: "2026-08-16",
     readingMinutes: 5,
     tags: ["investimentos", "carteira"],
+    category: "Investimentos",
     content: `# Diversificação
 
 Harry Markowitz recebeu o Nobel de Economia em 1990 pela Teoria Moderna de Carteiras: diversificação inteligente reduz risco sem reduzir o retorno esperado.
@@ -230,6 +259,8 @@ O gráfico de composição da carteira mostra onde você está concentrado e ale
     publishedAt: "2026-08-19",
     readingMinutes: 6,
     tags: ["independência financeira", "FIRE"],
+    category: "Reserva e metas",
+    calc: "fire",
     content: `# A regra dos 4%
 
 O *Trinity Study* (1998) analisou dados de 1926 a 1995 e concluiu que retirar cerca de 4% do patrimônio por ano tende a ser sustentável no longo prazo.
@@ -262,6 +293,8 @@ A calculadora de independência mostra quanto acumular, quanto aportar por mês 
     publishedAt: "2026-08-22",
     readingMinutes: 6,
     tags: ["impostos", "investimentos"],
+    category: "Investimentos",
+    calc: "ir",
     content: `# IR nos investimentos
 
 Existem formas legais de reduzir o imposto sobre investimentos.
@@ -305,6 +338,7 @@ O relatório fiscal anual resume vendas, lucros, prejuízos a compensar e preço
     publishedAt: "2026-08-25",
     readingMinutes: 6,
     tags: ["renda fixa", "comparativo"],
+    category: "Investimentos",
     content: `# Onde o dinheiro rende mais
 
 A escolha da aplicação depende de três coisas: prazo, liquidez e tolerância a risco.
@@ -344,6 +378,8 @@ A poupança rende menos que o Tesouro Selic. Ao longo de anos, essa diferença s
     publishedAt: "2026-08-28",
     readingMinutes: 6,
     tags: ["dívidas", "iniciante"],
+    category: "Orçamento e dívidas",
+    calc: "divida",
     content: `# Como sair das dívidas
 
 Sair da dívida é possível com método e disciplina.
@@ -390,6 +426,8 @@ O módulo de Dívidas mostra o custo real de cada uma e simula bola de neve vs. 
     publishedAt: "2026-09-08",
     readingMinutes: 4,
     tags: ["conceitos", "iniciante"],
+    category: "Conceitos e indicadores",
+    calc: "juros-simples",
     content: `# Juros simples vs. juros compostos
 
 ## Juros simples
@@ -431,6 +469,8 @@ A calculadora de Juros compostos projeta seus aportes mês a mês. A de Juros si
     publishedAt: "2026-09-09",
     readingMinutes: 5,
     tags: ["metas", "investimentos"],
+    category: "Reserva e metas",
+    calc: "primeiro-milhao",
     content: `# Quanto poupar por mês para chegar ao primeiro milhão
 
 O "primeiro milhão" é uma meta simbólica, mas útil: obriga a pensar em aporte, prazo e retorno ao mesmo tempo.
@@ -472,6 +512,8 @@ A calculadora "Primeiro milhão" resolve para o aporte: você diz a meta, o praz
     publishedAt: "2026-09-10",
     readingMinutes: 5,
     tags: ["renda fixa", "iniciante"],
+    category: "Investimentos",
+    calc: "cdi",
     content: `# Quanto rende o CDI
 
 ## O que é o CDI
@@ -509,6 +551,8 @@ A calculadora "Rendimento do CDI" traz a taxa atual do Banco Central e calcula o
     publishedAt: "2026-09-11",
     readingMinutes: 3,
     tags: ["conceitos", "iniciante"],
+    category: "Conceitos e indicadores",
+    calc: "porcentagem",
     content: `# Como calcular porcentagem
 
 Três operações cobrem quase todo problema do dia a dia.
@@ -547,6 +591,8 @@ A calculadora de Porcentagem faz as três operações. Útil para juros, descont
     publishedAt: "2026-09-12",
     readingMinutes: 4,
     tags: ["câmbio", "iniciante"],
+    category: "Conceitos e indicadores",
+    calc: "moedas",
     content: `# Câmbio: o que você paga de verdade
 
 ## Comercial x turismo
@@ -583,6 +629,8 @@ O conversor de moedas usa a cotação comercial atualizada. Some IOF e spread po
     publishedAt: "2026-09-13",
     readingMinutes: 4,
     tags: ["cripto", "iniciante"],
+    category: "Investimentos",
+    calc: "cripto",
     content: `# Converter criptomoedas
 
 ## Preço à vista
@@ -615,6 +663,8 @@ O conversor de cripto traz o preço à vista de BTC, ETH e outras em real e dól
     publishedAt: "2026-09-14",
     readingMinutes: 5,
     tags: ["dividendos", "investimentos"],
+    category: "Investimentos",
+    calc: "dividendos",
     content: `# Dividend yield e yield on cost
 
 ## Dividend yield (DY)
@@ -652,6 +702,7 @@ A calculadora de Dividendos estima sua renda passiva pelo yield informado e most
     publishedAt: "2026-09-15",
     readingMinutes: 5,
     tags: ["iniciante", "investimentos"],
+    category: "Comece aqui",
     content: `# Renda fixa x renda variável
 
 ## Renda fixa
@@ -693,6 +744,7 @@ O quiz de perfil de investidor sugere uma divisão. O módulo de Investimentos a
     publishedAt: "2026-09-16",
     readingMinutes: 6,
     tags: ["iniciante", "renda fixa"],
+    category: "Investimentos",
     content: `# Tesouro Direto
 
 Comprar título público é emprestar para o governo federal — o devedor de menor risco do Brasil. Você acessa pelo site do Tesouro ou pela corretora, a partir de ~R$ 30.
@@ -734,6 +786,7 @@ Paga **inflação + um percentual fixo** (ex.: "IPCA + 6%"). Protege o poder de 
     publishedAt: "2026-09-17",
     readingMinutes: 6,
     tags: ["iniciante", "investimentos"],
+    category: "Investimentos",
     content: `# Fundos imobiliários (FIIs)
 
 Um FII junta o dinheiro de milhares de cotistas e investe em imóveis ou em dívida imobiliária. Você compra cotas na bolsa, como se fossem ações.
@@ -773,6 +826,7 @@ Um FII junta o dinheiro de milhares de cotistas e investe em imóveis ou em dív
     publishedAt: "2026-09-18",
     readingMinutes: 5,
     tags: ["iniciante", "investimentos"],
+    category: "Investimentos",
     content: `# Ações
 
 Uma ação é uma fração do capital de uma empresa. Ao comprar, você vira sócio — participa dos lucros (via dividendos) e da valorização (ou queda) do preço.
@@ -812,6 +866,7 @@ Muitos iniciantes começam por um **ETF** (ex.: um que replica o Ibovespa) — u
     publishedAt: "2026-09-19",
     readingMinutes: 7,
     tags: ["investimentos", "análise"],
+    category: "Investimentos",
     content: `# Como analisar uma ação
 
 Análise fundamentalista olha para a **empresa por trás do papel**: ela lucra, cresce, se endivida bem?
@@ -854,6 +909,7 @@ O foco do Patrimo é o **seu** patrimônio consolidado, não a análise de ativo
     publishedAt: "2026-09-20",
     readingMinutes: 6,
     tags: ["iniciante", "investimentos"],
+    category: "Investimentos",
     content: `# Investir no exterior
 
 Diversificar para fora do Brasil reduz o risco de depender de uma única economia e moeda.
@@ -889,6 +945,7 @@ Não há número mágico. Muitos investidores de longo prazo colocam entre **10%
     publishedAt: "2026-09-21",
     readingMinutes: 6,
     tags: ["iniciante", "cripto"],
+    category: "Investimentos",
     content: `# Criptomoedas para quem está começando
 
 ## O que é
@@ -916,6 +973,295 @@ Trate como a parte mais arriscada da carteira. Uma faixa comum entre investidore
 
 ---
 *Fonte: Instrução Normativa RFB 1.888/2019; documentação técnica de Bitcoin e Ethereum.*`,
+  },
+  {
+    slug: "rentabilidade",
+    title: "Rentabilidade: nominal, real e como comparar de verdade",
+    excerpt:
+      "Rendeu 12%? Pode ter perdido dinheiro. Entenda a diferença entre retorno nominal e real e como comparar aplicações no mesmo pé.",
+    author: "Time Patrimo",
+    publishedAt: "2026-09-22",
+    readingMinutes: 5,
+    tags: ["conceitos", "iniciante"],
+    category: "Conceitos e indicadores",
+    calc: "juros",
+    content: `# Rentabilidade
+
+Rentabilidade é o quanto um investimento cresceu, em percentual, num período.
+
+## Nominal x real
+
+- **Nominal:** o número que aparece no extrato. "Rendeu 12% no ano."
+- **Real:** o nominal **descontada a inflação**. Se a inflação foi 5%, o ganho real foi ≈ 6,7% (não 7% — a conta é multiplicativa: 1,12 ÷ 1,05 − 1).
+
+O que importa para o poder de compra é o **real**. Um CDB que rende 8% com inflação a 8% não te deixou mais rico.
+
+## Comparando aplicações
+
+Coloque tudo na mesma base:
+
+1. **Mesmo período** (converta tudo para "ao ano").
+2. **Líquido de imposto** (aplique a alíquota de IR conforme o tipo e o prazo).
+3. **Líquido de taxas** (taxa de administração de fundo, custódia).
+
+Só então compare. Uma LCI de 90% do CDI isenta pode ganhar de um CDB de 100% do CDI.
+
+## Rentabilidade passada não é garantia
+
+Fundo que rendeu 30% ano passado pode render −10% neste. Histórico serve para entender consistência e risco, não para prever.
+
+## No Patrimo
+
+A calculadora de Juros compostos projeta a rentabilidade dos seus aportes. O módulo de Investimentos mostra o ganho de cada ativo (valor atual − investido).
+
+---
+*Referência: conceito de retorno real (equação de Fisher); tabela de IR da Receita Federal.*`,
+  },
+  {
+    slug: "taxa-selic",
+    title: "Taxa Selic: o que é e como ela mexe no seu bolso",
+    excerpt:
+      "A Selic é o preço do dinheiro no Brasil. Quando sobe, sua renda fixa rende mais e o crédito fica mais caro. Quando cai, o contrário.",
+    author: "Time Patrimo",
+    publishedAt: "2026-09-23",
+    readingMinutes: 5,
+    tags: ["conceitos", "indicadores"],
+    category: "Conceitos e indicadores",
+    calc: "cdi",
+    content: `# Taxa Selic
+
+A Selic é a taxa básica de juros da economia, definida a cada 45 dias pelo Comitê de Política Monetária (Copom) do Banco Central.
+
+## Para que serve
+
+É a principal ferramenta para controlar a inflação. Inflação alta → o BC **sobe** a Selic → crédito encarece → consumo esfria → preços desaceleram. Inflação sob controle → o BC pode **baixar**.
+
+## Como isso chega até você
+
+| Selic sobe | Selic cai |
+|---|---|
+| Renda fixa pós-fixada rende mais | Renda fixa rende menos |
+| Financiamento, cartão e cheque especial encarecem | Crédito fica mais barato |
+| Bolsa tende a cair (renda fixa fica mais atrativa) | Bolsa tende a subir |
+| Real tende a se valorizar | Real tende a enfraquecer |
+
+## Selic x CDI
+
+O **CDI** é a taxa dos empréstimos entre bancos e anda praticamente colada na Selic (poucos centésimos abaixo). Por isso "rende 100% do CDI" ≈ "rende a Selic".
+
+## No Patrimo
+
+A faixa de indicadores no seu painel mostra a Selic e o CDI atuais. A calculadora "Rendimento do CDI" usa a taxa vigente do Banco Central.
+
+---
+*Fonte: Banco Central do Brasil — Copom e série histórica da Selic.*`,
+  },
+  {
+    slug: "tipos-de-inflacao",
+    title: "IPCA, IGP-M e os índices de inflação que afetam sua vida",
+    excerpt:
+      "A inflação oficial (IPCA) reajusta salários e metas do BC. O IGP-M reajusta aluguel. Saber qual é qual evita surpresa no boleto.",
+    author: "Time Patrimo",
+    publishedAt: "2026-09-24",
+    readingMinutes: 5,
+    tags: ["conceitos", "indicadores"],
+    category: "Conceitos e indicadores",
+    content: `# Os índices de inflação
+
+Inflação é a perda de poder de compra do dinheiro ao longo do tempo. No Brasil, vários índices medem isso de formas diferentes.
+
+## IPCA — a inflação oficial
+
+Calculado pelo IBGE, mede o custo de vida de famílias com renda de 1 a 40 salários mínimos. É a **meta do Banco Central** e a referência para o Tesouro IPCA+ e para reajuste de muitos salários.
+
+## IGP-M — o "inflação do aluguel"
+
+Calculado pela FGV, pesa muito preços no atacado e o dólar. É bem mais volátil que o IPCA e tradicionalmente reajusta **contratos de aluguel** e algumas tarifas.
+
+## INPC
+
+Parecido com o IPCA, mas foca em famílias de renda mais baixa (1 a 5 salários). Usado em vários acordos trabalhistas.
+
+## Por que isso importa para investir
+
+- Investimento que rende **abaixo da inflação** te empobrece em termos reais.
+- Tesouro IPCA+ e alguns CDBs pagam "inflação + spread" — protegem o poder de compra.
+- Renda fixa prefixada é uma **aposta**: você ganha se a inflação vier abaixo do embutido no preço.
+
+## No Patrimo
+
+O painel mostra o IPCA acumulado em 12 meses. Use como piso: seus investimentos precisam render acima disso para valer a pena.
+
+---
+*Fonte: IBGE (IPCA, INPC); FGV (IGP-M).*`,
+  },
+  {
+    slug: "previdencia-privada",
+    title: "Previdência privada: PGBL, VGBL e quando realmente vale",
+    excerpt:
+      "Previdência não é mágica — é um fundo com regra de imposto diferente. Veja quando o PGBL compensa e a armadilha da tabela progressiva.",
+    author: "Time Patrimo",
+    publishedAt: "2026-09-25",
+    readingMinutes: 6,
+    tags: ["investimentos", "aposentadoria"],
+    category: "Investimentos",
+    calc: "fire",
+    content: `# Previdência privada
+
+Um plano de previdência (PGBL ou VGBL) é, no fundo, um fundo de investimento com **tributação e sucessão** diferentes.
+
+## PGBL x VGBL
+
+- **PGBL:** você pode **deduzir os aportes** da base do Imposto de Renda, até 12% da renda bruta tributável. Só vale se você **declara no modelo completo**. Na retirada, o IR incide sobre **todo o valor** (aporte + rendimento).
+- **VGBL:** sem dedução. Na retirada, o IR incide **só sobre o rendimento**. Melhor para quem faz declaração simplificada ou já estourou os 12%.
+
+## As duas tabelas de IR
+
+- **Progressiva:** de 0% a 27,5%, como o salário. Boa se você vai resgatar pouco por mês.
+- **Regressiva:** começa em 35% e cai até **10% após 10 anos**. Melhor para o longo prazo — e a escolha padrão para aposentadoria.
+
+## Cuidados
+
+- **Taxa de administração** alta (acima de ~1% a.a.) come o benefício fiscal. Compare.
+- **Taxa de carregamento** (sobre cada aporte) deveria ser zero hoje.
+- Portabilidade entre planos é possível sem pagar IR.
+
+## Vale a pena?
+
+Para quem declara no completo, mira o longo prazo e acha um plano com taxa baixa: sim, o PGBL + tabela regressiva é eficiente. Caso contrário, um Tesouro IPCA+ longo costuma bater um plano caro.
+
+## No Patrimo
+
+A calculadora de Independência financeira estima o patrimônio necessário para viver de renda — some previdência, investimentos e INSS no total.
+
+---
+*Fonte: Receita Federal (regras de dedução e tabelas de IR de previdência); SUSEP.*`,
+  },
+  {
+    slug: "fundos-de-investimento",
+    title: "Fundos de investimento: tipos, taxas e o come-cotas",
+    excerpt:
+      "Um gestor cuida da carteira por você — cobrando por isso. Entenda taxa de administração, performance e o imposto que morde duas vezes por ano.",
+    author: "Time Patrimo",
+    publishedAt: "2026-09-26",
+    readingMinutes: 6,
+    tags: ["investimentos", "fundos"],
+    category: "Investimentos",
+    content: `# Fundos de investimento
+
+Um fundo junta o dinheiro de vários cotistas e um **gestor profissional** aplica conforme uma política definida. Você compra e vende **cotas**.
+
+## Tipos principais
+
+- **Renda fixa / DI:** seguem o CDI. Os mais conservadores.
+- **Multimercado:** misturam renda fixa, ações, câmbio, juros. Estratégia livre.
+- **Ações:** pelo menos 67% em ações.
+- **Cambial:** seguem o dólar ou euro.
+
+## As taxas
+
+- **Administração:** percentual anual sobre o patrimônio (ex.: 1% a.a.), cobrado todo dia proporcionalmente. É o principal custo.
+- **Performance:** parte do que exceder um referencial (ex.: 20% do que passar do CDI). Nem todo fundo cobra.
+
+Fundo de renda fixa com taxa de administração acima de ~0,5% a.a. dificilmente ganha de um Tesouro Selic comprado direto.
+
+## O come-cotas
+
+Fundos de renda fixa e multimercado sofrem antecipação de IR em **maio e novembro**: o Leão "come" algumas cotas na alíquota mínima da tabela (15% ou 20%). No resgate, ajusta o restante. Fundos de ações **não** têm come-cotas (15% só na venda).
+
+## Liquidez
+
+Preste atenção no prazo de resgate: "D+1" (dinheiro na conta no dia seguinte) x "D+30" (trinta dias depois). Reserva de emergência só em fundo D+0/D+1.
+
+## No Patrimo
+
+Lance suas cotas no módulo de Investimentos com o valor investido e o valor atual — o Patrimo mostra o ganho e o peso na carteira.
+
+---
+*Fonte: CVM (Resolução 175); regras de come-cotas da Receita Federal.*`,
+  },
+  {
+    slug: "etfs-como-funcionam",
+    title: "ETFs: o atalho da diversificação em um único papel",
+    excerpt:
+      "Com uma cota você compra uma cesta inteira de ações ou títulos. Como funcionam, quanto custam e por que costumam bater fundos ativos.",
+    author: "Time Patrimo",
+    publishedAt: "2026-09-27",
+    readingMinutes: 5,
+    tags: ["investimentos", "iniciante"],
+    category: "Investimentos",
+    content: `# ETFs
+
+ETF (Exchange Traded Fund) é um fundo negociado na bolsa como se fosse uma ação. A maioria **replica um índice** — Ibovespa, S&P 500, IFIX, um índice de renda fixa.
+
+## Por que usar
+
+- **Diversificação instantânea:** uma cota de um ETF de Ibovespa te dá exposição a dezenas de empresas.
+- **Custo baixo:** taxa de administração costuma ser de 0,1% a 0,5% a.a. — bem abaixo de fundos ativos.
+- **Simplicidade:** você não precisa escolher ações uma a uma.
+
+## O argumento dos índices
+
+Estudos de longo prazo (ex.: relatórios SPIVA da S&P) mostram que **a maioria dos fundos ativos não supera seu índice** depois de taxas, em janelas de 10+ anos. Para o investidor médio, um ETF de índice amplo é um ponto de partida difícil de bater.
+
+## Tributação
+
+Ações via ETF: **15% sobre o ganho na venda, sem a isenção de R$ 20 mil**. ETFs de renda fixa têm regra própria (tabela regressiva no resgate).
+
+## Cuidados
+
+- Veja o **índice** que o ETF segue e a taxa.
+- ETFs muito pequenos ou pouco negociados podem ter spread alto na hora de comprar/vender.
+
+## No Patrimo
+
+Registre seus ETFs na classe "ETFs" do módulo de Investimentos — o gráfico de composição mostra o peso deles na carteira.
+
+---
+*Fonte: material educacional da B3; relatórios SPIVA da S&P Dow Jones Indices.*`,
+  },
+  {
+    slug: "investir-com-seguranca",
+    title: "Como investir com segurança: os 5 filtros antes de aplicar",
+    excerpt:
+      "Não existe investimento sem risco — existe risco que você entende e risco que te pega de surpresa. Cinco perguntas antes de clicar em 'aplicar'.",
+    author: "Time Patrimo",
+    publishedAt: "2026-09-28",
+    readingMinutes: 6,
+    tags: ["iniciante", "segurança"],
+    category: "Comece aqui",
+    content: `# Como investir com segurança
+
+Segurança em investimento não é "não perder nunca" — é **não ser surpreendido**. Cinco filtros antes de aplicar:
+
+## 1. Eu entendo como esse investimento ganha dinheiro?
+
+Se você não consegue explicar em uma frase de onde vem o retorno, não invista. Vale para "robôs de trade", "pool de liquidez" e qualquer coisa com retorno fixo alto.
+
+## 2. Qual a garantia?
+
+- **FGC:** cobre até R$ 250 mil por CPF por instituição em CDB, LCI, LCA, poupança.
+- **Tesouro Direto:** garantido pelo governo federal.
+- **Ações, FIIs, cripto, debênture:** sem garantia. O risco é da empresa/ativo.
+
+## 3. Quando vou precisar desse dinheiro?
+
+Prazo curto → renda fixa líquida. Prazo longo → pode assumir mais oscilação. Nunca coloque a reserva de emergência em algo que oscila.
+
+## 4. Quanto disso eu aguento ver cair?
+
+Se 20% de queda te faria vender no desespero, sua alocação em renda variável está alta demais.
+
+## 5. A promessa é boa demais?
+
+Retorno fixo acima de ~1,5% ao mês, "sem risco", com pressão para entrar rápido: é golpe. Pirâmides e esquemas Ponzi usam exatamente esse roteiro.
+
+## No Patrimo
+
+O quiz de perfil de investidor calibra quanto de risco faz sentido pra você. Os alertas do painel avisam quando a carteira sai do alvo.
+
+---
+*Fonte: FGC (regras de cobertura); CVM e Banco Central (alertas sobre fraudes financeiras).*`,
   },
 ];
 

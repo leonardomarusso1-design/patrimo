@@ -72,7 +72,10 @@ export default async function BlogPostPage({
       <h1 className="mt-6 font-display text-3xl font-extrabold leading-tight text-ink sm:text-4xl">
         {post.title}
       </h1>
-      <p className="mt-3 text-sm text-muted">
+      <p className="mt-3 flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-muted">
+        <span className="rounded-full bg-brand-50 px-2 py-0.5 text-xs font-semibold text-brand-700">
+          {post.category}
+        </span>
         {post.author} · {formatDate(post.publishedAt)} · {post.readingMinutes} min
       </p>
 
@@ -80,7 +83,22 @@ export default async function BlogPostPage({
         <Markdown content={post.content} />
       </div>
 
-      <div className="mt-14 rounded-2xl border border-border bg-surface p-6 text-center">
+      {post.calc && (
+        <div className="mt-12 rounded-2xl border border-brand/30 bg-brand-50 p-6">
+          <p className="font-display text-lg font-bold text-brand-700">
+            Faça a conta com seus números
+          </p>
+          <p className="mt-1 text-sm text-brand-700/80">
+            Este artigo tem uma calculadora no Patrimo. Ela fica na sua conta —
+            disponível para assinantes.
+          </p>
+          <ButtonLink href={`/app/calculadoras?c=${post.calc}`} className="mt-4">
+            Abrir a calculadora
+          </ButtonLink>
+        </div>
+      )}
+
+      <div className="mt-8 rounded-2xl border border-border bg-surface p-6 text-center">
         <p className="font-display text-lg font-bold text-ink">
           Coloque isso em prática hoje
         </p>

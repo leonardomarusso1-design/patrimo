@@ -5,6 +5,7 @@ import { getCdiAnnual, getCryptoPrices } from "@/lib/market";
 import { Calculadoras } from "./ui";
 
 export const metadata = { title: "Calculadoras" };
+export const dynamic = "force-dynamic";
 
 export default async function CalculadorasPage() {
   await requirePlan("pro", "Calculadoras");
