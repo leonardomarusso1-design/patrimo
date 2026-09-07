@@ -8,6 +8,8 @@ import { emergencyTarget } from "@/lib/finance";
 import { planAllows } from "@/lib/plans";
 import { computeNetWorth } from "@/lib/networth";
 import { buildAlerts } from "@/lib/alerts";
+import { getIndicators } from "@/lib/market";
+import { IndicadoresPanel } from "@/components/app/IndicadoresPanel";
 
 export const metadata = { title: "Início" };
 
@@ -17,7 +19,11 @@ function monthStart() {
 }
 
 export default async function InicioPage() {
-  const [{ user, supabase }, profile] = await Promise.all([requireUser(), getProfile()]);
+  const [{ user, supabase }, profile, indicators] = await Promise.all([
+    requireUser(),
+    getProfile(),
+    getIndicators(),
+  ]);
   const cur = profile.display_currency;
   const ref = monthStart();
 
@@ -93,6 +99,10 @@ export default async function InicioPage() {
   return (
     <>
       <PageHeader title="Seu dinheiro hoje" subtitle="O retrato do mês e do patrimônio." />
+
+      <div className="mb-6">
+        <IndicadoresPanel data={indicators} />
+      </div>
 
       {alerts.length > 0 && (
         <div className="mb-6 space-y-2">
