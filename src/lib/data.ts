@@ -1,20 +1,23 @@
 import "server-only";
 
+import { cache } from "react";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import type { Tables } from "@/types/database";
 import { hasActiveAccess } from "@/lib/plans";
 
-export async function requireUser() {
+// cache() dedupa por request: layout + page chamam requireUser/getProfile sem
+// repetir a ida ao Supabase Auth / à tabela profiles.
+export const requireUser = cache(async () => {
   const supabase = await createClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();
   if (!user) redirect("/login");
   return { user, supabase };
-}
+});
 
-export async function getProfile(): Promise<Tables<"profiles">> {
+export const getProfile = cache(async (): Promise<Tables<"profiles">> => {
   const { user, supabase } = await requireUser();
   const { data } = await supabase.from("profiles").select("*").eq("id", user.id).single();
 
@@ -28,7 +31,7 @@ export async function getProfile(): Promise<Tables<"profiles">> {
     return created as Tables<"profiles">;
   }
   return data;
-}
+});
 
 /** Garante que o onboarding foi feito antes de entrar no app. */
 export async function requireOnboarded() {

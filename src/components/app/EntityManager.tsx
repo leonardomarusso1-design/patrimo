@@ -352,8 +352,8 @@ export function EntityManager({
       ) : (
         <ul className="divide-y divide-border">
           {visible.map((row) => (
-            <li key={row.id} className="flex items-center gap-4 px-4 py-3.5 text-sm">
-              <div className="grid flex-1 gap-1 sm:grid-cols-[1fr_auto] sm:items-center sm:gap-4">
+            <li key={row.id} className="flex items-center gap-3 px-4 py-3.5 text-sm">
+              <div className="grid min-w-0 flex-1 gap-1 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-center sm:gap-4">
                 {row.node}
               </div>
               <RowActions table={table} path={path} fields={fields} row={row} />

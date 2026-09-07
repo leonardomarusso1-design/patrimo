@@ -79,6 +79,8 @@ body {
   font-family: var(--font-body);
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
+  /* nada rola na horizontal no mobile; clip não quebra position: sticky/fixed */
+  overflow-x: clip;
 }
 
 h1, h2, h3, h4, h5 {
