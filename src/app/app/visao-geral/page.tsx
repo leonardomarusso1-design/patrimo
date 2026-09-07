@@ -4,7 +4,7 @@ import { StatTile, EmptyState } from "@/components/ui/Misc";
 import { formatCurrency } from "@/lib/utils";
 import { computeNetWorth } from "@/lib/networth";
 import { ReportChart } from "./ReportChart";
-import { NetWorthChart } from "./NetWorthChart";
+import { AreaTrend } from "@/components/app/AreaTrend";
 
 export const metadata = { title: "Visão geral" };
 
@@ -86,7 +86,7 @@ export default async function VisaoGeralPage() {
           </span>
         </div>
         {nwSeries.length >= 2 ? (
-          <NetWorthChart data={nwSeries} currency={cur} />
+          <AreaTrend data={nwSeries} currency={cur} />
         ) : (
           <p className="py-8 text-center text-sm text-muted">
             Registramos a foto de hoje. O gráfico de evolução aparece a partir do

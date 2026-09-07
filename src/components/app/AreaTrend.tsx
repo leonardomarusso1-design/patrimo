@@ -11,7 +11,7 @@ import {
 } from "recharts";
 import { formatCurrency } from "@/lib/utils";
 
-export function NetWorthChart({
+export function AreaTrend({
   data,
   currency,
 }: {
