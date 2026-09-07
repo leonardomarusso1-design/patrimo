@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Menu, X, LogOut } from "lucide-react";
+import { Menu, X, LogOut, Lock } from "lucide-react";
 import { NAV } from "./nav";
 import { cn } from "@/lib/utils";
 import { planName } from "@/lib/plans";
@@ -30,7 +30,15 @@ function NavLinks({ onNavigate }: { onNavigate?: () => void }) {
             )}
           >
             <item.icon className="h-[18px] w-[18px]" />
-            {item.label}
+            <span className="flex-1">{item.label}</span>
+            {item.locked && (
+              <span
+                className="inline-flex items-center gap-1 rounded-md bg-ink/[0.06] px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-muted"
+                title="Em construção"
+              >
+                <Lock className="h-3 w-3" />
+              </span>
+            )}
           </Link>
         );
       })}

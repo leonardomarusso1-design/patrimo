@@ -67,6 +67,20 @@ export function welcomeEmail(to: string, firstName: string) {
   };
 }
 
+export function renewalReminderEmail(to: string, firstName: string, daysLeft: number) {
+  return {
+    to,
+    subject: `Sua assinatura do Patrimo vence em ${daysLeft} dias`,
+    html: shell(
+      `Renove pra não perder o acesso, ${firstName}`,
+      `<p>Seu acesso ao Patrimo expira em <strong>${daysLeft} dias</strong>. Renove por
+       R$ 97,90 (ou 12x no cartão) e continue com tudo funcionando — seus dados
+       ficam salvos de qualquer forma.</p>
+       <p><a href="https://kiwify.app/LuK5uon?email=${encodeURIComponent(to)}" style="display:inline-block;background:#0b7a55;color:#fff;padding:10px 18px;border-radius:10px;text-decoration:none;font-weight:600">Renovar agora</a></p>`,
+    ),
+  };
+}
+
 function mask(email: string) {
   const [u, d] = email.split("@");
   return `${u.slice(0, 2)}***@${d ?? ""}`;

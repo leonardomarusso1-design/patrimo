@@ -63,6 +63,7 @@ export interface Database {
           marketing_opt_in: boolean;
           investor_profile: InvestorProfile | null;
           investor_profile_at: string | null;
+          renewal_reminded_at: string | null;
         } & Timestamps
       >;
       budget_categories: Table<{

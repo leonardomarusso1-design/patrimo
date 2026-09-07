@@ -15,7 +15,6 @@ const PUBLIC_PREFIXES = [
   "/cookies",
   "/contrato-assinatura",
   "/seguranca",
-  "/sem-acesso",
 ];
 
 function isPublic(pathname: string) {

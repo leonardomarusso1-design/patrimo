@@ -13,7 +13,12 @@ import {
   type LucideIcon,
 } from "lucide-react";
 
-export type NavItem = { href: string; label: string; icon: LucideIcon };
+export type NavItem = {
+  href: string;
+  label: string;
+  icon: LucideIcon;
+  locked?: boolean;
+};
 
 export const NAV: NavItem[] = [
   { href: "/app", label: "Início", icon: LayoutGrid },
@@ -25,6 +30,6 @@ export const NAV: NavItem[] = [
   { href: "/app/patrimonio", label: "Patrimônio", icon: Landmark },
   { href: "/app/escola", label: "Escola", icon: GraduationCap },
   { href: "/app/calculadoras", label: "Calculadoras", icon: Calculator },
-  { href: "/app/conexoes", label: "Contas conectadas", icon: Link2 },
+  { href: "/app/conexoes", label: "Contas conectadas", icon: Link2, locked: true },
   { href: "/app/configuracoes", label: "Configurações", icon: Settings },
 ];
