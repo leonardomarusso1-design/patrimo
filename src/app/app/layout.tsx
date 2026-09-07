@@ -1,4 +1,4 @@
-import { requireOnboarded } from "@/lib/data";
+import { requirePaidAccess } from "@/lib/data";
 import { AppSidebar } from "@/components/app/AppSidebar";
 import { TopBarActions } from "@/components/app/TopBarActions";
 
@@ -9,7 +9,7 @@ export default async function AppLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const profile = await requireOnboarded();
+  const profile = await requirePaidAccess();
   const firstName = (profile.full_name ?? "").split(" ")[0] || "Você";
 
   return (

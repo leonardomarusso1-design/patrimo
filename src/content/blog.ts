@@ -147,7 +147,7 @@ Investir em ações sendo conservador, ou deixar tudo na poupança sendo arrojad
 
 ## No Patrimo
 
-No plano Elite, a IA observa seu comportamento real (não só o que você declara) e sugere ajustes de carteira.
+No Patrimo, a IA observa seu comportamento real (não só o que você declara) e sugere ajustes de carteira.
 
 ---
 *Fonte: CVM — materiais de educação do investidor.*`,
@@ -184,7 +184,7 @@ Consentimento explícito, token com validade limitada, revogação a qualquer mo
 
 ## No Patrimo
 
-No plano Elite conectamos suas contas via Open Finance e as transações entram categorizadas.
+No Patrimo conectamos suas contas via Open Finance e as transações entram categorizadas.
 
 ---
 *Fonte: Banco Central do Brasil — portal Open Finance.*`,
@@ -291,7 +291,7 @@ Fundos abertos antecipam IR a cada 6 meses. Tesouro Direto só recolhe no resgat
 
 ## No Patrimo
 
-O relatório fiscal anual (plano Elite) resume vendas, lucros, prejuízos a compensar e preço médio.
+O relatório fiscal anual resume vendas, lucros, prejuízos a compensar e preço médio.
 
 ---
 *Fonte: Receita Federal — regras vigentes de tributação de aplicações financeiras. Confirme alíquotas e limites no ano-calendário.*`,

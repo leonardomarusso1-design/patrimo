@@ -2,7 +2,7 @@ import Link from "next/link";
 import { getProfile } from "@/lib/data";
 import { PageHeader } from "@/components/app/PageHeader";
 import { SettingsForm } from "./ui";
-import { planName, PLANS } from "@/lib/plans";
+import { PLAN, hasActiveAccess } from "@/lib/plans";
 import { formatDate } from "@/lib/utils";
 
 export const metadata = { title: "Configurações" };
@@ -19,26 +19,22 @@ export default async function ConfiguracoesPage() {
 
         <div className="space-y-4">
           <div className="rounded-2xl border border-border bg-card p-5 shadow-[var(--shadow-card)]">
-            <p className="text-xs font-semibold uppercase tracking-wide text-muted">Plano atual</p>
+            <p className="text-xs font-semibold uppercase tracking-wide text-muted">Assinatura</p>
             <p className="mt-1 font-display text-xl font-extrabold text-ink">
-              {planName(profile.plan)}
+              {hasActiveAccess(profile) ? PLAN.name : "Sem acesso"}
             </p>
             {profile.plan_expires_at && (
-              <p className="text-xs text-muted">renova em {formatDate(profile.plan_expires_at)}</p>
+              <p className="text-xs text-muted">
+                {hasActiveAccess(profile) ? "válida até" : "expirou em"}{" "}
+                {formatDate(profile.plan_expires_at)}
+              </p>
             )}
-            {profile.plan === "free" ? (
+            {!hasActiveAccess(profile) && (
               <Link
-                href="/precos"
+                href="/ativar"
                 className="mt-4 inline-block text-sm font-semibold text-accent-dim hover:underline"
               >
-                Assinar um plano →
-              </Link>
-            ) : (
-              <Link
-                href="/precos"
-                className="mt-4 inline-block text-sm font-semibold text-accent-dim hover:underline"
-              >
-                Mudar de plano →
+                Ativar meu acesso →
               </Link>
             )}
           </div>
@@ -58,8 +54,8 @@ export default async function ConfiguracoesPage() {
           </div>
 
           <p className="text-xs text-muted">
-            Planos:{" "}
-            {PLANS.map((p) => `${p.name} R$${p.monthly}/mês`).join(" · ")}
+            {PLAN.name}: R$ 97,90/ano, em até 12x no cartão. Gestão da cobrança pela
+            Kiwify.
           </p>
         </div>
       </div>

@@ -1,85 +1,53 @@
 import type { PlanId } from "@/types/database";
 
-export type Plan = {
-  id: PlanId;
-  name: string;
-  tagline: string;
-  monthly: number;
-  yearly: number;
-  highlight?: boolean;
-  cta: string;
-  features: string[];
-  kiwifyMonthlyUrl?: string;
-  kiwifyYearlyUrl?: string;
-};
-
 /**
- * Popcorn Pricing — 3 tiers (Good / Better / Best).
- * Preços definidos na sessão de brainstorming (mais caro que o MultiCap no topo).
- * Desconto anual ≈ 2 meses grátis.
+ * Patrimo tem um único plano pago: anual, R$ 97,90/ano, parcelável em até 12x.
+ * O acesso ao painel é liberado só após a compra (hard paywall).
  */
-export const PLANS: Plan[] = [
-  {
-    id: "essential",
-    name: "Essencial",
-    tagline: "Organize o mês e pare de vazar dinheiro.",
-    monthly: 49,
-    yearly: 490,
-    cta: "Começar no Essencial",
-    features: [
-      "Orçamento (receita, despesa fixa e variável)",
-      "Reserva de emergência com meta guiada",
-      "Metas financeiras com aportes",
-      "Patrimônio básico (bens e dívidas)",
-      "Blog aberto de educação financeira",
-    ],
+export const PLAN = {
+  id: "pro" as PlanId,
+  name: "Patrimo Anual",
+  price: 97.9,
+  installments: 12,
+  get installmentValue() {
+    return this.price / this.installments;
   },
-  {
-    id: "pro",
-    name: "Pro",
-    tagline: "Faça o dinheiro que sobra trabalhar.",
-    monthly: 97,
-    yearly: 970,
-    highlight: true,
-    cta: "Assinar o Pro",
-    features: [
-      "Tudo do Essencial",
-      "Carteira de investimentos com composição",
-      "Multi-moeda de verdade (câmbio aplicado)",
-      "Relatórios avançados (3, 6 e 12 meses)",
-      "Todas as calculadoras",
-    ],
-  },
-  {
-    id: "elite",
-    name: "Elite",
-    tagline: "Piloto automático com IA lendo o mercado por você.",
-    monthly: 197,
-    yearly: 1970,
-    cta: "Assinar o Elite",
-    features: [
-      "Tudo do Pro",
-      "Open Finance (importação automática de transações)",
-      "IA de investimentos: leitura diária do mercado + aportes sugeridos pelo seu perfil",
-      "Escola completa desbloqueada (13 aulas)",
-      "Relatório fiscal anual e suporte prioritário",
-    ],
-  },
-];
+  checkoutUrl: "https://kiwify.app/LuK5uon",
+  features: [
+    "Orçamento completo (receita, despesa fixa e variável)",
+    "Reserva de emergência com meta guiada",
+    "Metas financeiras com aportes",
+    "Carteira de investimentos e composição",
+    "Patrimônio: bens, dívidas e patrimônio líquido",
+    "Multi-moeda com câmbio aplicado",
+    "Todas as calculadoras",
+    "Escola — 13 aulas (liberadas conforme forem gravadas)",
+    "IA de investimentos e Open Finance (em breve)",
+  ],
+};
 
 export const PLAN_RANK: Record<PlanId, number> = {
   free: 0,
   essential: 1,
-  pro: 2,
-  elite: 3,
+  pro: 1,
+  elite: 1,
 };
 
-export function planAllows(userPlan: PlanId, required: PlanId): boolean {
-  return PLAN_RANK[userPlan] >= PLAN_RANK[required];
+/** Com plano único, "tem acesso" = qualquer plano pago. */
+export function planAllows(userPlan: PlanId, _required: PlanId): boolean {
+  void _required;
+  return PLAN_RANK[userPlan] >= 1;
+}
+
+export function hasActiveAccess(profile: {
+  plan: PlanId;
+  plan_expires_at: string | null;
+}): boolean {
+  if (profile.plan === "free") return false;
+  if (!profile.plan_expires_at) return true;
+  return new Date(profile.plan_expires_at).getTime() > Date.now();
 }
 
 export function planName(id: PlanId): string {
-  return id === "free" ? "Grátis" : PLANS.find((p) => p.id === id)?.name ?? id;
+  return id === "free" ? "Sem acesso" : PLAN.name;
 }
-
-export const YEARLY_DISCOUNT_LABEL = "2 meses grátis";

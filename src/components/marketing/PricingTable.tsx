@@ -1,93 +1,48 @@
-"use client";
-
-import { useState } from "react";
 import { Check } from "lucide-react";
-import { PLANS, YEARLY_DISCOUNT_LABEL } from "@/lib/plans";
-import { formatCurrency, cn } from "@/lib/utils";
+import { PLAN } from "@/lib/plans";
+import { formatCurrency } from "@/lib/utils";
 import { ButtonLink } from "@/components/ui/Button";
 import { Badge } from "@/components/ui/Misc";
 
 export function PricingTable() {
-  const [yearly, setYearly] = useState(false);
-
   return (
-    <div>
-      <div className="mb-10 flex items-center justify-center gap-3">
-        <span className={cn("text-sm font-medium", !yearly && "text-ink")}>Mensal</span>
-        <button
-          role="switch"
-          aria-checked={yearly}
-          onClick={() => setYearly((v) => !v)}
-          className={cn(
-            "relative h-7 w-12 rounded-full transition-colors",
-            yearly ? "bg-accent" : "bg-ink/15",
-          )}
-        >
-          <span
-            className={cn(
-              "absolute top-1 h-5 w-5 rounded-full bg-[#ffffff] shadow transition-transform",
-              yearly ? "translate-x-6" : "translate-x-1",
-            )}
-          />
-        </button>
-        <span className={cn("text-sm font-medium", yearly && "text-ink")}>
-          Anual <Badge tone="accent">{YEARLY_DISCOUNT_LABEL}</Badge>
-        </span>
+    <div className="mx-auto max-w-md">
+      <div className="rounded-2xl border border-brand bg-card p-7 shadow-[var(--shadow-glow)]">
+        <div className="flex items-center justify-between">
+          <h3 className="font-display text-lg font-bold text-ink">{PLAN.name}</h3>
+          <Badge tone="accent">Plano único</Badge>
+        </div>
+        <p className="mt-1 text-sm text-muted">
+          Um preço, tudo incluído. Sem mensalidade recorrente.
+        </p>
+
+        <p className="mt-6 font-display text-4xl font-extrabold text-ink">
+          {formatCurrency(PLAN.price)}
+          <span className="text-base font-semibold text-muted">/ano</span>
+        </p>
+        <div className="mt-3 inline-flex items-center gap-2 rounded-xl bg-brand-50 px-3 py-2">
+          <span className="font-display text-sm font-bold text-brand-700">
+            ou {PLAN.installments}x de {formatCurrency(PLAN.installmentValue)}
+          </span>
+          <span className="text-xs text-brand-700/80">no cartão</span>
+        </div>
+
+        <ButtonLink href={PLAN.checkoutUrl} className="mt-6 w-full">
+          Assinar agora
+        </ButtonLink>
+        <p className="mt-2 text-center text-xs text-muted">
+          Pagamento seguro via Kiwify · Pix, boleto ou cartão em até 12x
+        </p>
+
+        <ul className="mt-6 space-y-2.5 border-t border-border pt-6">
+          {PLAN.features.map((f) => (
+            <li key={f} className="flex gap-2.5 text-sm text-ink/90">
+              <Check className="mt-0.5 h-4 w-4 shrink-0 text-brand" />
+              <span>{f}</span>
+            </li>
+          ))}
+        </ul>
       </div>
-
-      <div className="grid gap-5 lg:grid-cols-3">
-        {PLANS.map((plan) => {
-          const price = yearly ? plan.yearly : plan.monthly;
-          const suffix = yearly ? "/ano" : "/mês";
-          return (
-            <div
-              key={plan.id}
-              className={cn(
-                "flex flex-col rounded-2xl border p-6",
-                plan.highlight
-                  ? "border-accent bg-card shadow-[var(--shadow-glow)]"
-                  : "border-border bg-card shadow-[var(--shadow-card)]",
-              )}
-            >
-              <div className="flex items-center justify-between">
-                <h3 className="font-display text-lg font-bold text-ink">{plan.name}</h3>
-                {plan.highlight && <Badge tone="accent">Mais popular</Badge>}
-              </div>
-              <p className="mt-1 text-sm text-muted">{plan.tagline}</p>
-
-              <p className="mt-5 font-display text-3xl font-extrabold text-ink">
-                {formatCurrency(price)}
-                <span className="text-base font-semibold text-muted">{suffix}</span>
-              </p>
-              {yearly && (
-                <p className="mt-1 text-xs text-muted">
-                  equivale a {formatCurrency(plan.yearly / 12)}/mês
-                </p>
-              )}
-
-              <ButtonLink
-                href={`/cadastro?plano=${plan.id}&ciclo=${yearly ? "anual" : "mensal"}`}
-                variant={plan.highlight ? "primary" : "secondary"}
-                className="mt-6"
-              >
-                {plan.cta}
-              </ButtonLink>
-
-              <ul className="mt-6 space-y-2.5">
-                {plan.features.map((f) => (
-                  <li key={f} className="flex gap-2.5 text-sm text-ink/90">
-                    <Check className="mt-0.5 h-4 w-4 shrink-0 text-accent" />
-                    <span>{f}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          );
-        })}
-      </div>
-      <p className="mt-6 text-center text-xs text-muted">
-        Pagamento em Pix, boleto ou cartão via Kiwify. Cancele quando quiser.
-      </p>
     </div>
   );
 }

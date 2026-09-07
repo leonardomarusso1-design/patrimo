@@ -34,8 +34,8 @@ const MODULES = [
 
 const DIFERENCIAIS = [
   { icon: Globe, title: "Multi-moeda real", text: "Não é só trocar o símbolo. O câmbio entra no consolidado — pra quem ganha numa moeda e gasta em outra." },
-  { icon: Sparkles, title: "IA de investimentos", text: "No Elite, a IA lê o mercado todo dia e, pelo seu perfil de investidor, sugere onde aportar. Você decide." },
-  { icon: TrendingUp, title: "Open Finance", text: "No Elite, conecte suas contas e as transações entram categorizadas. Menos digitação, mais decisão." },
+  { icon: Sparkles, title: "IA de investimentos", text: "A IA lê o mercado todo dia e, pelo seu perfil, sugere onde aportar. Você decide. (em breve)" },
+  { icon: TrendingUp, title: "Open Finance", text: "Conecte suas contas e as transações entram categorizadas. Menos digitação, mais decisão. (em breve)" },
 ];
 
 const COMPARISON = [
@@ -75,7 +75,7 @@ export default function LandingPage() {
               </ButtonLink>
             </div>
             <p className="animate-fade-up mt-5 text-sm text-muted">
-              A partir de R$ 49/mês · Pix, boleto ou cartão · cancele quando quiser
+              R$ 97,90 por ano · <strong className="text-ink">em até 12x</strong> no cartão · Pix ou boleto
             </p>
           </div>
         </section>
@@ -162,9 +162,12 @@ export default function LandingPage() {
         <section id="precos" className="mx-auto max-w-6xl px-4 py-20 sm:px-6">
           <div className="mb-10 text-center">
             <h2 className="text-3xl font-extrabold text-ink sm:text-4xl">
-              Escolha o quanto de piloto automático você quer
+              Um plano. Tudo incluído.
             </h2>
-            <p className="mt-3 text-muted">Sem plano grátis. Sem pegadinha. Cancele quando quiser.</p>
+            <p className="mt-3 text-muted">
+              R$ 97,90 pelo ano inteiro — ou 12x de R$ 8,16 no cartão. Sem
+              mensalidade que renova sozinha.
+            </p>
           </div>
           <PricingTable />
         </section>

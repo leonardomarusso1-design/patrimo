@@ -4,30 +4,30 @@ import { PricingTable } from "@/components/marketing/PricingTable";
 export const metadata = pageMetadata({
   title: "Preços",
   description:
-    "Três planos: Essencial, Pro e Elite. Sem plano grátis, sem pegadinha. A partir de R$ 49/mês.",
+    "Um plano só: R$ 97,90 por ano, em até 12x no cartão. Tudo incluído, sem mensalidade recorrente.",
   path: "/precos",
 });
 
 const FAQ = [
   {
-    q: "Por que não tem plano grátis?",
-    a: "Menos de 3% dos usuários grátis convertem, e eles puxam o roadmap para o lado errado. Preferimos cobrar um valor justo e entregar um produto que vale a pena.",
-  },
-  {
-    q: "Posso cancelar quando quiser?",
-    a: "Sim. O cancelamento vale para o próximo ciclo e você mantém acesso até o fim do período já pago. Seus dados continuam seus.",
-  },
-  {
-    q: "Qual a diferença entre mensal e anual?",
-    a: "No plano anual você paga o equivalente a 10 meses — 2 meses saem de graça.",
-  },
-  {
     q: "Como funciona o pagamento?",
-    a: "Pix, boleto ou cartão pela Kiwify. A ativação do plano é automática após a confirmação.",
+    a: "R$ 97,90 pelo ano inteiro. Você paga à vista (Pix ou boleto) ou parcela em até 12x no cartão — cada parcela fica em torno de R$ 8,16. A cobrança é feita pela Kiwify.",
+  },
+  {
+    q: "É assinatura que renova sozinha?",
+    a: "O acesso vale 1 ano. Perto do vencimento você recebe um aviso para renovar. Nada é cobrado automaticamente sem você confirmar.",
+  },
+  {
+    q: "Por que não tem plano grátis?",
+    a: "Menos de 3% dos usuários grátis convertem e eles puxam o roadmap para o lado errado. Preferimos cobrar um valor baixo e justo e entregar um produto que vale a pena.",
+  },
+  {
+    q: "Posso pedir reembolso?",
+    a: "Sim. Compras feitas online têm 7 dias de arrependimento pelo Código de Defesa do Consumidor. É só falar com o suporte.",
   },
   {
     q: "A IA de investimentos dá recomendação de compra?",
-    a: "Ela sugere direções com base no seu perfil e na leitura do mercado. A decisão final é sempre sua — não é consultoria de investimento registrada.",
+    a: "Ela vai sugerir direções com base no seu perfil e na leitura do mercado. A decisão final é sempre sua — não é consultoria de investimento registrada. Esse recurso entra em breve.",
   },
 ];
 
@@ -36,11 +36,11 @@ export default function PrecosPage() {
     <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6">
       <div className="text-center">
         <h1 className="text-3xl font-extrabold text-ink sm:text-5xl">
-          Um preço para cada nível de piloto automático
+          Um plano. Tudo incluído.
         </h1>
         <p className="mx-auto mt-4 max-w-xl text-muted">
-          Comece organizando o mês. Suba para investir melhor. Chegue no Elite e deixe
-          a IA trabalhar por você.
+          R$ 97,90 pelo ano inteiro, ou 12x de R$ 8,16 no cartão. Orçamento,
+          reserva, metas, investimentos, patrimônio e escola — tudo liberado.
         </p>
       </div>
 

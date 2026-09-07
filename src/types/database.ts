@@ -204,6 +204,14 @@ export interface Database {
           current_period_end: string | null;
         } & Timestamps
       >;
+      pending_purchases: Table<{
+        email: string;
+        plan: PlanId;
+        expires_at: string;
+        provider: string;
+        provider_ref: string | null;
+        created_at: string;
+      }>;
     };
     Views: { [_ in never]: never };
     Functions: { [_ in never]: never };

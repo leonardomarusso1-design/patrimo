@@ -2,8 +2,8 @@ import "server-only";
 
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
-import type { Tables, PlanId } from "@/types/database";
-import { planAllows } from "@/lib/plans";
+import type { Tables } from "@/types/database";
+import { hasActiveAccess } from "@/lib/plans";
 
 export async function requireUser() {
   const supabase = await createClient();
@@ -37,13 +37,22 @@ export async function requireOnboarded() {
   return profile;
 }
 
-/** Bloqueia uma feature por plano — manda pra /sem-acesso se faltar. */
-export async function requirePlan(required: PlanId, feature: string) {
+/**
+ * Hard paywall: sem assinatura ativa, o painel não abre.
+ * Chamado no layout de /app. Deixa passar quem já pagou.
+ */
+export async function requirePaidAccess() {
   const profile = await getProfile();
-  if (!planAllows(profile.plan, required)) {
-    redirect(`/sem-acesso?f=${encodeURIComponent(feature)}&need=${required}`);
-  }
+  if (!profile.onboarding_completed) redirect("/onboarding");
+  if (!hasActiveAccess(profile)) redirect("/ativar");
   return profile;
+}
+
+/** Compatibilidade: com plano único, o gate de feature é o mesmo do paywall. */
+export async function requirePlan(required?: string, feature?: string) {
+  void required;
+  void feature;
+  return requirePaidAccess();
 }
 
 export function currentReferenceMonth(): string {
