@@ -1,10 +1,11 @@
 "use client";
 
 import { useState, type ReactNode } from "react";
-import { Upload, Trash2 } from "lucide-react";
+import { Trash2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Modal } from "@/components/ui/Modal";
 import { Button } from "@/components/ui/Button";
+import { ImportCsv } from "@/components/app/ImportCsv";
 import { clearBudgetMonth } from "@/app/app/orcamento/actions";
 
 export type BudgetTab = { key: string; label: string; total: string; node: ReactNode };
@@ -44,13 +45,7 @@ export function BudgetTabs({
         </div>
 
         <div className="flex gap-2">
-          <button
-            disabled
-            title="Importar extrato — em breve"
-            className="inline-flex items-center gap-1.5 rounded-lg border border-border px-2.5 py-1.5 text-xs font-medium text-muted opacity-60"
-          >
-            <Upload className="h-3.5 w-3.5" /> Importar extrato
-          </button>
+          <ImportCsv referenceMonth={referenceMonth} />
           <button
             onClick={() => setConfirmClear(true)}
             className="inline-flex items-center gap-1.5 rounded-lg border border-border px-2.5 py-1.5 text-xs font-medium text-muted hover:border-danger/40 hover:text-danger"
