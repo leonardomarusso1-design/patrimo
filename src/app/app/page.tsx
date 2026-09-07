@@ -6,6 +6,7 @@ import { StatTile, Progress } from "@/components/ui/Misc";
 import { formatCurrency } from "@/lib/utils";
 import { emergencyTarget } from "@/lib/finance";
 import { planAllows } from "@/lib/plans";
+import { getRates, convert } from "@/lib/fx";
 
 export const metadata = { title: "Início" };
 
@@ -15,7 +16,11 @@ function monthStart() {
 }
 
 export default async function InicioPage() {
-  const [{ user, supabase }, profile] = await Promise.all([requireUser(), getProfile()]);
+  const [{ user, supabase }, profile, rates] = await Promise.all([
+    requireUser(),
+    getProfile(),
+    getRates(),
+  ]);
   const cur = profile.display_currency;
   const ref = monthStart();
 
@@ -25,9 +30,9 @@ export default async function InicioPage() {
     supabase.from("emergency_reserves").select("amount").eq("user_id", user.id),
     supabase.from("goals").select("id, target_amount").eq("user_id", user.id).eq("archived", false),
     supabase.from("goal_contributions").select("amount").eq("user_id", user.id),
-    supabase.from("investments").select("current_amount, invested_amount").eq("user_id", user.id),
-    supabase.from("patrimony_items").select("value").eq("user_id", user.id),
-    supabase.from("debts").select("remaining_amount").eq("user_id", user.id),
+    supabase.from("investments").select("current_amount, currency").eq("user_id", user.id),
+    supabase.from("patrimony_items").select("value, appraised_value, currency, linked_debt_id").eq("user_id", user.id),
+    supabase.from("debts").select("id, remaining_amount").eq("user_id", user.id),
   ]);
 
   const b = budget.data ?? [];
@@ -45,10 +50,31 @@ export default async function InicioPage() {
   const goalsTarget = (goals.data ?? []).reduce((s, r) => s + Number(r.target_amount), 0);
   const goalsSaved = (contribs.data ?? []).reduce((s, r) => s + Number(r.amount), 0);
 
-  const walletValue = (invest.data ?? []).reduce((s, r) => s + Number(r.current_amount), 0);
-  const assetsTotal = (items.data ?? []).reduce((s, r) => s + Number(r.value), 0);
-  const debtsTotal = (debts.data ?? []).reduce((s, r) => s + Number(r.remaining_amount), 0);
-  const netWorth = assetsTotal + walletValue + reserveSaved - debtsTotal;
+  const walletValue = (invest.data ?? []).reduce(
+    (s, r) => s + convert(Number(r.current_amount), r.currency ?? "BRL", cur, rates),
+    0,
+  );
+  const debtBal = new Map(
+    (debts.data ?? []).map((d) => [d.id, Number(d.remaining_amount)]),
+  );
+  // patrimônio dos bens = valor de mercado − saldo do financiamento vinculado
+  const equityAssets = (items.data ?? []).reduce((s, it) => {
+    const mv = convert(
+      Number(it.appraised_value ?? it.value),
+      it.currency ?? "BRL",
+      cur,
+      rates,
+    );
+    const linked = it.linked_debt_id ? (debtBal.get(it.linked_debt_id) ?? 0) : 0;
+    return s + (mv - linked);
+  }, 0);
+  const linkedIds = new Set(
+    (items.data ?? []).map((i) => i.linked_debt_id).filter(Boolean) as string[],
+  );
+  const freeDebtsTotal = (debts.data ?? [])
+    .filter((d) => !linkedIds.has(d.id))
+    .reduce((s, d) => s + Number(d.remaining_amount), 0);
+  const netWorth = equityAssets + walletValue + reserveSaved - freeDebtsTotal;
 
   const shortcuts = [
     { href: "/app/orcamento", label: "Lançar no orçamento" },

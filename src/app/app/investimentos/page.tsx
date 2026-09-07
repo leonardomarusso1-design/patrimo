@@ -8,6 +8,7 @@ import { StatTile, Progress, Badge } from "@/components/ui/Misc";
 import { ButtonLink } from "@/components/ui/Button";
 import { formatCurrency, formatPercent } from "@/lib/utils";
 import { PROFILE_INFO, VARIABLE_CLASSES } from "@/lib/investor";
+import { getRates, convert } from "@/lib/fx";
 import type { Tables } from "@/types/database";
 
 export const metadata = { title: "Investimentos" };
@@ -41,7 +42,11 @@ const FIELDS: Field[] = [
 
 export default async function InvestimentosPage() {
   await requirePlan("pro", "Investimentos");
-  const [{ user, supabase }, profile] = await Promise.all([requireUser(), getProfile()]);
+  const [{ user, supabase }, profile, rates] = await Promise.all([
+    requireUser(),
+    getProfile(),
+    getRates(),
+  ]);
   const cur = profile.display_currency;
 
   const { data } = await supabase
@@ -51,24 +56,30 @@ export default async function InvestimentosPage() {
     .order("current_amount", { ascending: false });
 
   const rows = (data ?? []) as Investment[];
-  const invested = rows.reduce((s, r) => s + Number(r.invested_amount), 0);
-  const currentVal = rows.reduce((s, r) => s + Number(r.current_amount), 0);
+  // converte cada ativo da sua moeda para a moeda de exibição do perfil
+  const cvInvested = (r: Investment) =>
+    convert(Number(r.invested_amount), r.currency, cur, rates);
+  const cvCurrent = (r: Investment) =>
+    convert(Number(r.current_amount), r.currency, cur, rates);
+
+  const invested = rows.reduce((s, r) => s + cvInvested(r), 0);
+  const currentVal = rows.reduce((s, r) => s + cvCurrent(r), 0);
   const gain = currentVal - invested;
   const gainPct = invested > 0 ? (gain / invested) * 100 : 0;
 
-  const byAsset = rows.map((r) => ({ name: r.name, value: Number(r.current_amount) }));
+  const byAsset = rows.map((r) => ({ name: r.name, value: cvCurrent(r) }));
   const byClassMap = new Map<string, number>();
   for (const r of rows) {
     byClassMap.set(
       CLASS_LABEL[r.asset_class],
-      (byClassMap.get(CLASS_LABEL[r.asset_class]) ?? 0) + Number(r.current_amount),
+      (byClassMap.get(CLASS_LABEL[r.asset_class]) ?? 0) + cvCurrent(r),
     );
   }
   const byClass = [...byClassMap.entries()].map(([name, value]) => ({ name, value }));
 
   const variableVal = rows
     .filter((r) => VARIABLE_CLASSES.has(r.asset_class))
-    .reduce((s, r) => s + Number(r.current_amount), 0);
+    .reduce((s, r) => s + cvCurrent(r), 0);
   const variablePct = currentVal > 0 ? (variableVal / currentVal) * 100 : 0;
   const invProfile = profile.investor_profile;
   const target = invProfile ? PROFILE_INFO[invProfile].allocation.variavel : null;
@@ -153,7 +164,7 @@ export default async function InvestimentosPage() {
           addLabel="Adicionar ativo"
           fields={FIELDS}
           rows={rows.map((r) => {
-            const g = Number(r.current_amount) - Number(r.invested_amount);
+            const g = cvCurrent(r) - cvInvested(r);
             return {
               id: r.id,
               raw: {
@@ -171,10 +182,11 @@ export default async function InvestimentosPage() {
                     <span className="ml-2 text-xs text-muted">
                       {CLASS_LABEL[r.asset_class]}
                       {r.broker ? ` · ${r.broker}` : ""}
+                      {r.currency !== cur ? ` · ${r.currency}` : ""}
                     </span>
                   </span>
                   <span className="tabular-nums text-ink sm:text-right">
-                    {formatCurrency(Number(r.current_amount), cur)}
+                    {formatCurrency(cvCurrent(r), cur)}
                     <span className={g >= 0 ? "ml-2 text-xs text-success" : "ml-2 text-xs text-danger"}>
                       {g >= 0 ? "+" : ""}
                       {formatCurrency(g, cur)}
