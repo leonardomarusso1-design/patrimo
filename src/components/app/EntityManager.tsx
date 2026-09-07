@@ -229,6 +229,7 @@ export function EntityManager({
   emptyTitle = "Nada por aqui ainda",
   emptyDescription,
   flat,
+  filterable,
 }: {
   table: string;
   path: string;
@@ -240,7 +241,32 @@ export function EntityManager({
   emptyTitle?: string;
   emptyDescription?: string;
   flat?: boolean;
+  filterable?: boolean;
 }) {
+  const [query, setQuery] = useState("");
+  const [cats, setCats] = useState<Set<string>>(new Set());
+
+  const allCats = filterable
+    ? Array.from(
+        new Set(
+          rows
+            .map((r) => (r.raw.category ? String(r.raw.category) : null))
+            .filter((c): c is string => !!c),
+        ),
+      ).sort()
+    : [];
+
+  const visible =
+    filterable && (query || cats.size)
+      ? rows.filter((r) => {
+          const name = String(r.raw.name ?? "").toLowerCase();
+          const cat = r.raw.category ? String(r.raw.category) : "";
+          if (query && !name.includes(query.toLowerCase())) return false;
+          if (cats.size && !cats.has(cat)) return false;
+          return true;
+        })
+      : rows;
+
   return (
     <div
       className={
@@ -265,13 +291,62 @@ export function EntityManager({
         />
       </div>
 
+      {filterable && rows.length > 0 && (
+        <div className={cn("space-y-2.5", flat ? "pb-3" : "px-4 pt-4")}>
+          <Input
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            placeholder="Buscar por nome…"
+            className="h-9"
+          />
+          {allCats.length > 0 && (
+            <div className="flex flex-wrap gap-1.5">
+              {allCats.map((c) => {
+                const on = cats.has(c);
+                return (
+                  <button
+                    key={c}
+                    onClick={() =>
+                      setCats((s) => {
+                        const n = new Set(s);
+                        if (n.has(c)) n.delete(c);
+                        else n.add(c);
+                        return n;
+                      })
+                    }
+                    className={cn(
+                      "rounded-full px-2.5 py-1 text-xs font-medium",
+                      on ? "bg-brand text-[#eaf5ee]" : "bg-ink/[0.05] text-muted hover:text-ink",
+                    )}
+                  >
+                    {c}
+                  </button>
+                );
+              })}
+              {cats.size > 0 && (
+                <button
+                  onClick={() => setCats(new Set())}
+                  className="rounded-full px-2.5 py-1 text-xs text-accent-dim"
+                >
+                  limpar
+                </button>
+              )}
+            </div>
+          )}
+        </div>
+      )}
+
       {rows.length === 0 ? (
         <div className="p-4">
           <EmptyState title={emptyTitle} description={emptyDescription} />
         </div>
+      ) : visible.length === 0 ? (
+        <p className="px-4 py-8 text-center text-sm text-muted">
+          Nenhum item bate com o filtro.
+        </p>
       ) : (
         <ul className="divide-y divide-border">
-          {rows.map((row) => (
+          {visible.map((row) => (
             <li key={row.id} className="flex items-center gap-4 px-4 py-3.5 text-sm">
               <div className="grid flex-1 gap-1 sm:grid-cols-[1fr_auto] sm:items-center sm:gap-4">
                 {row.node}

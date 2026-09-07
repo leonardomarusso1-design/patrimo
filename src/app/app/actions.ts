@@ -49,9 +49,11 @@ const SCHEMAS = {
     kind: z.enum(["liquidez", "investimento", "imovel", "veiculo", "outro_bem"]),
     name: shortText,
     value: money,
+    appraised_value: money.optional().nullable(),
     currency: z.string().trim().length(3).default("BRL"),
     fipe_code: z.string().trim().max(40).optional().nullable(),
     is_debt: z.coerce.boolean().default(false),
+    linked_debt_id: z.string().uuid().optional().nullable(),
   }),
   debts: z.object({
     name: shortText,

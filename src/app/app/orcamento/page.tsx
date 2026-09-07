@@ -162,6 +162,7 @@ export default async function OrcamentoPage({
                     fields={fieldsFor("income", refMonth)}
                     hidden={{ kind: "income" }}
                     flat
+                    filterable
                     rows={toRows(by("income"), false)}
                     emptyTitle="Nenhuma receita neste mês"
                     emptyDescription="Salário, freelas, aluguéis recebidos, rendimentos."
@@ -181,6 +182,7 @@ export default async function OrcamentoPage({
                     fields={fieldsFor("expense_fixed", refMonth)}
                     hidden={{ kind: "expense_fixed" }}
                     flat
+                    filterable
                     rows={toRows(by("expense_fixed"), true)}
                     emptyTitle="Nenhuma despesa fixa"
                     emptyDescription="Aluguel, plano de saúde, escola, assinaturas."
@@ -200,6 +202,7 @@ export default async function OrcamentoPage({
                     fields={fieldsFor("expense_variable", refMonth)}
                     hidden={{ kind: "expense_variable" }}
                     flat
+                    filterable
                     rows={toRows(by("expense_variable"), true)}
                     emptyTitle="Nenhuma despesa variável"
                     emptyDescription="Mercado, restaurante, transporte, compras."

@@ -1,9 +1,13 @@
+import Link from "next/link";
+import { Sparkles } from "lucide-react";
 import { requireUser, getProfile, requirePlan } from "@/lib/data";
 import { PageHeader } from "@/components/app/PageHeader";
 import { EntityManager, type Field } from "@/components/app/EntityManager";
 import { Donut } from "@/components/app/Donut";
-import { StatTile } from "@/components/ui/Misc";
+import { StatTile, Progress, Badge } from "@/components/ui/Misc";
+import { ButtonLink } from "@/components/ui/Button";
 import { formatCurrency, formatPercent } from "@/lib/utils";
+import { PROFILE_INFO, VARIABLE_CLASSES } from "@/lib/investor";
 import type { Tables } from "@/types/database";
 
 export const metadata = { title: "Investimentos" };
@@ -62,9 +66,38 @@ export default async function InvestimentosPage() {
   }
   const byClass = [...byClassMap.entries()].map(([name, value]) => ({ name, value }));
 
+  const variableVal = rows
+    .filter((r) => VARIABLE_CLASSES.has(r.asset_class))
+    .reduce((s, r) => s + Number(r.current_amount), 0);
+  const variablePct = currentVal > 0 ? (variableVal / currentVal) * 100 : 0;
+  const invProfile = profile.investor_profile;
+  const target = invProfile ? PROFILE_INFO[invProfile].allocation.variavel : null;
+
   return (
     <>
-      <PageHeader title="Investimentos" subtitle="Sua carteira consolidada." />
+      <PageHeader
+        title="Investimentos"
+        subtitle="Sua carteira consolidada."
+        action={
+          invProfile ? (
+            <Link href="/app/investimentos/perfil">
+              <Badge tone="accent">Perfil: {PROFILE_INFO[invProfile].label}</Badge>
+            </Link>
+          ) : undefined
+        }
+      />
+
+      {!invProfile && (
+        <div className="mb-6 flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-brand/40 bg-brand-50 p-4">
+          <div className="flex items-center gap-2 text-sm text-brand-700">
+            <Sparkles className="h-4 w-4" />
+            Descubra seu perfil de investidor para a carteira sugerida se ajustar a você.
+          </div>
+          <ButtonLink href="/app/investimentos/perfil" size="sm">
+            Responder (2 min)
+          </ButtonLink>
+        </div>
+      )}
 
       <div className="grid gap-4 sm:grid-cols-3">
         <StatTile label="Valor atual" value={formatCurrency(currentVal, cur)} tone="ink" />
@@ -86,6 +119,29 @@ export default async function InvestimentosPage() {
             <h3 className="mb-4 font-display text-base font-bold text-ink">Por classe de ativo</h3>
             <Donut data={byClass} currency={cur} centerLabel="carteira" />
           </div>
+        </div>
+      )}
+
+      {invProfile && rows.length > 0 && target != null && (
+        <div className="mt-6 rounded-2xl border border-border bg-card p-5 shadow-[var(--shadow-card)]">
+          <h3 className="font-display text-base font-bold text-ink">
+            Renda variável na carteira
+          </h3>
+          <p className="mt-1 text-sm text-muted">
+            Perfil {PROFILE_INFO[invProfile].label}: alvo de ~{target}% em renda
+            variável (ações, FIIs, ETFs, cripto).
+          </p>
+          <div className="mt-3">
+            <Progress value={variablePct} tone={Math.abs(variablePct - target) <= 10 ? "success" : "accent"} />
+          </div>
+          <p className="mt-1.5 text-xs text-muted">
+            Você tem <strong>{Math.round(variablePct)}%</strong> ({formatCurrency(variableVal, cur)}).{" "}
+            {variablePct > target + 10
+              ? "Acima do alvo — considere reforçar renda fixa."
+              : variablePct < target - 10
+                ? "Abaixo do alvo — há espaço para mais renda variável."
+                : "Dentro do alvo."}
+          </p>
         </div>
       )}
 

@@ -18,6 +18,7 @@ type Timestamps = {
 };
 
 export type PlanId = "free" | "essential" | "pro" | "elite";
+export type InvestorProfile = "conservador" | "moderado" | "arrojado";
 export type BudgetKind = "income" | "expense_fixed" | "expense_variable";
 export type InvestmentClass =
   | "renda_fixa"
@@ -60,6 +61,8 @@ export interface Database {
           plan: PlanId;
           plan_expires_at: string | null;
           marketing_opt_in: boolean;
+          investor_profile: InvestorProfile | null;
+          investor_profile_at: string | null;
         } & Timestamps
       >;
       budget_categories: Table<{
@@ -136,9 +139,11 @@ export interface Database {
           kind: PatrimonyKind;
           name: string;
           value: number;
+          appraised_value: number | null;
           currency: string;
           fipe_code: string | null;
           is_debt: boolean;
+          linked_debt_id: string | null;
         } & Timestamps
       >;
       debts: Table<
