@@ -2,7 +2,7 @@ import Link from "next/link";
 import { ArrowUpRight, CheckCircle2, Circle, AlertTriangle, Info } from "lucide-react";
 import { requireUser, getProfile } from "@/lib/data";
 import { PageHeader } from "@/components/app/PageHeader";
-import { StatTile, Progress } from "@/components/ui/Misc";
+import { Progress } from "@/components/ui/Misc";
 import { formatCurrency } from "@/lib/utils";
 import { emergencyTarget } from "@/lib/finance";
 import { computeNetWorth } from "@/lib/networth";
@@ -15,6 +15,15 @@ export const metadata = { title: "Início" };
 function monthStart() {
   const d = new Date();
   return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-01`;
+}
+
+function Line({ label, value, muted }: { label: string; value: string; muted?: boolean }) {
+  return (
+    <div className={`flex justify-between ${muted ? "text-muted" : "text-ink"}`}>
+      <dt>{label}</dt>
+      <dd className="tabular-nums">{value}</dd>
+    </div>
+  );
 }
 
 export default async function InicioPage() {
@@ -58,8 +67,6 @@ export default async function InicioPage() {
     savedByGoal.set(c.goal_id, (savedByGoal.get(c.goal_id) ?? 0) + Number(c.amount));
   }
   const goalsList = goals.data ?? [];
-  const goalsTarget = goalsList.reduce((s, g) => s + Number(g.target_amount), 0);
-  const goalsSaved = [...savedByGoal.values()].reduce((s, v) => s + v, 0);
 
   const alerts = buildAlerts({
     currency: cur,
@@ -153,29 +160,52 @@ export default async function InicioPage() {
         </div>
       )}
 
-      <h2 className="mb-3 font-display text-base font-bold text-ink">Resumo de hoje</h2>
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        <StatTile
-          label="Saldo do mês"
-          value={formatCurrency(monthBalance, cur)}
-          tone="ink"
-          hint={`receitas − despesas de ${monthName}`}
-        />
-        <StatTile
-          label="Patrimônio líquido"
-          value={formatCurrency(nw.netWorth, cur)}
-          hint="bens + investimentos + reserva − dívidas"
-        />
-        <StatTile
-          label="Investido na carteira"
-          value={nw.wallet > 0 ? formatCurrency(nw.wallet, cur) : "R$ 0,00"}
-          hint={nw.wallet > 0 ? "valor atual dos seus investimentos" : "nenhum investimento lançado ainda"}
-        />
-        <StatTile
-          label="Guardado em metas"
-          value={formatCurrency(goalsSaved, cur)}
-          hint={goalsTarget > 0 ? `de ${formatCurrency(goalsTarget, cur)} planejados` : "nenhuma meta criada ainda"}
-        />
+      <div className="grid gap-4 lg:grid-cols-2">
+        <div className="brand-panel flex flex-col justify-between rounded-2xl border border-transparent p-5 text-[#eaf5ee]">
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-wide text-[#eaf5ee]/70">
+              Saldo de {monthName}
+            </p>
+            <p className="money mt-2 font-display text-3xl font-extrabold">
+              {formatCurrency(monthBalance, cur)}
+            </p>
+          </div>
+          <p className="mt-3 text-sm text-[#eaf5ee]/75">
+            Quanto {monthBalance >= 0 ? "sobrou" : "faltou"} este mês (receitas − despesas).{" "}
+            <Link href="/app/orcamento" className="underline">
+              ver orçamento
+            </Link>
+          </p>
+        </div>
+
+        <div className="rounded-2xl border border-border bg-card p-5 shadow-[var(--shadow-card)]">
+          <div className="flex items-baseline justify-between">
+            <p className="text-xs font-semibold uppercase tracking-wide text-muted">
+              Patrimônio líquido
+            </p>
+            <Link href="/app/patrimonio" className="text-xs text-accent-dim hover:underline">
+              abrir
+            </Link>
+          </div>
+          <p className="money mt-1 font-display text-3xl font-extrabold text-ink">
+            {formatCurrency(nw.netWorth, cur)}
+          </p>
+          <p className="mt-1 text-xs text-muted">tudo que é seu, menos o que você deve</p>
+          <dl className="mt-3 space-y-1.5 border-t border-border pt-3 text-sm">
+            <Line label="Bens" value={formatCurrency(nw.assets, cur)} />
+            <Line
+              label="Investimentos"
+              value={formatCurrency(nw.wallet, cur)}
+              muted={nw.wallet === 0}
+            />
+            <Line
+              label="Reserva de emergência"
+              value={formatCurrency(nw.reserve, cur)}
+              muted={nw.reserve === 0}
+            />
+            <Line label="Dívidas" value={`− ${formatCurrency(nw.debts, cur)}`} muted={nw.debts === 0} />
+          </dl>
+        </div>
       </div>
 
       <div className="mt-6 grid gap-6 lg:grid-cols-2">
