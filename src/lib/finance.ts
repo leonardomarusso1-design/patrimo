@@ -79,3 +79,54 @@ export function debtPayoffMonths(opts: {
   }
   return months;
 }
+
+/** Juros simples: montante = capital * (1 + i*n), sem capitalização. */
+export function simpleInterest(opts: {
+  principal: number;
+  annualRatePct: number;
+  years: number;
+}): { total: number; interest: number } {
+  const interest = opts.principal * (opts.annualRatePct / 100) * opts.years;
+  return { total: opts.principal + interest, interest };
+}
+
+/** Alíquota regressiva de IR para renda fixa, por prazo em dias. */
+export function irRateFixedIncome(days: number): number {
+  if (days <= 180) return 22.5;
+  if (days <= 360) return 20;
+  if (days <= 720) return 17.5;
+  return 15;
+}
+
+/**
+ * Rendimento de um título atrelado ao CDI, líquido de IR (renda fixa tributável).
+ * `cdiPct` = % do CDI (ex.: 100, 110). `annualCdiPct` = CDI a.a. (ex.: 10.65).
+ * `taxExempt` = LCI/LCA/poupança (sem IR).
+ */
+export function cdiReturn(opts: {
+  principal: number;
+  cdiPct: number;
+  annualCdiPct: number;
+  months: number;
+  taxExempt?: boolean;
+}): { gross: number; net: number; grossInterest: number; tax: number } {
+  const yearly = (opts.annualCdiPct / 100) * (opts.cdiPct / 100);
+  const monthly = Math.pow(1 + yearly, 1 / 12) - 1;
+  const gross = opts.principal * Math.pow(1 + monthly, Math.max(opts.months, 0));
+  const grossInterest = gross - opts.principal;
+  const tax = opts.taxExempt
+    ? 0
+    : grossInterest * (irRateFixedIncome(opts.months * 30) / 100);
+  return { gross, net: gross - tax, grossInterest, tax };
+}
+
+/** Operações de porcentagem. */
+export function percentOf(base: number, pct: number): number {
+  return (base * pct) / 100;
+}
+export function whatPercent(part: number, whole: number): number {
+  return whole === 0 ? 0 : (part / whole) * 100;
+}
+export function percentChange(from: number, to: number): number {
+  return from === 0 ? 0 : ((to - from) / from) * 100;
+}

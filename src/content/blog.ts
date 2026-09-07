@@ -381,6 +381,268 @@ O módulo de Dívidas mostra o custo real de cada uma e simula bola de neve vs. 
 ---
 *Fonte: Ramsey, D. (2003). The Total Money Makeover; dados de inadimplência de Serasa Experian.*`,
   },
+  {
+    slug: "juros-simples",
+    title: "Juros simples vs. juros compostos: a diferença que muda tudo",
+    excerpt:
+      "No juros simples a taxa incide sempre sobre o valor inicial. No composto, sobre o acumulado. Em prazos longos, a diferença vira uma montanha.",
+    author: "Time Patrimo",
+    publishedAt: "2026-09-08",
+    readingMinutes: 4,
+    tags: ["conceitos", "iniciante"],
+    content: `# Juros simples vs. juros compostos
+
+## Juros simples
+
+A taxa incide **sempre sobre o valor inicial**. A fórmula é direta:
+
+Montante = Capital × (1 + taxa × tempo)
+
+R$ 1.000 a 10% ao ano por 5 anos → R$ 1.000 + (R$ 100 × 5) = **R$ 1.500**.
+
+Cada ano rende os mesmos R$ 100. Aparece em alguns contratos de financiamento, multas e cálculos rápidos.
+
+## Juros compostos
+
+A taxa incide sobre o **valor acumulado** — juros sobre juros. Os mesmos R$ 1.000 a 10% ao ano por 5 anos viram **R$ 1.610,51**, porque no segundo ano você rende sobre R$ 1.100, no terceiro sobre R$ 1.210, e assim por diante.
+
+## Por que isso importa
+
+Em 30 anos, R$ 1.000 a 10% a.a.:
+
+- **Juros simples:** R$ 4.000
+- **Juros compostos:** R$ 17.449
+
+A diferença acelera com o tempo. É por isso que dívida no rotativo do cartão destrói um orçamento, e investir cedo constrói patrimônio.
+
+## No Patrimo
+
+A calculadora de Juros compostos projeta seus aportes mês a mês. A de Juros simples serve para comparar contratos.
+
+---
+*Referência: matemática financeira padrão.*`,
+  },
+  {
+    slug: "primeiro-milhao",
+    title: "Quanto poupar por mês para chegar ao primeiro milhão",
+    excerpt:
+      "Não é sobre sorte nem salário alto. É aporte constante, tempo e uma taxa de retorno realista. Veja os números.",
+    author: "Time Patrimo",
+    publishedAt: "2026-09-09",
+    readingMinutes: 5,
+    tags: ["metas", "investimentos"],
+    content: `# Quanto poupar por mês para chegar ao primeiro milhão
+
+O "primeiro milhão" é uma meta simbólica, mas útil: obriga a pensar em aporte, prazo e retorno ao mesmo tempo.
+
+## Os três botões
+
+1. **Aporte mensal** — o quanto você consegue guardar.
+2. **Prazo** — quantos anos até a meta.
+3. **Retorno real** — juros acima da inflação. Premissa conservadora no Brasil: **4% a 6% ao ano acima do IPCA** numa carteira diversificada.
+
+## Cenários (retorno de 6% a.a., partindo do zero)
+
+| Aporte mensal | Anos até R$ 1 milhão |
+|---|---|
+| R$ 1.000 | ~28 anos |
+| R$ 2.000 | ~20 anos |
+| R$ 3.500 | ~14 anos |
+| R$ 5.000 | ~11 anos |
+
+Dobrar o aporte **não** corta o prazo pela metade — o tempo é quem faz o trabalho pesado dos juros compostos.
+
+## A lição
+
+Começar cedo com pouco vence começar tarde com muito. Quem aporta R$ 500 aos 25 chega perto de quem aporta R$ 1.500 aos 40.
+
+## No Patrimo
+
+A calculadora "Primeiro milhão" resolve para o aporte: você diz a meta, o prazo e o retorno, ela diz quanto guardar por mês. As Metas acompanham o progresso real.
+
+---
+*Referência: valor presente de série de pagamentos.*`,
+  },
+  {
+    slug: "quanto-rende-o-cdi",
+    title: "Quanto rende o CDI, e por que ele é a régua da renda fixa",
+    excerpt:
+      "CDB de 100% do CDI, 110%, LCI isenta... entenda o que o CDI é, quanto paga hoje e como comparar aplicações.",
+    author: "Time Patrimo",
+    publishedAt: "2026-09-10",
+    readingMinutes: 5,
+    tags: ["renda fixa", "iniciante"],
+    content: `# Quanto rende o CDI
+
+## O que é o CDI
+
+CDI é a taxa dos empréstimos que os bancos fazem entre si, de um dia para o outro. Ela anda **quase colada na Selic**. Quando você vê "CDB paga 110% do CDI", significa 110% dessa taxa.
+
+## Quanto rende hoje
+
+Com o CDI em torno de **10,65% ao ano** (varia com a Selic), R$ 10.000 por 12 meses:
+
+- **100% do CDI:** ~R$ 1.065 bruto
+- **110% do CDI:** ~R$ 1.170 bruto
+
+## O imposto muda o jogo
+
+Renda fixa tributável (CDB, Tesouro) tem **IR regressivo**: 22,5% até 180 dias, caindo até 15% após 720 dias. LCI, LCA e poupança são **isentas** — por isso uma LCI de 90% do CDI pode render mais, no líquido, que um CDB de 100%.
+
+## Como comparar
+
+Sempre no **líquido**. Uma LCI de 95% do CDI isenta ≈ um CDB de ~112% do CDI para prazo de 1 ano.
+
+## No Patrimo
+
+A calculadora "Rendimento do CDI" traz a taxa atual do Banco Central e calcula o líquido de IR para CDB e para papéis isentos.
+
+---
+*Fonte: série 4389 do Banco Central; tabela de IR da Receita Federal.*`,
+  },
+  {
+    slug: "como-calcular-porcentagem",
+    title: "Como calcular porcentagem sem decorar fórmula",
+    excerpt:
+      "Quanto é 15% de 240? Um valor subiu de 80 para 95, quantos por cento? Três operações resolvem quase tudo.",
+    author: "Time Patrimo",
+    publishedAt: "2026-09-11",
+    readingMinutes: 3,
+    tags: ["conceitos", "iniciante"],
+    content: `# Como calcular porcentagem
+
+Três operações cobrem quase todo problema do dia a dia.
+
+## 1. Quanto é X% de Y
+
+Multiplique Y pela porcentagem dividida por 100. 15% de 240 → 240 × 0,15 = **36**
+
+## 2. X representa quantos % de Y
+
+Divida X por Y e multiplique por 100. 45 de 180 → 45 ÷ 180 × 100 = **25%**
+
+## 3. Variação de X para Y
+
+(Y − X) ÷ X × 100. De 80 para 95 → **+18,75%**. De 200 para 150 → **−25%**
+
+## Atalhos mentais
+
+- 10% = divida por 10. 5% = metade disso. 20% = dobro.
+- Subir 10% e depois cair 10% **não** volta ao início: 100 → 110 → 99.
+- "50% + 20% de desconto" não é 70%: é 100 → 50 → 40, ou seja 60%.
+
+## No Patrimo
+
+A calculadora de Porcentagem faz as três operações. Útil para juros, descontos e rateio de despesas.
+
+---
+*Referência: aritmética elementar.*`,
+  },
+  {
+    slug: "conversao-de-moedas",
+    title: "Câmbio: dólar comercial, turismo, IOF e spread",
+    excerpt:
+      "Por que o dólar que você paga é sempre maior que o do noticiário — e como estimar o custo real de uma compra em moeda estrangeira.",
+    author: "Time Patrimo",
+    publishedAt: "2026-09-12",
+    readingMinutes: 4,
+    tags: ["câmbio", "iniciante"],
+    content: `# Câmbio: o que você paga de verdade
+
+## Comercial x turismo
+
+O **dólar comercial** é a cotação de grandes operações e do noticiário. O **turismo** é o de papel-moeda e costuma vir mais caro. Cartão internacional usa o **comercial + IOF + spread** do banco.
+
+## Os custos que se somam
+
+- **IOF:** incide sobre compras no cartão e saques no exterior (a alíquota vigente pode mudar por decreto).
+- **Spread:** a diferença que a casa de câmbio/banco embute. De ~1% em corretoras a 4%+ em bancos de varejo.
+
+## Estimando o custo real
+
+Compra de US$ 100 com dólar comercial a R$ 5,00:
+
+- Base: R$ 500
+- + IOF 3,5%: R$ 17,50
+- + spread 2%: R$ 10
+- **Total ≈ R$ 527,50** — dólar efetivo de R$ 5,27
+
+## No Patrimo
+
+O conversor de moedas usa a cotação comercial atualizada. Some IOF e spread por fora para o custo real.
+
+---
+*Fonte: regras de IOF da Receita Federal; cotações comerciais de mercado.*`,
+  },
+  {
+    slug: "converter-criptomoedas",
+    title: "Converter cripto: preço à vista, volatilidade e imposto",
+    excerpt:
+      "Quanto vale 1 BTC em real, por que o preço muda a cada segundo e quando a Receita cobra imposto sobre cripto.",
+    author: "Time Patrimo",
+    publishedAt: "2026-09-13",
+    readingMinutes: 4,
+    tags: ["cripto", "iniciante"],
+    content: `# Converter criptomoedas
+
+## Preço à vista
+
+Cripto não tem "cotação de fechamento" — negocia 24/7 em centenas de corretoras. O preço de referência é a **média ponderada** entre as maiores. Pequenas diferenças entre exchanges são normais.
+
+## Volatilidade
+
+Bitcoin já subiu e caiu 10% no mesmo dia várias vezes. Para conversão pontual (pagar algo, resgatar), o que importa é o preço **naquele instante** — não a média do mês.
+
+## Imposto no Brasil
+
+- Vendas de cripto que **somam até R$ 35.000 no mês** são isentas de IR sobre o ganho.
+- Acima disso: **15%** sobre o lucro (alíquota maior para valores muito altos).
+- Você declara a posição na ficha de bens, mesmo sem vender.
+
+## No Patrimo
+
+O conversor de cripto traz o preço à vista de BTC, ETH e outras em real e dólar, atualizado a cada poucos minutos.
+
+---
+*Fonte: Instrução Normativa RFB 1.888/2019 e atualizações; preços de mercado à vista.*`,
+  },
+  {
+    slug: "calcular-dividendos",
+    title: "Dividend yield e yield on cost: a matemática da renda passiva",
+    excerpt:
+      "Dividend yield mede o retorno em proventos sobre o preço atual. Yield on cost, sobre o que você pagou. A segunda é a que cresce com o tempo.",
+    author: "Time Patrimo",
+    publishedAt: "2026-09-14",
+    readingMinutes: 5,
+    tags: ["dividendos", "investimentos"],
+    content: `# Dividend yield e yield on cost
+
+## Dividend yield (DY)
+
+Proventos dos últimos 12 meses ÷ preço atual. Ação a R$ 30 que pagou R$ 2,40 no ano → DY de **8%**.
+
+É uma foto do momento: se o preço sobe, o DY cai (mesmo provento, base maior).
+
+## Yield on cost (YoC)
+
+Proventos ÷ **preço que você pagou**. Se comprou a R$ 15 e ela ainda paga R$ 2,40, seu YoC é **16%** — o dobro de quem compra hoje. Empresas que aumentam proventos fazem o YoC subir sozinho.
+
+## Renda estimada
+
+R$ 50.000 numa carteira com DY médio de 8% → R$ 4.000 por ano ≈ **R$ 333 por mês**.
+
+## Cuidados
+
+- DY muito alto (15%+) às vezes é armadilha: preço caiu porque o mercado espera corte no provento.
+- FIIs distribuem quase todo o resultado; ações retêm parte para crescer. Comparar os dois só pelo DY engana.
+
+## No Patrimo
+
+A calculadora de Dividendos estima sua renda passiva pelo yield informado e mostra o yield on cost se você preencher o preço médio.
+
+---
+*Referência: conceitos de análise de dividendos; dados de proventos das companhias.*`,
+  },
 ];
 
 export function getPost(slug: string) {

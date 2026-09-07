@@ -6,6 +6,12 @@ import {
   fireNumber,
   fiftyThirtyTwenty,
   debtPayoffMonths,
+  simpleInterest,
+  cdiReturn,
+  irRateFixedIncome,
+  percentOf,
+  whatPercent,
+  percentChange,
 } from "./finance";
 
 describe("finance", () => {
@@ -49,5 +55,35 @@ describe("finance", () => {
     expect(m).not.toBeNull();
     expect(m!).toBeGreaterThan(8);
     expect(m!).toBeLessThan(12);
+  });
+
+  it("simpleInterest: juros lineares sobre o principal", () => {
+    const r = simpleInterest({ principal: 1000, annualRatePct: 10, years: 5 });
+    expect(r.interest).toBe(500);
+    expect(r.total).toBe(1500);
+  });
+
+  it("irRateFixedIncome: tabela regressiva", () => {
+    expect(irRateFixedIncome(90)).toBe(22.5);
+    expect(irRateFixedIncome(200)).toBe(20);
+    expect(irRateFixedIncome(400)).toBe(17.5);
+    expect(irRateFixedIncome(800)).toBe(15);
+  });
+
+  it("cdiReturn: isento não desconta IR e rende mais que tributável", () => {
+    const base = { principal: 10000, cdiPct: 100, annualCdiPct: 10.65, months: 12 };
+    const trib = cdiReturn(base);
+    const isento = cdiReturn({ ...base, taxExempt: true });
+    expect(trib.tax).toBeGreaterThan(0);
+    expect(isento.tax).toBe(0);
+    expect(isento.net).toBeGreaterThan(trib.net);
+    expect(trib.grossInterest).toBeCloseTo(isento.grossInterest, 2);
+  });
+
+  it("porcentagem: três operações", () => {
+    expect(percentOf(240, 15)).toBe(36);
+    expect(whatPercent(45, 180)).toBe(25);
+    expect(percentChange(80, 95)).toBeCloseTo(18.75);
+    expect(percentChange(200, 150)).toBe(-25);
   });
 });
