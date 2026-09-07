@@ -6,35 +6,6 @@ import { Landmark } from "lucide-react";
 import { getConnectToken, saveConnection } from "@/app/app/conexoes/actions";
 import { Button } from "@/components/ui/Button";
 
-const SCRIPT = "https://cdn.pluggy.ai/pluggy-connect/v2.9.0/pluggy-connect.js";
-
-type PluggyOnSuccess = (data: { item?: { id?: string }; itemId?: string }) => void;
-type PluggyOpts = {
-  connectToken: string;
-  includeSandbox?: boolean;
-  onSuccess?: PluggyOnSuccess;
-  onError?: () => void;
-  onClose?: () => void;
-};
-type PluggyInstance = { init: () => void };
-
-declare global {
-  interface Window {
-    PluggyConnect?: new (opts: PluggyOpts) => PluggyInstance;
-  }
-}
-
-function loadScript(): Promise<void> {
-  return new Promise((resolve, reject) => {
-    if (window.PluggyConnect) return resolve();
-    const s = document.createElement("script");
-    s.src = SCRIPT;
-    s.onload = () => resolve();
-    s.onerror = () => reject(new Error("script"));
-    document.head.appendChild(s);
-  });
-}
-
 export function PluggyButton({ label = "Conectar banco" }: { label?: string }) {
   const router = useRouter();
   const [busy, setBusy] = useState(false);
@@ -44,21 +15,18 @@ export function PluggyButton({ label = "Conectar banco" }: { label?: string }) {
     setError(null);
     setBusy(true);
     try {
-      const [{ token, error: tokErr }] = await Promise.all([getConnectToken(), loadScript()]);
+      const { token, error: tokErr } = await getConnectToken();
       if (tokErr || !token) {
         setBusy(false);
         return setError(tokErr ?? "Não foi possível iniciar.");
       }
-      const Ctor = window.PluggyConnect;
-      if (!Ctor) {
-        setBusy(false);
-        return setError("Widget do Open Finance não carregou.");
-      }
-      const pluggy = new Ctor({
+
+      const { PluggyConnect } = await import("pluggy-connect-sdk");
+      const pluggy = new PluggyConnect({
         connectToken: token,
         includeSandbox: process.env.NODE_ENV !== "production",
         onSuccess: async (data) => {
-          const itemId = data?.item?.id ?? data?.itemId;
+          const itemId = data?.item?.id;
           if (itemId) {
             const res = await saveConnection(String(itemId));
             if (res.error) setError(res.error);
@@ -73,9 +41,11 @@ export function PluggyButton({ label = "Conectar banco" }: { label?: string }) {
         onClose: () => setBusy(false),
       });
       pluggy.init();
-    } catch {
+    } catch (err) {
       setBusy(false);
-      setError("Não foi possível abrir o Open Finance.");
+      setError(
+        err instanceof Error ? `Erro: ${err.message}` : "Não foi possível abrir o Open Finance.",
+      );
     }
   }
 
