@@ -8,6 +8,7 @@ import {
   Landmark,
   GraduationCap,
   Calculator,
+  Link2,
   Settings,
   type LucideIcon,
 } from "lucide-react";
@@ -24,5 +25,6 @@ export const NAV: NavItem[] = [
   { href: "/app/patrimonio", label: "Patrimônio", icon: Landmark },
   { href: "/app/escola", label: "Escola", icon: GraduationCap },
   { href: "/app/calculadoras", label: "Calculadoras", icon: Calculator },
+  { href: "/app/conexoes", label: "Contas conectadas", icon: Link2 },
   { href: "/app/configuracoes", label: "Configurações", icon: Settings },
 ];

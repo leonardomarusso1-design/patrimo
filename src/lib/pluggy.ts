@@ -1,0 +1,99 @@
+import "server-only";
+
+import { logger } from "@/lib/logger";
+
+const BASE = "https://api.pluggy.ai";
+
+export function pluggyConfigured() {
+  return !!(process.env.PLUGGY_CLIENT_ID && process.env.PLUGGY_CLIENT_SECRET);
+}
+
+let apiKeyCache: { key: string; exp: number } | null = null;
+
+async function getApiKey(): Promise<string> {
+  if (apiKeyCache && apiKeyCache.exp > Date.now()) return apiKeyCache.key;
+  const res = await fetch(`${BASE}/auth`, {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify({
+      clientId: process.env.PLUGGY_CLIENT_ID,
+      clientSecret: process.env.PLUGGY_CLIENT_SECRET,
+    }),
+  });
+  if (!res.ok) throw new Error(`pluggy auth ${res.status}`);
+  const json = (await res.json()) as { apiKey: string };
+  apiKeyCache = { key: json.apiKey, exp: Date.now() + 100 * 60 * 1000 }; // ~1h40
+  return json.apiKey;
+}
+
+async function api<T>(path: string, init?: RequestInit): Promise<T> {
+  const key = await getApiKey();
+  const res = await fetch(`${BASE}${path}`, {
+    ...init,
+    headers: { "X-API-KEY": key, "content-type": "application/json", ...(init?.headers ?? {}) },
+  });
+  if (!res.ok) {
+    const body = await res.text().catch(() => "");
+    logger.error("pluggy.api", { path, status: res.status, body: body.slice(0, 300) });
+    throw new Error(`pluggy ${path} ${res.status}`);
+  }
+  return res.json() as Promise<T>;
+}
+
+/** Token de curta duração usado pelo widget Pluggy Connect no frontend. */
+export async function createConnectToken(itemId?: string): Promise<string> {
+  const body: Record<string, unknown> = {};
+  if (itemId) body.itemId = itemId;
+  const json = await api<{ accessToken: string }>("/connect_token", {
+    method: "POST",
+    body: JSON.stringify(body),
+  });
+  return json.accessToken;
+}
+
+export type PluggyItem = {
+  id: string;
+  status: string;
+  connector: { name: string; institutionUrl?: string };
+};
+export type PluggyAccount = { id: string; type: string; name: string; currencyCode: string };
+export type PluggyTransaction = {
+  id: string;
+  description: string;
+  amount: number; // negativo = saída
+  date: string; // ISO
+  category?: string | null;
+  currencyCode: string;
+};
+
+export async function getItem(itemId: string) {
+  return api<PluggyItem>(`/items/${itemId}`);
+}
+
+export async function listAccounts(itemId: string) {
+  const json = await api<{ results: PluggyAccount[] }>(`/accounts?itemId=${itemId}`);
+  return json.results;
+}
+
+export async function listTransactions(accountId: string, fromISO: string) {
+  const all: PluggyTransaction[] = [];
+  let page = 1;
+  for (; page <= 10; page++) {
+    const json = await api<{ results: PluggyTransaction[]; totalPages: number }>(
+      `/transactions?accountId=${accountId}&from=${fromISO}&pageSize=200&page=${page}`,
+    );
+    all.push(...json.results);
+    if (page >= json.totalPages) break;
+  }
+  return all;
+}
+
+export async function deleteItem(itemId: string) {
+  try {
+    await api(`/items/${itemId}`, { method: "DELETE" });
+  } catch (err) {
+    logger.warn("pluggy.deleteItem", {
+      error: err instanceof Error ? err.message : String(err),
+    });
+  }
+}

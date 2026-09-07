@@ -84,6 +84,7 @@ export interface Database {
           due_day: number | null;
           reference_month: string; // date (yyyy-mm-01)
           entry_date: string | null; // date
+          external_id: string | null;
           notes: string | null;
           created_at: string;
         }
@@ -224,6 +225,15 @@ export interface Database {
         summary: string;
         actions: Json;
         model: string | null;
+        created_at: string;
+      }>;
+      bank_connections: Table<{
+        id: string;
+        user_id: string;
+        pluggy_item_id: string;
+        institution_name: string | null;
+        status: string;
+        last_synced_at: string | null;
         created_at: string;
       }>;
     };

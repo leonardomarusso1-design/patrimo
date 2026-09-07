@@ -18,12 +18,12 @@ const ContentSecurityPolicy = [
   "form-action 'self'",
   "frame-ancestors 'none'",
   "object-src 'none'",
-  `script-src 'self' 'unsafe-inline'${devEval} https://www.googletagmanager.com https://www.google-analytics.com`,
+  `script-src 'self' 'unsafe-inline'${devEval} https://www.googletagmanager.com https://www.google-analytics.com https://cdn.pluggy.ai`,
   "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
   "font-src 'self' https://fonts.gstatic.com data:",
-  "img-src 'self' data: blob: https://www.google-analytics.com https://*.supabase.co",
-  `connect-src 'self' https://${supabaseHost} wss://${supabaseHost} https://www.google-analytics.com https://region1.google-analytics.com`,
-  "frame-src 'self'",
+  "img-src 'self' data: blob: https://www.google-analytics.com https://*.supabase.co https://cdn.pluggy.ai",
+  `connect-src 'self' https://${supabaseHost} wss://${supabaseHost} https://www.google-analytics.com https://region1.google-analytics.com https://api.pluggy.ai`,
+  "frame-src 'self' https://connect.pluggy.ai",
   "upgrade-insecure-requests",
 ].join("; ");
 
