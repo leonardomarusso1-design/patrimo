@@ -83,6 +83,7 @@ export interface Database {
           amount: number;
           due_day: number | null;
           reference_month: string; // date (yyyy-mm-01)
+          entry_date: string | null; // date
           notes: string | null;
           created_at: string;
         }

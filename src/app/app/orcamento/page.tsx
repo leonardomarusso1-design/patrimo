@@ -1,13 +1,12 @@
-import Link from "next/link";
-import { ChevronLeft, ChevronRight } from "lucide-react";
 import { requireUser, getProfile } from "@/lib/data";
 import { PageHeader } from "@/components/app/PageHeader";
 import { EntityManager, type Field } from "@/components/app/EntityManager";
 import { Donut } from "@/components/app/Donut";
 import { BudgetTabs } from "@/components/app/BudgetTabs";
 import { CategoryPill } from "@/components/app/CategoryPill";
+import { MonthPicker } from "@/components/app/MonthPicker";
 import { StatTile } from "@/components/ui/Misc";
-import { formatCurrency } from "@/lib/utils";
+import { formatCurrency, formatDate } from "@/lib/utils";
 import type { Tables } from "@/types/database";
 
 export const metadata = { title: "Orçamento" };
@@ -17,12 +16,7 @@ type Entry = Tables<"budget_entries">;
 function monthKey(d = new Date()) {
   return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}`;
 }
-function shift(key: string, delta: number) {
-  const [y, m] = key.split("-").map(Number);
-  const d = new Date(y, m - 1 + delta, 1);
-  return monthKey(d);
-}
-function label(key: string) {
+function monthLabel(key: string) {
   const [y, m] = key.split("-").map(Number);
   const s = new Date(y, m - 1, 1).toLocaleDateString("pt-BR", {
     month: "long",
@@ -30,6 +24,7 @@ function label(key: string) {
   });
   return s.charAt(0).toUpperCase() + s.slice(1);
 }
+const isoDate = (s?: string) => (/^\d{4}-\d{2}-\d{2}$/.test(s ?? "") ? s! : null);
 
 const CAT_FIELD: Field = {
   name: "category",
@@ -38,11 +33,12 @@ const CAT_FIELD: Field = {
   placeholder: "Casa, Carro, Lazer…",
 };
 
-function fieldsFor(kind: string, refMonth: string): Field[] {
+function fieldsFor(kind: string, refMonth: string, entryDate: string): Field[] {
   return [
     { name: "name", label: "Nome", type: "text", required: true, placeholder: kind === "income" ? "Salário, freela…" : "Aluguel, mercado…" },
     ...(kind === "income" ? [] : [CAT_FIELD]),
     { name: "amount", label: "Valor (R$)", type: "money", required: true },
+    { name: "entry_date", label: "Data", type: "date", defaultValue: entryDate, required: true },
     { name: "due_day", label: "Dia de vencimento (opcional)", type: "day" },
     { name: "reference_month", label: "Mês de referência", type: "text", defaultValue: refMonth, required: true },
   ];
@@ -51,19 +47,25 @@ function fieldsFor(kind: string, refMonth: string): Field[] {
 export default async function OrcamentoPage({
   searchParams,
 }: {
-  searchParams: Promise<{ m?: string }>;
+  searchParams: Promise<{ m?: string; from?: string; to?: string }>;
 }) {
-  const { m } = await searchParams;
-  const current = /^\d{4}-\d{2}$/.test(m ?? "") ? m! : monthKey();
+  const sp = await searchParams;
+  const rangeFrom = isoDate(sp.from);
+  const rangeTo = isoDate(sp.to);
+  const isRange = !!(rangeFrom && rangeTo);
+
+  const current = /^\d{4}-\d{2}$/.test(sp.m ?? "") ? sp.m! : monthKey();
   const refMonth = `${current}-01`;
+  const todayIso = new Date().toISOString().slice(0, 10);
+  const defaultEntryDate = isRange ? todayIso : `${current}-01`;
 
   const [{ user, supabase }, profile] = await Promise.all([requireUser(), getProfile()]);
-  const { data } = await supabase
-    .from("budget_entries")
-    .select("*")
-    .eq("user_id", user.id)
-    .eq("reference_month", refMonth)
-    .order("due_day", { ascending: true, nullsFirst: false });
+
+  let q = supabase.from("budget_entries").select("*").eq("user_id", user.id);
+  q = isRange
+    ? q.gte("entry_date", rangeFrom).lte("entry_date", rangeTo)
+    : q.eq("reference_month", refMonth);
+  const { data } = await q.order("entry_date", { ascending: true, nullsFirst: false });
 
   const rows = (data ?? []) as Entry[];
   const cur = profile.display_currency;
@@ -83,7 +85,12 @@ export default async function OrcamentoPage({
   }
   const donut = [...byCategory.entries()].map(([name, value]) => ({ name, value }));
 
-  const path = `/app/orcamento?m=${current}`;
+  const path = isRange
+    ? `/app/orcamento?from=${rangeFrom}&to=${rangeTo}`
+    : `/app/orcamento?m=${current}`;
+  const periodLabel = isRange
+    ? `${formatDate(rangeFrom)} – ${formatDate(rangeTo)}`
+    : monthLabel(current);
 
   const toRows = (list: Entry[], withCat: boolean) =>
     list.map((r) => ({
@@ -92,15 +99,16 @@ export default async function OrcamentoPage({
         name: r.name,
         category: r.category,
         amount: Number(r.amount),
+        entry_date: r.entry_date ?? undefined,
         due_day: r.due_day,
-        reference_month: refMonth,
+        reference_month: r.reference_month,
       },
       node: (
         <>
           <span className="flex flex-wrap items-center gap-2 font-medium text-ink">
-            {r.due_day && (
+            {r.entry_date && (
               <span className="text-xs tabular-nums text-muted">
-                {String(r.due_day).padStart(2, "0")}
+                {r.entry_date.slice(8, 10)}/{r.entry_date.slice(5, 7)}
               </span>
             )}
             {r.name}
@@ -117,17 +125,13 @@ export default async function OrcamentoPage({
     <>
       <PageHeader
         title="Orçamento"
-        subtitle="Receita, despesa fixa e variável do mês."
+        subtitle={isRange ? "Lançamentos do período escolhido." : "Receita, despesa fixa e variável do mês."}
         action={
-          <div className="flex items-center gap-1 rounded-full border border-border bg-card px-1 py-1">
-            <Link href={`/app/orcamento?m=${shift(current, -1)}`} className="rounded-full p-1.5 hover:bg-ink/[0.05]">
-              <ChevronLeft className="h-4 w-4" />
-            </Link>
-            <span className="px-2 text-sm font-medium">{label(current)}</span>
-            <Link href={`/app/orcamento?m=${shift(current, 1)}`} className="rounded-full p-1.5 hover:bg-ink/[0.05]">
-              <ChevronRight className="h-4 w-4" />
-            </Link>
-          </div>
+          <MonthPicker
+            month={current}
+            label={monthLabel(current)}
+            range={isRange ? { from: rangeFrom, to: rangeTo } : null}
+          />
         }
       />
 
@@ -136,7 +140,7 @@ export default async function OrcamentoPage({
         <StatTile label="Despesa fixa" value={formatCurrency(fixed, cur)} />
         <StatTile label="Despesa variável" value={formatCurrency(variable, cur)} />
         <StatTile
-          label="Saldo do mês"
+          label={isRange ? "Saldo do período" : "Saldo do mês"}
           value={formatCurrency(balance, cur)}
           tone="ink"
           hint={balance >= 0 ? "Sobrou — direcione para metas" : "No vermelho — corte o variável"}
@@ -147,7 +151,7 @@ export default async function OrcamentoPage({
         <div className="rounded-2xl border border-border bg-card p-5 shadow-[var(--shadow-card)]">
           <BudgetTabs
             referenceMonth={refMonth}
-            monthLabel={label(current)}
+            monthLabel={periodLabel}
             tabs={[
               {
                 key: "income",
@@ -159,12 +163,12 @@ export default async function OrcamentoPage({
                     path={path}
                     title="Receita"
                     addLabel="Adicionar receita"
-                    fields={fieldsFor("income", refMonth)}
+                    fields={fieldsFor("income", refMonth, defaultEntryDate)}
                     hidden={{ kind: "income" }}
                     flat
                     filterable
                     rows={toRows(by("income"), false)}
-                    emptyTitle="Nenhuma receita neste mês"
+                    emptyTitle="Nenhuma receita no período"
                     emptyDescription="Salário, freelas, aluguéis recebidos, rendimentos."
                   />
                 ),
@@ -179,12 +183,12 @@ export default async function OrcamentoPage({
                     path={path}
                     title="Despesa fixa"
                     addLabel="Adicionar despesa fixa"
-                    fields={fieldsFor("expense_fixed", refMonth)}
+                    fields={fieldsFor("expense_fixed", refMonth, defaultEntryDate)}
                     hidden={{ kind: "expense_fixed" }}
                     flat
                     filterable
                     rows={toRows(by("expense_fixed"), true)}
-                    emptyTitle="Nenhuma despesa fixa"
+                    emptyTitle="Nenhuma despesa fixa no período"
                     emptyDescription="Aluguel, plano de saúde, escola, assinaturas."
                   />
                 ),
@@ -199,12 +203,12 @@ export default async function OrcamentoPage({
                     path={path}
                     title="Despesa variável"
                     addLabel="Adicionar despesa variável"
-                    fields={fieldsFor("expense_variable", refMonth)}
+                    fields={fieldsFor("expense_variable", refMonth, defaultEntryDate)}
                     hidden={{ kind: "expense_variable" }}
                     flat
                     filterable
                     rows={toRows(by("expense_variable"), true)}
-                    emptyTitle="Nenhuma despesa variável"
+                    emptyTitle="Nenhuma despesa variável no período"
                     emptyDescription="Mercado, restaurante, transporte, compras."
                   />
                 ),
@@ -218,7 +222,7 @@ export default async function OrcamentoPage({
             Despesas por categoria
           </h3>
           {donut.length > 0 ? (
-            <Donut data={donut} currency={cur} centerLabel="no mês" />
+            <Donut data={donut} currency={cur} centerLabel={isRange ? "no período" : "no mês"} />
           ) : (
             <p className="text-sm text-muted">
               Adicione despesas com categoria para ver o gráfico.

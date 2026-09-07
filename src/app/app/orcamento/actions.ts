@@ -14,6 +14,7 @@ const importSchema = z.object({
         name: z.string().trim().min(1).max(120),
         category: z.string().trim().max(60).optional().nullable(),
         amount: z.number().min(0).max(100_000_000),
+        entry_date: z.string().date().optional().nullable(),
         due_day: z.number().int().min(1).max(31).optional().nullable(),
       }),
     )

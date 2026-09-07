@@ -21,6 +21,7 @@ const SCHEMAS = {
     name: shortText,
     category: z.string().trim().max(60).optional().nullable(),
     amount: money,
+    entry_date: z.string().date().optional().nullable(),
     due_day: z.coerce.number().int().min(1).max(31).optional().nullable(),
     reference_month: z.string().regex(/^\d{4}-\d{2}-01$/),
     notes: z.string().trim().max(300).optional().nullable(),

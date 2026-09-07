@@ -54,6 +54,7 @@ export function ImportCsv({ referenceMonth }: { referenceMonth: string }) {
         name: d.description,
         category: d.category || null,
         amount: Math.abs(d.amount),
+        entry_date: /^\d{4}-\d{2}-\d{2}$/.test(d.date) ? d.date : null,
         due_day: d.date ? Number(d.date.slice(8, 10)) || null : null,
       })),
   });
