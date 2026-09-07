@@ -50,8 +50,6 @@ export default async function InicioPage() {
   const debtsTotal = (debts.data ?? []).reduce((s, r) => s + Number(r.remaining_amount), 0);
   const netWorth = assetsTotal + walletValue + reserveSaved - debtsTotal;
 
-  const firstName = (profile.full_name ?? "").split(" ")[0] || "de novo";
-
   const shortcuts = [
     { href: "/app/orcamento", label: "Lançar no orçamento" },
     { href: "/app/metas", label: "Registrar aporte em meta" },
@@ -61,14 +59,14 @@ export default async function InicioPage() {
 
   return (
     <>
-      <PageHeader title={`Olá, ${firstName}`} subtitle="Seu retrato financeiro de hoje." />
+      <PageHeader title="Seu dinheiro hoje" subtitle="O retrato do mês e do patrimônio." />
 
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <StatTile
           label="Saldo do mês"
           value={formatCurrency(monthBalance, cur)}
           tone="ink"
-          hint={monthBalance >= 0 ? "no azul" : "no vermelho"}
+          hint={monthBalance >= 0 ? "sobrando este mês" : "no vermelho este mês"}
         />
         <StatTile label="Patrimônio líquido" value={formatCurrency(netWorth, cur)} />
         <StatTile
@@ -87,7 +85,7 @@ export default async function InicioPage() {
               abrir
             </Link>
           </div>
-          <p className="mt-3 font-display text-2xl font-extrabold text-ink">
+          <p className="money mt-3 font-display text-2xl font-extrabold text-ink">
             {formatCurrency(reserveSaved, cur)}
             <span className="text-sm font-semibold text-muted"> de {formatCurrency(reserveTarget, cur)}</span>
           </p>

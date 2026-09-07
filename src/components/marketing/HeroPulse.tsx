@@ -43,9 +43,9 @@ export function HeroPulse() {
         const r = max * ring.t + 20;
         const alpha = (1 - ring.t) * 0.22;
         const g = ctx.createRadialGradient(cx, cy, r * 0.6, cx, cy, r);
-        g.addColorStop(0, `rgba(255,77,109,0)`);
-        g.addColorStop(0.82, `rgba(255,77,109,${alpha})`);
-        g.addColorStop(1, `rgba(139,92,246,${alpha * 0.7})`);
+        g.addColorStop(0, `rgba(11,122,85,0)`);
+        g.addColorStop(0.82, `rgba(11,122,85,${alpha})`);
+        g.addColorStop(1, `rgba(22,160,108,${alpha * 0.7})`);
         ctx.beginPath();
         ctx.arc(cx, cy, r, 0, Math.PI * 2);
         ctx.strokeStyle = g;
@@ -55,7 +55,7 @@ export function HeroPulse() {
 
       ctx.beginPath();
       ctx.arc(cx, cy, 4 * dpr, 0, Math.PI * 2);
-      ctx.fillStyle = "rgba(255,77,109,0.9)";
+      ctx.fillStyle = "rgba(11,122,85,0.9)";
       ctx.fill();
 
       if (!reduce) raf = requestAnimationFrame(draw);

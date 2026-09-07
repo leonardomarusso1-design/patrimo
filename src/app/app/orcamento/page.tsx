@@ -4,6 +4,8 @@ import { requireUser, getProfile } from "@/lib/data";
 import { PageHeader } from "@/components/app/PageHeader";
 import { EntityManager, type Field } from "@/components/app/EntityManager";
 import { Donut } from "@/components/app/Donut";
+import { BudgetTabs } from "@/components/app/BudgetTabs";
+import { CategoryPill } from "@/components/app/CategoryPill";
 import { StatTile } from "@/components/ui/Misc";
 import { formatCurrency } from "@/lib/utils";
 import type { Tables } from "@/types/database";
@@ -22,10 +24,11 @@ function shift(key: string, delta: number) {
 }
 function label(key: string) {
   const [y, m] = key.split("-").map(Number);
-  return new Date(y, m - 1, 1).toLocaleDateString("pt-BR", {
+  const s = new Date(y, m - 1, 1).toLocaleDateString("pt-BR", {
     month: "long",
     year: "numeric",
   });
+  return s.charAt(0).toUpperCase() + s.slice(1);
 }
 
 const CAT_FIELD: Field = {
@@ -94,14 +97,14 @@ export default async function OrcamentoPage({
       },
       node: (
         <>
-          <span className="font-medium text-ink">
-            {r.name}
-            {withCat && r.category && (
-              <span className="ml-2 text-xs text-muted">· {r.category}</span>
-            )}
+          <span className="flex flex-wrap items-center gap-2 font-medium text-ink">
             {r.due_day && (
-              <span className="ml-2 text-xs text-muted">venc. dia {r.due_day}</span>
+              <span className="text-xs tabular-nums text-muted">
+                {String(r.due_day).padStart(2, "0")}
+              </span>
             )}
+            {r.name}
+            {withCat && r.category && <CategoryPill name={r.category} />}
           </span>
           <span className="tabular-nums text-ink sm:text-right">
             {formatCurrency(Number(r.amount), cur)}
@@ -120,7 +123,7 @@ export default async function OrcamentoPage({
             <Link href={`/app/orcamento?m=${shift(current, -1)}`} className="rounded-full p-1.5 hover:bg-ink/[0.05]">
               <ChevronLeft className="h-4 w-4" />
             </Link>
-            <span className="px-2 text-sm font-medium capitalize">{label(current)}</span>
+            <span className="px-2 text-sm font-medium">{label(current)}</span>
             <Link href={`/app/orcamento?m=${shift(current, 1)}`} className="rounded-full p-1.5 hover:bg-ink/[0.05]">
               <ChevronRight className="h-4 w-4" />
             </Link>
@@ -140,47 +143,85 @@ export default async function OrcamentoPage({
         />
       </div>
 
-      {donut.length > 0 && (
-        <div className="mt-6 rounded-2xl border border-border bg-card p-5 shadow-[var(--shadow-card)]">
-          <h3 className="mb-4 font-display text-base font-bold text-ink">Despesas por categoria</h3>
-          <Donut data={donut} currency={cur} centerLabel="no mês" />
+      <div className="mt-6 grid gap-6 lg:grid-cols-[1fr_320px]">
+        <div className="rounded-2xl border border-border bg-card p-5 shadow-[var(--shadow-card)]">
+          <BudgetTabs
+            referenceMonth={refMonth}
+            monthLabel={label(current)}
+            tabs={[
+              {
+                key: "income",
+                label: "Receita",
+                total: formatCurrency(income, cur),
+                node: (
+                  <EntityManager
+                    table="budget_entries"
+                    path={path}
+                    title="Receita"
+                    addLabel="Adicionar receita"
+                    fields={fieldsFor("income", refMonth)}
+                    hidden={{ kind: "income" }}
+                    flat
+                    rows={toRows(by("income"), false)}
+                    emptyTitle="Nenhuma receita neste mês"
+                    emptyDescription="Salário, freelas, aluguéis recebidos, rendimentos."
+                  />
+                ),
+              },
+              {
+                key: "fixed",
+                label: "Despesa fixa",
+                total: formatCurrency(fixed, cur),
+                node: (
+                  <EntityManager
+                    table="budget_entries"
+                    path={path}
+                    title="Despesa fixa"
+                    addLabel="Adicionar despesa fixa"
+                    fields={fieldsFor("expense_fixed", refMonth)}
+                    hidden={{ kind: "expense_fixed" }}
+                    flat
+                    rows={toRows(by("expense_fixed"), true)}
+                    emptyTitle="Nenhuma despesa fixa"
+                    emptyDescription="Aluguel, plano de saúde, escola, assinaturas."
+                  />
+                ),
+              },
+              {
+                key: "variable",
+                label: "Despesa variável",
+                total: formatCurrency(variable, cur),
+                node: (
+                  <EntityManager
+                    table="budget_entries"
+                    path={path}
+                    title="Despesa variável"
+                    addLabel="Adicionar despesa variável"
+                    fields={fieldsFor("expense_variable", refMonth)}
+                    hidden={{ kind: "expense_variable" }}
+                    flat
+                    rows={toRows(by("expense_variable"), true)}
+                    emptyTitle="Nenhuma despesa variável"
+                    emptyDescription="Mercado, restaurante, transporte, compras."
+                  />
+                ),
+              },
+            ]}
+          />
         </div>
-      )}
 
-      <div className="mt-6 space-y-6">
-        <EntityManager
-          table="budget_entries"
-          path={path}
-          title="Receita"
-          addLabel="Adicionar receita"
-          fields={fieldsFor("income", refMonth)}
-          hidden={{ kind: "income" }}
-          rows={toRows(by("income"), false)}
-          emptyTitle="Nenhuma receita neste mês"
-          emptyDescription="Salário, freelas, aluguéis recebidos, rendimentos."
-        />
-        <EntityManager
-          table="budget_entries"
-          path={path}
-          title="Despesa fixa"
-          addLabel="Adicionar despesa fixa"
-          fields={fieldsFor("expense_fixed", refMonth)}
-          hidden={{ kind: "expense_fixed" }}
-          rows={toRows(by("expense_fixed"), true)}
-          emptyTitle="Nenhuma despesa fixa"
-          emptyDescription="Aluguel, plano de saúde, escola, assinaturas."
-        />
-        <EntityManager
-          table="budget_entries"
-          path={path}
-          title="Despesa variável"
-          addLabel="Adicionar despesa variável"
-          fields={fieldsFor("expense_variable", refMonth)}
-          hidden={{ kind: "expense_variable" }}
-          rows={toRows(by("expense_variable"), true)}
-          emptyTitle="Nenhuma despesa variável"
-          emptyDescription="Mercado, restaurante, transporte, compras."
-        />
+        <div className="rounded-2xl border border-border bg-card p-5 shadow-[var(--shadow-card)]">
+          <h3 className="mb-4 font-display text-base font-bold text-ink">
+            Despesas por categoria
+          </h3>
+          {donut.length > 0 ? (
+            <Donut data={donut} currency={cur} centerLabel="no mês" />
+          ) : (
+            <p className="text-sm text-muted">
+              Adicione despesas com categoria para ver o gráfico.
+            </p>
+          )}
+        </div>
       </div>
     </>
   );

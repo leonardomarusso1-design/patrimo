@@ -1,29 +1,39 @@
 @import "tailwindcss";
 
 /*
-  Patrimo — identidade visual "Signal Ledger"
-  Fundo papel premium, tinta escura, accent coral-magenta, violet só em gradiente pontual.
-  Fonte: Identidade Visual — Ecossistema Leonardo Marusso (2026-07-03).
+  Patrimo — identidade visual própria.
+  Verde fintech (crescimento, capital) com tom e tipografia próprios.
+  Fundo papel neutro-esverdeado, tinta quase-preta, verde como cor principal,
+  âmbar só como acento raro (badge "mais popular", detalhe da marca).
 */
 
 :root {
-  --bg: #f7f5f1;
+  --bg: #f5f7f4;
   --card: #ffffff;
-  --surface: #fbfaf7;
-  --border: #e7e2d8;
-  --ink: #17141a;
-  --muted: #6b6560;
-  --accent: #ff4d6d;
-  --accent-dim: #e23f5c;
-  --violet: #8b5cf6;
+  --surface: #fbfcfa;
+  --border: #e4e8e2;
+  --ink: #14211c;
+  --muted: #5b6660;
 
-  --success: #1f9d55;
-  --danger: #e23f5c;
-  --warning: #d98a00;
+  --brand: #0b7a55;
+  --brand-600: #0a6a4a;
+  --brand-700: #08573d;
+  --brand-50: #e7f3ec;
+  --brand-100: #cfe7da;
+
+  /* mantém o nome "accent" (usado em vários lugares) apontando para o verde */
+  --accent: #0b7a55;
+  --accent-dim: #0a6a4a;
+
+  --gold: #c98a00;
+
+  --success: #0b7a55;
+  --danger: #d64545;
+  --warning: #c98a00;
 
   --radius: 0.875rem;
-  --shadow-card: 0 1px 2px rgba(23, 20, 26, 0.04), 0 8px 24px rgba(23, 20, 26, 0.06);
-  --shadow-glow: 0 8px 30px rgba(255, 77, 109, 0.28);
+  --shadow-card: 0 1px 2px rgba(20, 33, 28, 0.05), 0 10px 28px rgba(20, 33, 28, 0.06);
+  --shadow-glow: 0 10px 34px rgba(11, 122, 85, 0.28);
 }
 
 @theme inline {
@@ -33,15 +43,24 @@
   --color-border: var(--border);
   --color-ink: var(--ink);
   --color-muted: var(--muted);
+
+  --color-brand: var(--brand);
+  --color-brand-600: var(--brand-600);
+  --color-brand-700: var(--brand-700);
+  --color-brand-50: var(--brand-50);
+  --color-brand-100: var(--brand-100);
+
   --color-accent: var(--accent);
   --color-accent-dim: var(--accent-dim);
-  --color-violet: var(--violet);
+  --color-gold: var(--gold);
+  --color-violet: var(--brand-600);
+
   --color-success: var(--success);
   --color-danger: var(--danger);
   --color-warning: var(--warning);
 
-  --font-display: var(--font-unbounded), "Unbounded", system-ui, sans-serif;
-  --font-body: var(--font-manrope), "Manrope", system-ui, sans-serif;
+  --font-display: var(--font-display-face), "Bricolage Grotesque", system-ui, sans-serif;
+  --font-body: var(--font-body-face), "Manrope", system-ui, sans-serif;
 
   --radius-xl: var(--radius);
 }
@@ -65,23 +84,18 @@ body {
 h1, h2, h3, h4, h5 {
   font-family: var(--font-display);
   font-weight: 700;
-  letter-spacing: -0.02em;
-  line-height: 1.08;
+  letter-spacing: -0.018em;
+  line-height: 1.1;
 }
 
 ::selection {
-  background: rgba(255, 77, 109, 0.18);
+  background: rgba(11, 122, 85, 0.16);
 }
 
 :focus-visible {
-  outline: 2px solid var(--accent);
+  outline: 2px solid var(--brand);
   outline-offset: 2px;
   border-radius: 4px;
-}
-
-@keyframes signal-pulse {
-  0% { transform: scale(0.6); opacity: 0.5; }
-  100% { transform: scale(2.4); opacity: 0; }
 }
 
 @keyframes fade-up {
@@ -94,10 +108,22 @@ h1, h2, h3, h4, h5 {
 }
 
 .text-gradient {
-  background: linear-gradient(100deg, var(--accent) 0%, var(--violet) 100%);
+  background: linear-gradient(100deg, var(--brand) 0%, #16a06c 100%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
+}
+
+.brand-panel {
+  background:
+    radial-gradient(120% 90% at 15% 0%, #17a06c 0%, var(--brand) 42%, var(--brand-700) 100%);
+}
+
+/* Ocultar valores (toggle do olho na top bar) */
+.values-hidden .money,
+.values-hidden .tabular-nums {
+  filter: blur(7px);
+  user-select: none;
 }
 
 @media (prefers-reduced-motion: reduce) {

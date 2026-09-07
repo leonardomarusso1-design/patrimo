@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/Button";
 import { Input, Label, Select } from "@/components/ui/Field";
 import { Modal } from "@/components/ui/Modal";
 import { EmptyState } from "@/components/ui/Misc";
+import { cn } from "@/lib/utils";
 
 export type Field = {
   name: string;
@@ -227,6 +228,7 @@ export function EntityManager({
   rows,
   emptyTitle = "Nada por aqui ainda",
   emptyDescription,
+  flat,
 }: {
   table: string;
   path: string;
@@ -237,11 +239,23 @@ export function EntityManager({
   rows: ManagedRow[];
   emptyTitle?: string;
   emptyDescription?: string;
+  flat?: boolean;
 }) {
   return (
-    <div className="rounded-2xl border border-border bg-card shadow-[var(--shadow-card)]">
-      <div className="flex items-center justify-between gap-3 border-b border-border p-4">
-        <h3 className="font-display text-base font-bold text-ink">{title}</h3>
+    <div
+      className={
+        flat
+          ? ""
+          : "rounded-2xl border border-border bg-card shadow-[var(--shadow-card)]"
+      }
+    >
+      <div
+        className={cn(
+          "flex items-center justify-between gap-3",
+          flat ? "pb-3" : "border-b border-border p-4",
+        )}
+      >
+        <h3 className="font-display text-sm font-bold text-ink">{title}</h3>
         <AddButton
           table={table}
           path={path}

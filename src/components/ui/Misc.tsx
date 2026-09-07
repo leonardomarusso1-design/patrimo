@@ -13,10 +13,10 @@ export function Progress({
   const pct = clamp(value, 0, 100);
   const bar =
     tone === "success"
-      ? "bg-success"
+      ? "bg-brand-600"
       : tone === "violet"
-        ? "bg-violet"
-        : "bg-accent";
+        ? "bg-brand-700"
+        : "bg-brand";
   return (
     <div className={cn("h-2 w-full overflow-hidden rounded-full bg-ink/[0.08]", className)}>
       <div
@@ -94,24 +94,24 @@ export function StatTile({
       className={cn(
         "rounded-2xl border p-5",
         tone === "ink"
-          ? "border-transparent bg-ink text-[#f7f5f1]"
+          ? "brand-panel border-transparent text-[#eaf5ee]"
           : "border-border bg-card shadow-[var(--shadow-card)]",
       )}
     >
       <p
         className={cn(
           "text-xs font-semibold uppercase tracking-wide",
-          tone === "ink" ? "text-[#f7f5f1]/60" : "text-muted",
+          tone === "ink" ? "text-[#eaf5ee]/70" : "text-muted",
         )}
       >
         {label}
       </p>
-      <p className="mt-2 font-display text-2xl font-extrabold">{value}</p>
+      <p className="money mt-2 font-display text-2xl font-extrabold">{value}</p>
       {hint && (
         <p
           className={cn(
             "mt-1 text-sm",
-            tone === "ink" ? "text-[#f7f5f1]/70" : "text-muted",
+            tone === "ink" ? "text-[#eaf5ee]/70" : "text-muted",
           )}
         >
           {hint}

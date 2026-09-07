@@ -123,7 +123,7 @@ export default async function MetasPage() {
                   </form>
                 </div>
 
-                <p className="mt-3 font-display text-2xl font-extrabold text-ink">
+                <p className="money mt-3 font-display text-2xl font-extrabold text-ink">
                   {formatCurrency(saved, cur)}
                   <span className="text-sm font-semibold text-muted">
                     {" "}

@@ -45,17 +45,17 @@ export function OnboardingWizard({ firstName }: { firstName: string }) {
 
   return (
     <div className="w-full max-w-lg">
-      <div className="rounded-2xl bg-ink p-6 text-[#f7f5f1]">
-        <p className="text-xs font-semibold uppercase tracking-widest text-[#f7f5f1]/60">
+      <div className="rounded-2xl brand-panel p-6 text-[#eaf5ee]">
+        <p className="text-xs font-semibold uppercase tracking-widest text-[#eaf5ee]/60">
           Para personalizar seu painel
         </p>
         <h1 className="mt-2 text-2xl font-extrabold">Vamos personalizar, {firstName}</h1>
-        <p className="mt-1 text-sm text-[#f7f5f1]/70">
+        <p className="mt-1 text-sm text-[#eaf5ee]/70">
           Leva 30 segundos. Isso ajusta metas e relatórios ao seu perfil.
         </p>
         <div className="mt-5 flex items-center gap-3">
           <Progress value={((step + 1) / ONBOARDING_STEPS.length) * 100} />
-          <span className="shrink-0 text-xs text-[#f7f5f1]/60">
+          <span className="shrink-0 text-xs text-[#eaf5ee]/60">
             {step + 1}/{ONBOARDING_STEPS.length}
           </span>
         </div>

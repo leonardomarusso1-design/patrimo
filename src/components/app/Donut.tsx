@@ -4,14 +4,14 @@ import { PieChart, Pie, Cell, ResponsiveContainer } from "recharts";
 import { formatCurrency } from "@/lib/utils";
 
 const PALETTE = [
-  "#FF4D6D",
-  "#8B5CF6",
-  "#1F9D55",
-  "#D98A00",
-  "#17141A",
-  "#E23F5C",
-  "#6B6560",
-  "#3B82F6",
+  "#0B7A55",
+  "#16A06C",
+  "#4FBF8B",
+  "#C98A00",
+  "#14211C",
+  "#8FCFB0",
+  "#5B6660",
+  "#0A6A4A",
 ];
 
 export function Donut({

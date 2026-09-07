@@ -31,18 +31,18 @@ export function EscolaList({
       <div className="rounded-2xl border border-border bg-card p-5 shadow-[var(--shadow-card)]">
         {activeLesson ? (
           <div>
-            <div className="flex aspect-video items-center justify-center rounded-xl bg-ink text-[#f7f5f1]">
+            <div className="flex aspect-video items-center justify-center rounded-xl bg-ink text-[#eaf5ee]">
               {activeUnlocked ? (
                 <div className="text-center">
                   <Play className="mx-auto h-10 w-10 text-accent" />
-                  <p className="mt-3 text-sm text-[#f7f5f1]/70">
+                  <p className="mt-3 text-sm text-[#eaf5ee]/70">
                     Aula em gravação — disponível em breve
                   </p>
                 </div>
               ) : (
                 <div className="text-center">
-                  <Lock className="mx-auto h-8 w-8 text-[#f7f5f1]/60" />
-                  <p className="mt-3 text-sm text-[#f7f5f1]/70">
+                  <Lock className="mx-auto h-8 w-8 text-[#eaf5ee]/60" />
+                  <p className="mt-3 text-sm text-[#eaf5ee]/70">
                     Disponível no plano {planName(activeLesson.planRequired)}
                   </p>
                 </div>
@@ -68,7 +68,7 @@ export function EscolaList({
                   "mt-4 inline-flex items-center gap-2 rounded-xl px-4 py-2 text-sm font-semibold",
                   done.includes(activeLesson.id)
                     ? "bg-success/12 text-success"
-                    : "bg-ink text-[#f7f5f1]",
+                    : "bg-ink text-[#eaf5ee]",
                 )}
               >
                 <Check className="h-4 w-4" />

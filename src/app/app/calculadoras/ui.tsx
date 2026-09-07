@@ -43,7 +43,7 @@ export function Calculadoras() {
             onClick={() => setTab(t.id)}
             className={cn(
               "rounded-full px-4 py-2 text-sm font-medium",
-              tab === t.id ? "bg-ink text-[#f7f5f1]" : "bg-card text-muted hover:text-ink",
+              tab === t.id ? "bg-ink text-[#eaf5ee]" : "bg-card text-muted hover:text-ink",
             )}
           >
             {t.label}

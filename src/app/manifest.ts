@@ -7,8 +7,8 @@ export default function manifest(): MetadataRoute.Manifest {
     description: "Controle financeiro completo, com IA.",
     start_url: "/app",
     display: "standalone",
-    background_color: "#f7f5f1",
-    theme_color: "#f7f5f1",
+    background_color: "#f5f7f4",
+    theme_color: "#f5f7f4",
     icons: [{ src: "/favicon.ico", sizes: "any", type: "image/x-icon" }],
   };
 }

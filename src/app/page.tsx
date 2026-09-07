@@ -122,7 +122,7 @@ export default function LandingPage() {
           <div className="mt-12 grid gap-5 lg:grid-cols-3">
             {DIFERENCIAIS.map((d) => (
               <div key={d.title} className="rounded-2xl border border-border bg-card p-6">
-                <d.icon className="h-6 w-6 text-violet" />
+                <d.icon className="h-6 w-6 text-brand-600" />
                 <h3 className="mt-4 font-display text-lg font-bold text-ink">{d.title}</h3>
                 <p className="mt-2 text-sm text-muted">{d.text}</p>
               </div>
@@ -169,12 +169,12 @@ export default function LandingPage() {
           <PricingTable />
         </section>
 
-        <section id="escola" className="bg-ink py-20 text-[#f7f5f1]">
+        <section id="escola" className="bg-ink py-20 text-[#eaf5ee]">
           <div className="mx-auto max-w-6xl px-4 sm:px-6">
             <h2 className="text-3xl font-extrabold sm:text-4xl">
               Escola Patrimo — {LESSONS.length} aulas do zero à independência
             </h2>
-            <p className="mt-3 max-w-xl text-[#f7f5f1]/70">
+            <p className="mt-3 max-w-xl text-[#eaf5ee]/70">
               Do &ldquo;pra onde foi meu salário&rdquo; até &ldquo;quando posso parar de
               trabalhar&rdquo;. Uma aula por vez.
             </p>
@@ -189,7 +189,7 @@ export default function LandingPage() {
                   </span>
                   <div>
                     <p className="text-sm font-semibold">{l.title}</p>
-                    <p className="text-xs text-[#f7f5f1]/55">{l.duration}</p>
+                    <p className="text-xs text-[#eaf5ee]/55">{l.duration}</p>
                   </div>
                 </div>
               ))}
