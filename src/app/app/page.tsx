@@ -5,7 +5,6 @@ import { PageHeader } from "@/components/app/PageHeader";
 import { StatTile, Progress } from "@/components/ui/Misc";
 import { formatCurrency } from "@/lib/utils";
 import { emergencyTarget } from "@/lib/finance";
-import { planAllows } from "@/lib/plans";
 import { computeNetWorth } from "@/lib/networth";
 import { buildAlerts } from "@/lib/alerts";
 import { getIndicators } from "@/lib/market";
@@ -26,6 +25,7 @@ export default async function InicioPage() {
   ]);
   const cur = profile.display_currency;
   const ref = monthStart();
+  const monthName = new Date().toLocaleDateString("pt-BR", { month: "long" });
 
   const nw = await computeNetWorth(supabase, user.id, cur);
 
@@ -153,20 +153,29 @@ export default async function InicioPage() {
         </div>
       )}
 
+      <h2 className="mb-3 font-display text-base font-bold text-ink">Resumo de hoje</h2>
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <StatTile
           label="Saldo do mês"
           value={formatCurrency(monthBalance, cur)}
           tone="ink"
-          hint={monthBalance >= 0 ? "sobrando este mês" : "no vermelho este mês"}
+          hint={`receitas − despesas de ${monthName}`}
         />
-        <StatTile label="Patrimônio líquido" value={formatCurrency(nw.netWorth, cur)} />
         <StatTile
-          label="Carteira"
-          value={planAllows(profile.plan, "pro") ? formatCurrency(nw.wallet, cur) : "—"}
-          hint={planAllows(profile.plan, "pro") ? undefined : "plano Pro"}
+          label="Patrimônio líquido"
+          value={formatCurrency(nw.netWorth, cur)}
+          hint="bens + investimentos + reserva − dívidas"
         />
-        <StatTile label="Metas" value={formatCurrency(goalsSaved, cur)} hint={`de ${formatCurrency(goalsTarget, cur)}`} />
+        <StatTile
+          label="Investido na carteira"
+          value={nw.wallet > 0 ? formatCurrency(nw.wallet, cur) : "R$ 0,00"}
+          hint={nw.wallet > 0 ? "valor atual dos seus investimentos" : "nenhum investimento lançado ainda"}
+        />
+        <StatTile
+          label="Guardado em metas"
+          value={formatCurrency(goalsSaved, cur)}
+          hint={goalsTarget > 0 ? `de ${formatCurrency(goalsTarget, cur)} planejados` : "nenhuma meta criada ainda"}
+        />
       </div>
 
       <div className="mt-6 grid gap-6 lg:grid-cols-2">
