@@ -65,7 +65,8 @@ export async function updateSession(request: NextRequest) {
   const isApp =
     pathname.startsWith("/app") ||
     pathname.startsWith("/onboarding") ||
-    pathname.startsWith("/ativar");
+    pathname.startsWith("/ativar") ||
+    pathname.startsWith("/mfa");
 
   if (!user && isApp) {
     const url = request.nextUrl.clone();

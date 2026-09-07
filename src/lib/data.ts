@@ -42,6 +42,12 @@ export async function requireOnboarded() {
  * Chamado no layout de /app. Deixa passar quem já pagou.
  */
 export async function requirePaidAccess() {
+  const { supabase } = await requireUser();
+  const { data: aal } = await supabase.auth.mfa.getAuthenticatorAssuranceLevel();
+  if (aal && aal.nextLevel === "aal2" && aal.currentLevel !== "aal2") {
+    redirect("/mfa");
+  }
+
   const profile = await getProfile();
   if (!profile.onboarding_completed) redirect("/onboarding");
   if (!hasActiveAccess(profile)) redirect("/ativar");

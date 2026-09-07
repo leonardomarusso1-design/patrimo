@@ -2,6 +2,7 @@ import Link from "next/link";
 import { getProfile } from "@/lib/data";
 import { PageHeader } from "@/components/app/PageHeader";
 import { SettingsForm } from "./ui";
+import { MfaSetup } from "@/components/app/MfaSetup";
 import { PLAN, hasActiveAccess } from "@/lib/plans";
 import { formatDate } from "@/lib/utils";
 
@@ -38,6 +39,8 @@ export default async function ConfiguracoesPage() {
               </Link>
             )}
           </div>
+
+          <MfaSetup />
 
           <div className="rounded-2xl border border-border bg-card p-5 text-sm shadow-[var(--shadow-card)]">
             <p className="font-display font-bold text-ink">Seus dados</p>
