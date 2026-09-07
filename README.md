@@ -65,4 +65,3 @@ src/
   lib/          supabase/, plans, school, finance, seo, data, rate-limit
 supabase/migrations/   schema + RLS
 ```
-"# patrimo" 
