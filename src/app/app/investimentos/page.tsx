@@ -90,43 +90,44 @@ export default async function InvestimentosPage() {
       )}
 
       <div className="mt-6">
-        <EntityManager<Investment>
+        <EntityManager
           table="investments"
           path="/app/investimentos"
           title="Ativos"
           addLabel="Adicionar ativo"
           fields={FIELDS}
-          rows={rows}
-          columns={[
-            {
-              header: "Ativo",
-              cell: (r) => (
-                <span className="font-medium text-ink">
-                  {r.name}
-                  <span className="ml-2 text-xs text-muted">
-                    {CLASS_LABEL[r.asset_class]}
-                    {r.broker ? ` · ${r.broker}` : ""}
+          rows={rows.map((r) => {
+            const g = Number(r.current_amount) - Number(r.invested_amount);
+            return {
+              id: r.id,
+              raw: {
+                name: r.name,
+                broker: r.broker,
+                asset_class: r.asset_class,
+                currency: r.currency,
+                invested_amount: Number(r.invested_amount),
+                current_amount: Number(r.current_amount),
+              },
+              node: (
+                <>
+                  <span className="font-medium text-ink">
+                    {r.name}
+                    <span className="ml-2 text-xs text-muted">
+                      {CLASS_LABEL[r.asset_class]}
+                      {r.broker ? ` · ${r.broker}` : ""}
+                    </span>
                   </span>
-                </span>
-              ),
-            },
-            {
-              header: "Atual",
-              cell: (r) => {
-                const g = Number(r.current_amount) - Number(r.invested_amount);
-                return (
-                  <span className="tabular-nums text-ink">
+                  <span className="tabular-nums text-ink sm:text-right">
                     {formatCurrency(Number(r.current_amount), cur)}
                     <span className={g >= 0 ? "ml-2 text-xs text-success" : "ml-2 text-xs text-danger"}>
                       {g >= 0 ? "+" : ""}
                       {formatCurrency(g, cur)}
                     </span>
                   </span>
-                );
-              },
-              className: "sm:text-right",
-            },
-          ]}
+                </>
+              ),
+            };
+          })}
           emptyTitle="Nenhum ativo ainda"
           emptyDescription="Adicione o que você tem em renda fixa, ações, FIIs, ETFs ou cripto."
         />

@@ -69,7 +69,7 @@ export default async function ReservaPage() {
       </div>
 
       <div className="mt-6">
-        <EntityManager<Reserve>
+        <EntityManager
           table="emergency_reserves"
           path="/app/reserva"
           title="Onde está sua reserva"
@@ -78,15 +78,18 @@ export default async function ReservaPage() {
             { name: "label", label: "Aplicação", type: "text", required: true, placeholder: "Tesouro Selic, CDB liquidez diária…" },
             { name: "amount", label: "Valor (R$)", type: "money", required: true },
           ]}
-          rows={rows}
-          columns={[
-            { header: "Aplicação", cell: (r) => <span className="font-medium text-ink">{r.label}</span> },
-            {
-              header: "Valor",
-              cell: (r) => <span className="tabular-nums text-ink">{formatCurrency(Number(r.amount), cur)}</span>,
-              className: "sm:text-right",
-            },
-          ]}
+          rows={rows.map((r) => ({
+            id: r.id,
+            raw: { label: r.label, amount: Number(r.amount) },
+            node: (
+              <>
+                <span className="font-medium text-ink">{r.label}</span>
+                <span className="tabular-nums text-ink sm:text-right">
+                  {formatCurrency(Number(r.amount), cur)}
+                </span>
+              </>
+            ),
+          }))}
           emptyTitle="Nenhuma aplicação registrada"
           emptyDescription="Some aqui o que está em Tesouro Selic, CDB de liquidez diária, fundos DI."
         />

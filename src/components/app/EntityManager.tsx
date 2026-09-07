@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState, useEffect, useState } from "react";
+import { useActionState, useEffect, useState, type ReactNode } from "react";
 import { Plus, Pencil, Trash2 } from "lucide-react";
 import { createRow, updateRow, deleteRow, type MutationState } from "@/app/app/actions";
 import { Button } from "@/components/ui/Button";
@@ -19,22 +19,30 @@ export type Field = {
   step?: string;
 };
 
-export type Column<Row> = {
-  header: string;
-  cell: (row: Row) => React.ReactNode;
-  className?: string;
+/** Linha já renderizada no servidor + os dados crus para preencher o form de edição. */
+export type ManagedRow = {
+  id: string;
+  node: ReactNode;
+  raw: Record<string, string | number | null | undefined>;
 };
-
-type RowLike = { id: string } & Record<string, unknown>;
 
 const empty: MutationState = {};
 
-function FieldInput({ field, defaultValue }: { field: Field; defaultValue?: unknown }) {
+function FieldInput({
+  field,
+  defaultValue,
+}: {
+  field: Field;
+  defaultValue?: string | number | null;
+}) {
   const common = {
     id: field.name,
     name: field.name,
     required: field.required,
-    defaultValue: defaultValue != null ? String(defaultValue) : field.defaultValue,
+    defaultValue:
+      defaultValue != null && defaultValue !== ""
+        ? String(defaultValue)
+        : field.defaultValue,
   };
   if (field.type === "select") {
     return (
@@ -69,22 +77,25 @@ function EntityForm({
   path,
   fields,
   hidden,
-  row,
+  raw,
+  rowId,
   onDone,
 }: {
   table: string;
   path: string;
   fields: Field[];
   hidden?: Record<string, string>;
-  row?: RowLike;
+  raw?: ManagedRow["raw"];
+  rowId?: string;
   onDone: () => void;
 }) {
   const [state, formAction, pending] = useActionState(
-    row ? updateRow : createRow,
+    rowId ? updateRow : createRow,
     empty,
   );
 
   useEffect(() => {
+    // fecha o modal quando a Server Action confirma
     if (state.ok) onDone();
   }, [state.ok, onDone]);
 
@@ -92,7 +103,7 @@ function EntityForm({
     <form action={formAction} className="space-y-4">
       <input type="hidden" name="_table" value={table} />
       <input type="hidden" name="_path" value={path} />
-      {row && <input type="hidden" name="_id" value={row.id} />}
+      {rowId && <input type="hidden" name="_id" value={rowId} />}
       {Object.entries(hidden ?? {}).map(([k, v]) => (
         <input key={k} type="hidden" name={k} value={v} />
       ))}
@@ -106,7 +117,7 @@ function EntityForm({
       {fields.map((field) => (
         <div key={field.name}>
           <Label htmlFor={field.name}>{field.label}</Label>
-          <FieldInput field={field} defaultValue={row?.[field.name]} />
+          <FieldInput field={field} defaultValue={raw?.[field.name]} />
         </div>
       ))}
 
@@ -115,21 +126,22 @@ function EntityForm({
           Cancelar
         </Button>
         <Button type="submit" loading={pending}>
-          {row ? "Salvar" : "Adicionar"}
+          {rowId ? "Salvar" : "Adicionar"}
         </Button>
       </div>
     </form>
   );
 }
 
-export function QuickCreate({
+export function AddButton({
   table,
   path,
   fields,
   hidden,
   label = "Adicionar",
   title,
-  trigger,
+  fullWidth,
+  size = "sm",
 }: {
   table: string;
   path: string;
@@ -137,18 +149,15 @@ export function QuickCreate({
   hidden?: Record<string, string>;
   label?: string;
   title?: string;
-  trigger?: (open: () => void) => React.ReactNode;
+  fullWidth?: boolean;
+  size?: "sm" | "md";
 }) {
   const [open, setOpen] = useState(false);
   return (
     <>
-      {trigger ? (
-        trigger(() => setOpen(true))
-      ) : (
-        <Button size="sm" onClick={() => setOpen(true)}>
-          <Plus className="h-4 w-4" /> {label}
-        </Button>
-      )}
+      <Button size={size} onClick={() => setOpen(true)} className={fullWidth ? "w-full" : undefined}>
+        {!fullWidth && <Plus className="h-4 w-4" />} {label}
+      </Button>
       <Modal open={open} onClose={() => setOpen(false)} title={title ?? label}>
         <EntityForm
           table={table}
@@ -162,15 +171,60 @@ export function QuickCreate({
   );
 }
 
-export function EntityManager<Row extends RowLike>({
+function RowActions({
   table,
   path,
-  title,
+  fields,
+  row,
+}: {
+  table: string;
+  path: string;
+  fields: Field[];
+  row: ManagedRow;
+}) {
+  const [open, setOpen] = useState(false);
+  return (
+    <div className="flex shrink-0 gap-1">
+      <button
+        onClick={() => setOpen(true)}
+        className="rounded-lg p-1.5 text-muted hover:bg-ink/[0.06] hover:text-ink"
+        aria-label="Editar"
+      >
+        <Pencil className="h-4 w-4" />
+      </button>
+      <form action={deleteRow}>
+        <input type="hidden" name="_table" value={table} />
+        <input type="hidden" name="_path" value={path} />
+        <input type="hidden" name="_id" value={row.id} />
+        <button
+          className="rounded-lg p-1.5 text-muted hover:bg-danger/10 hover:text-danger"
+          aria-label="Excluir"
+        >
+          <Trash2 className="h-4 w-4" />
+        </button>
+      </form>
+      <Modal open={open} onClose={() => setOpen(false)} title="Editar">
+        <EntityForm
+          table={table}
+          path={path}
+          fields={fields}
+          raw={row.raw}
+          rowId={row.id}
+          onDone={() => setOpen(false)}
+        />
+      </Modal>
+    </div>
+  );
+}
+
+export function EntityManager({
+  table,
+  path,
+  title = "Itens",
   addLabel = "Adicionar",
   fields,
   hidden,
   rows,
-  columns,
   emptyTitle = "Nada por aqui ainda",
   emptyDescription,
 }: {
@@ -180,21 +234,21 @@ export function EntityManager<Row extends RowLike>({
   addLabel?: string;
   fields: Field[];
   hidden?: Record<string, string>;
-  rows: Row[];
-  columns: Column<Row>[];
+  rows: ManagedRow[];
   emptyTitle?: string;
   emptyDescription?: string;
 }) {
-  const [adding, setAdding] = useState(false);
-  const [editing, setEditing] = useState<Row | null>(null);
-
   return (
     <div className="rounded-2xl border border-border bg-card shadow-[var(--shadow-card)]">
       <div className="flex items-center justify-between gap-3 border-b border-border p-4">
-        <h3 className="font-display text-base font-bold text-ink">{title ?? "Itens"}</h3>
-        <Button size="sm" onClick={() => setAdding(true)}>
-          <Plus className="h-4 w-4" /> {addLabel}
-        </Button>
+        <h3 className="font-display text-base font-bold text-ink">{title}</h3>
+        <AddButton
+          table={table}
+          path={path}
+          fields={fields}
+          hidden={hidden}
+          label={addLabel}
+        />
       </div>
 
       {rows.length === 0 ? (
@@ -204,73 +258,15 @@ export function EntityManager<Row extends RowLike>({
       ) : (
         <ul className="divide-y divide-border">
           {rows.map((row) => (
-            <li
-              key={row.id}
-              className="flex items-center gap-4 px-4 py-3.5 text-sm"
-            >
+            <li key={row.id} className="flex items-center gap-4 px-4 py-3.5 text-sm">
               <div className="grid flex-1 gap-1 sm:grid-cols-[1fr_auto] sm:items-center sm:gap-4">
-                {columns.map((col, i) => (
-                  <span key={i} className={col.className}>
-                    {col.cell(row)}
-                  </span>
-                ))}
+                {row.node}
               </div>
-              <div className="flex shrink-0 gap-1">
-                <button
-                  onClick={() => setEditing(row)}
-                  className="rounded-lg p-1.5 text-muted hover:bg-ink/[0.06] hover:text-ink"
-                  aria-label="Editar"
-                >
-                  <Pencil className="h-4 w-4" />
-                </button>
-                <form action={deleteRow}>
-                  <input type="hidden" name="_table" value={table} />
-                  <input type="hidden" name="_path" value={path} />
-                  <input type="hidden" name="_id" value={row.id} />
-                  <button
-                    className="rounded-lg p-1.5 text-muted hover:bg-danger/10 hover:text-danger"
-                    aria-label="Excluir"
-                  >
-                    <Trash2 className="h-4 w-4" />
-                  </button>
-                </form>
-              </div>
+              <RowActions table={table} path={path} fields={fields} row={row} />
             </li>
           ))}
         </ul>
       )}
-
-      <Modal
-        open={adding}
-        onClose={() => setAdding(false)}
-        title={addLabel}
-        description="Preencha os campos abaixo."
-      >
-        <EntityForm
-          table={table}
-          path={path}
-          fields={fields}
-          hidden={hidden}
-          onDone={() => setAdding(false)}
-        />
-      </Modal>
-
-      <Modal
-        open={!!editing}
-        onClose={() => setEditing(null)}
-        title="Editar"
-      >
-        {editing && (
-          <EntityForm
-            table={table}
-            path={path}
-            fields={fields}
-            hidden={hidden}
-            row={editing}
-            onDone={() => setEditing(null)}
-          />
-        )}
-      </Modal>
     </div>
   );
 }

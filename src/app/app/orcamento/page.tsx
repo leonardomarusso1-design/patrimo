@@ -82,27 +82,33 @@ export default async function OrcamentoPage({
 
   const path = `/app/orcamento?m=${current}`;
 
-  const columns = (withCat: boolean) => [
-    {
-      header: "Nome",
-      cell: (r: Entry) => (
-        <span className="font-medium text-ink">
-          {r.name}
-          {withCat && r.category && (
-            <span className="ml-2 text-xs text-muted">· {r.category}</span>
-          )}
-          {r.due_day && <span className="ml-2 text-xs text-muted">venc. dia {r.due_day}</span>}
-        </span>
+  const toRows = (list: Entry[], withCat: boolean) =>
+    list.map((r) => ({
+      id: r.id,
+      raw: {
+        name: r.name,
+        category: r.category,
+        amount: Number(r.amount),
+        due_day: r.due_day,
+        reference_month: refMonth,
+      },
+      node: (
+        <>
+          <span className="font-medium text-ink">
+            {r.name}
+            {withCat && r.category && (
+              <span className="ml-2 text-xs text-muted">· {r.category}</span>
+            )}
+            {r.due_day && (
+              <span className="ml-2 text-xs text-muted">venc. dia {r.due_day}</span>
+            )}
+          </span>
+          <span className="tabular-nums text-ink sm:text-right">
+            {formatCurrency(Number(r.amount), cur)}
+          </span>
+        </>
       ),
-    },
-    {
-      header: "Valor",
-      cell: (r: Entry) => (
-        <span className="tabular-nums text-ink">{formatCurrency(Number(r.amount), cur)}</span>
-      ),
-      className: "sm:text-right",
-    },
-  ];
+    }));
 
   return (
     <>
@@ -142,39 +148,36 @@ export default async function OrcamentoPage({
       )}
 
       <div className="mt-6 space-y-6">
-        <EntityManager<Entry>
+        <EntityManager
           table="budget_entries"
           path={path}
           title="Receita"
           addLabel="Adicionar receita"
           fields={fieldsFor("income", refMonth)}
           hidden={{ kind: "income" }}
-          rows={by("income")}
-          columns={columns(false)}
+          rows={toRows(by("income"), false)}
           emptyTitle="Nenhuma receita neste mês"
           emptyDescription="Salário, freelas, aluguéis recebidos, rendimentos."
         />
-        <EntityManager<Entry>
+        <EntityManager
           table="budget_entries"
           path={path}
           title="Despesa fixa"
           addLabel="Adicionar despesa fixa"
           fields={fieldsFor("expense_fixed", refMonth)}
           hidden={{ kind: "expense_fixed" }}
-          rows={by("expense_fixed")}
-          columns={columns(true)}
+          rows={toRows(by("expense_fixed"), true)}
           emptyTitle="Nenhuma despesa fixa"
           emptyDescription="Aluguel, plano de saúde, escola, assinaturas."
         />
-        <EntityManager<Entry>
+        <EntityManager
           table="budget_entries"
           path={path}
           title="Despesa variável"
           addLabel="Adicionar despesa variável"
           fields={fieldsFor("expense_variable", refMonth)}
           hidden={{ kind: "expense_variable" }}
-          rows={by("expense_variable")}
-          columns={columns(true)}
+          rows={toRows(by("expense_variable"), true)}
           emptyTitle="Nenhuma despesa variável"
           emptyDescription="Mercado, restaurante, transporte, compras."
         />

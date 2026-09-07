@@ -85,44 +85,54 @@ export default async function PatrimonioPage() {
       )}
 
       <div className="mt-6 space-y-6">
-        <EntityManager<Item>
+        <EntityManager
           table="patrimony_items"
           path="/app/patrimonio"
           title="Bens e liquidez"
           addLabel="Adicionar item"
           fields={ITEM_FIELDS}
-          rows={items}
-          columns={[
-            {
-              header: "Item",
-              cell: (r) => (
+          rows={items.map((r) => ({
+            id: r.id,
+            raw: {
+              kind: r.kind,
+              name: r.name,
+              value: Number(r.value),
+              fipe_code: r.fipe_code,
+            },
+            node: (
+              <>
                 <span className="font-medium text-ink">
                   {r.name}
                   <span className="ml-2 text-xs text-muted">{KIND_LABEL[r.kind]}</span>
                 </span>
-              ),
-            },
-            {
-              header: "Valor",
-              cell: (r) => <span className="tabular-nums text-ink">{formatCurrency(Number(r.value), cur)}</span>,
-              className: "sm:text-right",
-            },
-          ]}
+                <span className="tabular-nums text-ink sm:text-right">
+                  {formatCurrency(Number(r.value), cur)}
+                </span>
+              </>
+            ),
+          }))}
           emptyTitle="Nenhum bem registrado"
           emptyDescription="Imóveis, veículos, saldo em conta, investimentos fora da carteira."
         />
 
-        <EntityManager<Debt>
+        <EntityManager
           table="debts"
           path="/app/patrimonio"
           title="Dívidas"
           addLabel="Adicionar dívida"
           fields={DEBT_FIELDS}
-          rows={debts}
-          columns={[
-            {
-              header: "Dívida",
-              cell: (r) => (
+          rows={debts.map((r) => ({
+            id: r.id,
+            raw: {
+              name: r.name,
+              total_amount: Number(r.total_amount),
+              remaining_amount: Number(r.remaining_amount),
+              monthly_interest: r.monthly_interest,
+              monthly_payment: r.monthly_payment,
+              due_day: r.due_day,
+            },
+            node: (
+              <>
                 <span className="font-medium text-ink">
                   {r.name}
                   {r.monthly_payment && (
@@ -131,18 +141,12 @@ export default async function PatrimonioPage() {
                     </span>
                   )}
                 </span>
-              ),
-            },
-            {
-              header: "Saldo",
-              cell: (r) => (
-                <span className="tabular-nums text-danger">
+                <span className="tabular-nums text-danger sm:text-right">
                   {formatCurrency(Number(r.remaining_amount), cur)}
                 </span>
-              ),
-              className: "sm:text-right",
-            },
-          ]}
+              </>
+            ),
+          }))}
           emptyTitle="Nenhuma dívida registrada"
           emptyDescription="Financiamentos, empréstimos, cartão parcelado, consignado."
         />

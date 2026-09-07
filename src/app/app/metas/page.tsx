@@ -1,8 +1,7 @@
 import { Target } from "lucide-react";
 import { requireUser, getProfile } from "@/lib/data";
 import { PageHeader } from "@/components/app/PageHeader";
-import { QuickCreate, type Field } from "@/components/app/EntityManager";
-import { Button } from "@/components/ui/Button";
+import { AddButton, type Field } from "@/components/app/EntityManager";
 import { Progress, EmptyState } from "@/components/ui/Misc";
 import { formatCurrency, formatDate } from "@/lib/utils";
 import { requiredMonthlyContribution } from "@/lib/finance";
@@ -35,7 +34,9 @@ export default async function MetasPage() {
     supabase.from("goal_contributions").select("*").eq("user_id", user.id),
   ]);
 
-  const nowMs = new Date().getTime();
+  const now = new Date();
+  const nowMs = now.getTime();
+  const today = now.toISOString().slice(0, 10);
   const goals = (goalsData ?? []) as Goal[];
   const contributions = (contribData ?? []) as Contribution[];
   const savedByGoal = new Map<string, number>();
@@ -50,7 +51,7 @@ export default async function MetasPage() {
         subtitle="Qual é o seu próximo sonho? Registre aportes e acompanhe até chegar lá."
         action={
           goals.length > 0 ? (
-            <QuickCreate
+            <AddButton
               table="goals"
               path="/app/metas"
               fields={GOAL_FIELDS}
@@ -67,7 +68,7 @@ export default async function MetasPage() {
           title="Qual é o seu próximo sonho?"
           description="Uma viagem, um carro, a entrada do apartamento. Crie uma meta, registre seus aportes e acompanhe o progresso."
           action={
-            <QuickCreate
+            <AddButton
               table="goals"
               path="/app/metas"
               fields={GOAL_FIELDS}
@@ -144,20 +145,16 @@ export default async function MetasPage() {
                 )}
 
                 <div className="mt-4">
-                  <QuickCreate
+                  <AddButton
                     table="goal_contributions"
                     path="/app/metas"
                     hidden={{ goal_id: goal.id }}
                     fields={[
                       { name: "amount", label: "Valor do aporte (R$)", type: "number", required: true, step: "0.01" },
-                      { name: "contributed_on", label: "Data", type: "date", required: true, defaultValue: new Date().toISOString().slice(0, 10) },
+                      { name: "contributed_on", label: "Data", type: "date", required: true, defaultValue: today },
                     ]}
-                    title={`Aportar em ${goal.name}`}
-                    trigger={(open) => (
-                      <Button className="w-full" onClick={open}>
-                        Aportar
-                      </Button>
-                    )}
+                    label="Aportar"
+                    fullWidth
                   />
                 </div>
               </div>
