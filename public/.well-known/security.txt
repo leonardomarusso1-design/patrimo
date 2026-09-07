@@ -1,0 +1,5 @@
+Contact: mailto:seguranca@patrimo.com.br
+Expires: 2027-09-06T00:00:00.000Z
+Preferred-Languages: pt, en
+Canonical: https://patrimo.com.br/.well-known/security.txt
+Policy: https://patrimo.com.br/seguranca
