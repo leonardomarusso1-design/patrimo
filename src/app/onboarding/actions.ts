@@ -4,6 +4,7 @@ import { redirect } from "next/navigation";
 import { z } from "zod";
 import { requireUser } from "@/lib/data";
 import { safeError } from "@/lib/logger";
+import { sendEmail, welcomeEmail } from "@/lib/email";
 import { CURRENCIES, INCOME_BANDS, OCCUPATIONS } from "@/lib/onboarding";
 
 const schema = z.object({
@@ -45,6 +46,17 @@ export async function completeOnboarding(
       })
       .eq("id", user.id);
     if (error) return { error: safeError("onboarding.complete", error) };
+
+    if (user.email) {
+      const { data: p } = await supabase
+        .from("profiles")
+        .select("full_name")
+        .eq("id", user.id)
+        .single();
+      await sendEmail(
+        welcomeEmail(user.email, (p?.full_name ?? "").split(" ")[0] || "tudo pronto"),
+      );
+    }
   } catch (err) {
     return { error: safeError("onboarding.complete", err) };
   }

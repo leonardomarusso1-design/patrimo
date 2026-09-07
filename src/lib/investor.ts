@@ -92,3 +92,13 @@ export const PROFILE_INFO: Record<
 
 /** Classes consideradas "renda variável" para comparar com a alocação-alvo. */
 export const VARIABLE_CLASSES = new Set(["acao", "fii", "etf", "cripto"]);
+
+export const CLASS_LABELS: Record<string, string> = {
+  renda_fixa: "Renda fixa",
+  acao: "Ações",
+  fii: "FIIs",
+  etf: "ETFs",
+  cripto: "Cripto",
+  cash: "Caixa",
+  outro: "Outro",
+};

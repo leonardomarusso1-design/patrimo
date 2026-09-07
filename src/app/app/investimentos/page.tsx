@@ -9,6 +9,7 @@ import { ButtonLink } from "@/components/ui/Button";
 import { formatCurrency, formatPercent } from "@/lib/utils";
 import { PROFILE_INFO, VARIABLE_CLASSES } from "@/lib/investor";
 import { getRates, convert } from "@/lib/fx";
+import { AdviceCard } from "@/components/app/AdviceCard";
 import type { Tables } from "@/types/database";
 
 export const metadata = { title: "Investimentos" };
@@ -49,11 +50,20 @@ export default async function InvestimentosPage() {
   ]);
   const cur = profile.display_currency;
 
-  const { data } = await supabase
-    .from("investments")
-    .select("*")
-    .eq("user_id", user.id)
-    .order("current_amount", { ascending: false });
+  const [{ data }, { data: adviceRow }] = await Promise.all([
+    supabase
+      .from("investments")
+      .select("*")
+      .eq("user_id", user.id)
+      .order("current_amount", { ascending: false }),
+    supabase
+      .from("investment_advice")
+      .select("summary, actions, model, created_at")
+      .eq("user_id", user.id)
+      .order("created_at", { ascending: false })
+      .limit(1)
+      .maybeSingle(),
+  ]);
 
   const rows = (data ?? []) as Investment[];
   // converte cada ativo da sua moeda para a moeda de exibição do perfil
@@ -154,6 +164,21 @@ export default async function InvestimentosPage() {
                 : "Dentro do alvo."}
           </p>
         </div>
+      )}
+
+      {invProfile && (
+        <AdviceCard
+          advice={
+            adviceRow
+              ? {
+                  summary: adviceRow.summary,
+                  actions: (adviceRow.actions as string[]) ?? [],
+                  model: adviceRow.model,
+                  created_at: adviceRow.created_at,
+                }
+              : null
+          }
+        />
       )}
 
       <div className="mt-6">

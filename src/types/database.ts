@@ -218,6 +218,14 @@ export interface Database {
         provider_ref: string | null;
         created_at: string;
       }>;
+      investment_advice: Table<{
+        id: string;
+        user_id: string;
+        summary: string;
+        actions: Json;
+        model: string | null;
+        created_at: string;
+      }>;
     };
     Views: { [_ in never]: never };
     Functions: { [_ in never]: never };

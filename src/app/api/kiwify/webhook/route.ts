@@ -4,6 +4,7 @@ import { createAdminClient, findUserIdByEmail } from "@/lib/supabase/admin";
 import { checkRateLimit, getClientIp } from "@/lib/rate-limit";
 import { logger, safeError } from "@/lib/logger";
 import { PLAN } from "@/lib/plans";
+import { sendEmail, accessGrantedEmail } from "@/lib/email";
 
 /**
  * Webhook da Kiwify. Assinatura: HMAC-SHA1 do corpo cru com KIWIFY_WEBHOOK_SECRET,
@@ -116,6 +117,7 @@ export async function POST(req: Request) {
           { onConflict: "email" },
         );
       }
+      await sendEmail(accessGrantedEmail(email));
       logger.info("kiwify.webhook.grant", { email: mask(email), hasUser: !!userId });
       return NextResponse.json({ ok: true, action: "granted" });
     }

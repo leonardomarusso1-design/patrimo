@@ -1,5 +1,3 @@
-import "server-only";
-
 /**
  * Taxas de câmbio (base BRL), cacheadas por 6h. Fonte gratuita sem chave:
  * open.er-api.com. Se indisformação falhar, cai para 1:1 (não converte).
