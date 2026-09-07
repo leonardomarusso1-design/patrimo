@@ -643,6 +643,280 @@ A calculadora de Dividendos estima sua renda passiva pelo yield informado e most
 ---
 *Referência: conceitos de análise de dividendos; dados de proventos das companhias.*`,
   },
+  {
+    slug: "tipos-de-investimento",
+    title: "Guia do iniciante: renda fixa x renda variável",
+    excerpt:
+      "Todo investimento cabe em duas caixas. Entender a diferença é o primeiro passo para montar uma carteira que faz sentido.",
+    author: "Time Patrimo",
+    publishedAt: "2026-09-15",
+    readingMinutes: 5,
+    tags: ["iniciante", "investimentos"],
+    content: `# Renda fixa x renda variável
+
+## Renda fixa
+
+Você empresta dinheiro (para o governo, um banco ou uma empresa) e recebe de volta com juros. A **regra de remuneração é conhecida na hora da compra** — pode ser um percentual fixo (prefixado), o CDI/Selic (pós-fixado) ou inflação + um spread (IPCA+).
+
+Exemplos: Tesouro Direto, CDB, LCI, LCA, debênture.
+
+O valor pode oscilar antes do vencimento (marcação a mercado), mas se você segura até o fim, recebe o combinado.
+
+## Renda variável
+
+Você vira sócio ou cotista de um ativo cujo preço **muda todo dia** conforme oferta e demanda. Não há retorno garantido — pode ganhar muito mais que a renda fixa, ou perder.
+
+Exemplos: ações, fundos imobiliários, ETFs, criptomoedas.
+
+## Como pensar a divisão
+
+Uma abordagem comum:
+
+- **Reserva de emergência e objetivos de curto prazo (até 2 anos):** 100% renda fixa líquida.
+- **Objetivos de médio e longo prazo:** mistura, com o peso em renda variável crescendo quanto mais longo o prazo e maior sua tolerância a oscilação.
+
+O seu **perfil de investidor** (conservador, moderado, arrojado) ajuda a definir esse peso.
+
+## No Patrimo
+
+O quiz de perfil de investidor sugere uma divisão. O módulo de Investimentos acompanha quanto você tem em cada classe.
+
+---
+*Referência: material educacional da B3 e da CVM sobre classes de ativos.*`,
+  },
+  {
+    slug: "tesouro-direto",
+    title: "Tesouro Direto: Selic, Prefixado e IPCA+ explicados",
+    excerpt:
+      "O investimento mais seguro do país tem três sabores. Cada um serve para um objetivo diferente — usar o errado custa dinheiro.",
+    author: "Time Patrimo",
+    publishedAt: "2026-09-16",
+    readingMinutes: 6,
+    tags: ["iniciante", "renda fixa"],
+    content: `# Tesouro Direto
+
+Comprar título público é emprestar para o governo federal — o devedor de menor risco do Brasil. Você acessa pelo site do Tesouro ou pela corretora, a partir de ~R$ 30.
+
+## Tesouro Selic
+
+Rende a taxa Selic. **Não sofre perda se resgatado antes do vencimento** — por isso é o queridinho da reserva de emergência. Liquidez em D+1.
+
+## Tesouro Prefixado
+
+Taxa travada na compra (ex.: "12,5% ao ano"). Se você segura até o vencimento, é exatamente isso. Se vender antes e os juros do mercado subiram, **pode ter prejuízo** (marcação a mercado). Serve para quem quer travar uma taxa e tem data certa.
+
+## Tesouro IPCA+
+
+Paga **inflação + um percentual fixo** (ex.: "IPCA + 6%"). Protege o poder de compra no longo prazo. Ideal para aposentadoria e objetivos de 10+ anos. Também sofre marcação a mercado se vendido antes.
+
+## Custos
+
+- Taxa de custódia da B3: 0,20% ao ano (isenta nos primeiros R$ 10 mil em Tesouro Selic).
+- IR regressivo de 22,5% a 15% sobre o rendimento.
+
+## Regra prática
+
+| Objetivo | Título |
+|---|---|
+| Reserva de emergência | Tesouro Selic |
+| Meta com data fixa em 2–5 anos | Prefixado (segurar até o fim) |
+| Aposentadoria / muito longo prazo | IPCA+ |
+
+---
+*Fonte: Tesouro Nacional — programa Tesouro Direto; tabela de IR da Receita Federal.*`,
+  },
+  {
+    slug: "fundos-imobiliarios",
+    title: "Fundos imobiliários (FIIs): renda de aluguel sem comprar imóvel",
+    excerpt:
+      "Com uma cota de ~R$ 100 você vira sócio de shoppings, galpões e prédios — e recebe a parte dos aluguéis todo mês, isenta de IR.",
+    author: "Time Patrimo",
+    publishedAt: "2026-09-17",
+    readingMinutes: 6,
+    tags: ["iniciante", "investimentos"],
+    content: `# Fundos imobiliários (FIIs)
+
+Um FII junta o dinheiro de milhares de cotistas e investe em imóveis ou em dívida imobiliária. Você compra cotas na bolsa, como se fossem ações.
+
+## O que você ganha
+
+- **Rendimento mensal:** a maior parte do resultado é distribuída aos cotistas. Para pessoa física, esse rendimento é **isento de IR** (se o fundo cumpre requisitos legais).
+- **Valorização (ou desvalorização) da cota.**
+
+## Tipos
+
+- **Tijolo:** imóveis físicos — lajes corporativas, shoppings, galpões logísticos, hospitais. Renda vem do aluguel.
+- **Papel (recebíveis):** compram dívida imobiliária (CRI). Renda vem dos juros, costuma acompanhar CDI ou IPCA.
+- **Fundos de fundos (FoF):** investem em cotas de outros FIIs. Diversificação num só ticket.
+
+## Riscos
+
+- **Vacância:** imóvel vazio não paga aluguel.
+- **Volatilidade:** a cota oscila todo dia.
+- **Ganho de capital na venda é tributado em 20%** (só o lucro da venda, não o rendimento mensal).
+
+## Como avaliar (básico)
+
+- Dividend yield sustentável (desconfie de 15%+ sem motivo).
+- P/VP (preço sobre valor patrimonial): perto de 1 é "justo".
+- Qualidade dos imóveis e dos inquilinos, prazo dos contratos.
+
+---
+*Fonte: Lei 8.668/1993 e Lei 11.196/2005 (isenção); material educacional da B3.*`,
+  },
+  {
+    slug: "acoes-o-que-sao",
+    title: "Ações: o que são e como comprar a primeira",
+    excerpt:
+      "Comprar uma ação é comprar um pedacinho de uma empresa. Veja o que muda entre ON e PN e o passo a passo para investir.",
+    author: "Time Patrimo",
+    publishedAt: "2026-09-18",
+    readingMinutes: 5,
+    tags: ["iniciante", "investimentos"],
+    content: `# Ações
+
+Uma ação é uma fração do capital de uma empresa. Ao comprar, você vira sócio — participa dos lucros (via dividendos) e da valorização (ou queda) do preço.
+
+## ON, PN e Unit
+
+- **ON (ordinária):** dá direito a voto na assembleia. Ticker termina em **3** (ex.: PETR3).
+- **PN (preferencial):** sem voto, mas prioridade no recebimento de dividendos. Ticker termina em **4** (ex.: PETR4).
+- **Unit:** pacote de ON + PN. Termina em **11** (ex.: SANB11).
+
+## Como comprar
+
+1. Abrir conta numa corretora (gratuita na maioria).
+2. Transferir dinheiro via PIX/TED.
+3. No home broker, buscar o ticker e enviar uma **ordem de compra** (a mercado ou limitada a um preço).
+4. A liquidação é em **D+2** (as ações aparecem 2 dias úteis depois).
+
+## Custos
+
+- Corretagem: R$ 0 na maioria das corretoras para ações.
+- Emolumentos da B3: ~0,03%.
+- IR: **15% sobre o lucro** no swing trade, com isenção se as vendas do mês somam até R$ 20.000. Day trade: 20%, sem isenção.
+
+## Primeiro passo sensato
+
+Muitos iniciantes começam por um **ETF** (ex.: um que replica o Ibovespa) — uma cesta de dezenas de ações num só papel, com diversificação instantânea.
+
+---
+*Fonte: manual do investidor da B3; regras de IR da Receita Federal.*`,
+  },
+  {
+    slug: "como-analisar-acoes",
+    title: "Como analisar uma ação: os indicadores que importam",
+    excerpt:
+      "P/L, ROE, dívida líquida, dividend yield. O que cada número diz sobre a empresa — e por que nenhum funciona sozinho.",
+    author: "Time Patrimo",
+    publishedAt: "2026-09-19",
+    readingMinutes: 7,
+    tags: ["investimentos", "análise"],
+    content: `# Como analisar uma ação
+
+Análise fundamentalista olha para a **empresa por trás do papel**: ela lucra, cresce, se endivida bem?
+
+## Indicadores de preço
+
+- **P/L (preço/lucro):** quantos anos de lucro atual para "pagar" a ação. P/L 8 é mais barato que P/L 20 — mas empresas que crescem rápido merecem P/L maior.
+- **P/VP (preço/valor patrimonial):** abaixo de 1 = negociando abaixo do patrimônio contábil.
+
+## Indicadores de qualidade
+
+- **ROE (retorno sobre patrimônio):** quanto de lucro a empresa gera sobre o capital dos sócios. Acima de 15% costuma ser bom e consistente é melhor que alto num ano só.
+- **Margem líquida:** quanto do faturamento vira lucro.
+
+## Endividamento
+
+- **Dívida líquida / EBITDA:** acima de 3x acende alerta (depende do setor).
+
+## Dividendos
+
+- **Dividend yield** e histórico de pagamento. Consistência > pico isolado.
+
+## A regra de ouro
+
+Nenhum indicador funciona sozinho. Uma ação "barata" no P/L pode estar barata porque o lucro vai cair. Cruze os números com: o setor, o histórico de 5–10 anos, a vantagem competitiva e a qualidade da gestão.
+
+## No Patrimo
+
+O foco do Patrimo é o **seu** patrimônio consolidado, não a análise de ativos individuais. Para estudar empresas, use as demonstrações financeiras (site de RI) e ferramentas dedicadas.
+
+---
+*Referência: conceitos de análise fundamentalista (Graham, "O Investidor Inteligente"; material da APIMEC).*`,
+  },
+  {
+    slug: "investir-no-exterior",
+    title: "Investir no exterior: stocks, ETFs e BDRs",
+    excerpt:
+      "Dá para ter Apple e S&P 500 na carteira sem abrir conta lá fora. Veja os três caminhos e o risco que ninguém conta: o câmbio.",
+    author: "Time Patrimo",
+    publishedAt: "2026-09-20",
+    readingMinutes: 6,
+    tags: ["iniciante", "investimentos"],
+    content: `# Investir no exterior
+
+Diversificar para fora do Brasil reduz o risco de depender de uma única economia e moeda.
+
+## Três caminhos
+
+1. **BDR (Brazilian Depositary Receipt):** recibo negociado na B3 que representa uma ação estrangeira (ex.: AAPL34 = Apple). Compra em reais, pela sua corretora brasileira, no horário da bolsa daqui.
+2. **ETF de índice internacional na B3:** ex.: um ETF que replica o S&P 500, cotado em reais.
+3. **Conta em corretora internacional:** compra ações e ETFs diretamente em dólar. Mais opções, mais burocracia (declaração, câmbio).
+
+## O risco cambial
+
+Se você compra um ativo em dólar e o real **se valoriza**, seu retorno em reais encolhe — mesmo que o ativo tenha subido lá fora. O contrário também vale. Câmbio é uma fonte de risco *e* de proteção.
+
+## Imposto
+
+- BDR e ETF na B3: 15% sobre o ganho de capital, **sem** a isenção de R$ 20 mil.
+- Conta lá fora: ganho de capital com alíquota progressiva; dividendos recebidos do exterior entram no carnê-leão.
+
+## Quanto alocar
+
+Não há número mágico. Muitos investidores de longo prazo colocam entre **10% e 30%** da carteira de renda variável no exterior.
+
+---
+*Fonte: Resolução CVM 3/2020 (BDR); regras de tributação da Receita Federal.*`,
+  },
+  {
+    slug: "criptomoedas-basico",
+    title: "Criptomoedas para quem está começando",
+    excerpt:
+      "Blockchain, carteira, exchange, custódia. O mínimo que você precisa entender antes de comprar seu primeiro satoshi — e por que alocar pouco.",
+    author: "Time Patrimo",
+    publishedAt: "2026-09-21",
+    readingMinutes: 6,
+    tags: ["iniciante", "cripto"],
+    content: `# Criptomoedas para quem está começando
+
+## O que é
+
+Cripto é dinheiro digital que roda numa **blockchain** — um registro público, distribuído entre milhares de computadores, que ninguém controla sozinho. Bitcoin é a maior; Ethereum adiciona "contratos inteligentes".
+
+## Onde fica guardada
+
+- **Exchange (corretora):** prático, mas a corretora tem a chave. Se ela quebra ou é hackeada, o risco é seu. Escolha exchanges grandes e reguladas.
+- **Carteira própria (self-custody):** você guarda a "seed phrase" (12–24 palavras). Controle total — e responsabilidade total. Perdeu a frase, perdeu tudo.
+
+## Os riscos reais
+
+- **Volatilidade:** quedas de 50%+ já aconteceram várias vezes.
+- **Golpes:** promessas de rendimento fixo, "airdrops", suporte falso. Se parece bom demais, é golpe.
+- **Sem garantia:** não existe FGC nem Tesouro por trás.
+
+## Imposto
+
+Vendas que somam **até R$ 35.000 no mês** são isentas de IR sobre o ganho. Acima disso, 15% sobre o lucro. Você declara a posição mesmo sem vender.
+
+## Alocação sensata
+
+Trate como a parte mais arriscada da carteira. Uma faixa comum entre investidores é **1% a 5%** do total — o quanto você aguentaria ver cair pela metade sem perder o sono.
+
+---
+*Fonte: Instrução Normativa RFB 1.888/2019; documentação técnica de Bitcoin e Ethereum.*`,
+  },
 ];
 
 export function getPost(slug: string) {
