@@ -63,9 +63,12 @@ export async function syncConnection(formData: FormData): Promise<void> {
       .eq("pluggy_item_id", itemId)
       .maybeSingle();
     const days = conn?.last_synced_at
-      ? Math.max(
-          Math.ceil((Date.now() - new Date(conn.last_synced_at).getTime()) / 86400000) + 2,
-          2,
+      ? Math.min(
+          Math.max(
+            Math.ceil((Date.now() - new Date(conn.last_synced_at).getTime()) / 86400000) + 5,
+            35,
+          ),
+          365,
         )
       : 90;
     await syncItem(user.id, supabase, itemId, days);
@@ -122,18 +125,24 @@ async function syncItem(
     }
   }
 
+  let inserted = 0;
   if (rows.length) {
-    const { error } = await supabase
+    const { error, count } = await supabase
       .from("budget_entries")
-      .upsert(rows, { onConflict: "user_id,external_id", ignoreDuplicates: true });
-    if (error) logger.error("pluggy.sync.upsert", { error: error.message });
+      .upsert(rows, { onConflict: "user_id,external_id", ignoreDuplicates: true, count: "estimated" });
+    if (error) {
+      logger.error("pluggy.sync.upsert", { error: error.message });
+      return -1; // não avança o last_synced_at
+    }
+    inserted = count ?? rows.length;
   }
 
+  // só marca como sincronizado quando deu certo
   await supabase
     .from("bank_connections")
     .update({ last_synced_at: new Date().toISOString() })
     .eq("user_id", userId)
     .eq("pluggy_item_id", itemId);
 
-  return rows.length;
+  return inserted;
 }

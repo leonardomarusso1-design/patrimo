@@ -76,14 +76,27 @@ export async function listAccounts(itemId: string) {
 }
 
 export async function listTransactions(accountId: string, fromISO: string) {
+  const key = await getApiKey();
   const all: PluggyTransaction[] = [];
-  let page = 1;
-  for (; page <= 10; page++) {
-    const json = await api<{ results: PluggyTransaction[]; totalPages: number }>(
-      `/transactions?accountId=${accountId}&from=${fromISO}&pageSize=200&page=${page}`,
-    );
-    all.push(...json.results);
-    if (page >= json.totalPages) break;
+  let url: string | null = `${BASE}/v2/transactions?accountId=${accountId}`;
+
+  for (let i = 0; url && i < 30; i++) {
+    const res = await fetch(url, { headers: { "X-API-KEY": key } });
+    if (!res.ok) {
+      const body = await res.text().catch(() => "");
+      logger.error("pluggy.transactions", { status: res.status, body: body.slice(0, 300) });
+      break;
+    }
+    const json = (await res.json()) as {
+      results: PluggyTransaction[];
+      next: string | null;
+    };
+    for (const t of json.results) {
+      // v2 vem ordenado por data desc; para de paginar ao passar do período
+      if (t.date.slice(0, 10) < fromISO) return all;
+      all.push(t);
+    }
+    url = json.next;
   }
   return all;
 }
