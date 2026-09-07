@@ -9,6 +9,7 @@ const COLS = [
       { href: "/precos", label: "Preços" },
       { href: "/#escola", label: "Escola" },
       { href: "/blog", label: "Blog" },
+      { href: "/parceria", label: "Seja parceiro" },
     ],
   },
   {
