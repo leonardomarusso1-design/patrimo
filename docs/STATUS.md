@@ -64,15 +64,28 @@ passam limpos. 43 rotas.
 - ✅ **Câmbio real multi-moeda** — `lib/fx.ts` (open.er-api, cache 6h). Investimentos e
   patrimônio convertem cada ativo para a moeda de exibição do perfil.
 
-## Ainda não construído (precisa de chave/serviço externo)
+## Construído depois (sessão 3)
 
-1. **IA de investimentos** — leitura diária do mercado + sugestão de aporte pelo perfil.
-   Base pronta (perfil de investidor coletado). Falta: `OPENAI_API_KEY` + um cron
-   (Vercel Cron) que gera a recomendação e uma tela para exibi-la.
-2. **Open Finance** — agregador Pluggy ou Belvo (conta + credenciais). Traria as
-   transações direto pro Orçamento sem CSV.
-3. **E-mail transacional (Resend)** — boas-vindas, aviso de renovação, recibo. Falta
-   `RESEND_API_KEY` e os templates.
-4. **Player de vídeo da Escola** — as aulas ficam "em gravação". Plugar Mux/Bunny/
-   YouTube não-listado quando os vídeos existirem (campo `video_url` a adicionar).
-5. **Testes automatizados** — só build + eslint como gate hoje.
+- ✅ **Donut "Despesas por categoria"** — usa container query (`@container`), não estoura
+  mais quando o card é estreito.
+- ✅ **MonthPicker** — grade de meses + navegação por ano, substitui as setinhas.
+  **Período personalizado** (de tal dia a tal dia) via `budget_entries.entry_date`
+  (migration 0007). URL: `?from=&to=`.
+- ✅ **IA de investimentos** — análise sob demanda na tela de Investimentos. Com
+  `OPENAI_API_KEY` usa gpt-4o-mini; sem a chave, cai num fallback por regras (alocação
+  vs. perfil). Histórico em `investment_advice` (migration 0008). Rate limit 1/dia.
+  Não faz previsão de curto prazo nem indica ativo específico.
+- ✅ **E-mails Resend** — "acesso liberado" (no webhook Kiwify) e "boas-vindas" (após
+  onboarding). Sem `RESEND_API_KEY` viram no-op (só log). `RESEND_FROM` opcional.
+- ✅ **Testes** — vitest, 20 testes de lógica pura (finance, csv, fx, investor, plans).
+  `npm test`.
+
+## Ainda não construído
+
+1. **Open Finance** — precisa de conta **Pluggy** ou **Belvo** (client id/secret). Só
+   isso destrava. O código de importação via CSV já cobre o caso manual.
+2. **Player de vídeo da Escola** — as aulas ficam "em gravação"; plugar o host quando
+   os vídeos existirem (campo `video_url` a adicionar em `LESSONS`/tabela).
+3. **Cron de análise da IA** — hoje é sob demanda. Um Vercel Cron diário gerando a
+   análise para todos os assinantes é opcional (custo de tokens).
+4. **Aviso de renovação por e-mail** — falta um cron que olha `plan_expires_at`.
