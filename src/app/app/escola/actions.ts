@@ -10,6 +10,8 @@ import { safeError } from "@/lib/logger";
 export async function toggleLesson(lessonId: number, completed: boolean) {
   const lesson = LESSONS.find((l) => l.id === lessonId);
   if (!lesson) return;
+  // sem vídeo publicado, não dá pra concluir
+  if (completed && !lesson.videoUrl) return;
 
   const profile = await getProfile();
   if (!planAllows(profile.plan, lesson.planRequired)) return;

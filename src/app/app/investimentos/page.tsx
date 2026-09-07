@@ -11,6 +11,7 @@ import { formatCurrency, formatPercent } from "@/lib/utils";
 import { PROFILE_INFO, VARIABLE_CLASSES } from "@/lib/investor";
 import { getRates, convert } from "@/lib/fx";
 import { AdviceCard } from "@/components/app/AdviceCard";
+import { BeginnerInvest } from "@/components/app/BeginnerInvest";
 import type { Tables } from "@/types/database";
 
 export const metadata = { title: "Investimentos" };
@@ -127,6 +128,10 @@ export default async function InvestimentosPage() {
             Responder (2 min)
           </ButtonLink>
         </div>
+      )}
+
+      {invProfile && rows.length === 0 && (
+        <BeginnerInvest profile={invProfile} currency={cur} />
       )}
 
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">

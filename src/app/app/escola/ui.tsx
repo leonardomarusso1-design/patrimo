@@ -52,7 +52,13 @@ export function EscolaList({
               {activeLesson.title}
             </h2>
             <p className="mt-1 text-sm text-muted">{activeLesson.description}</p>
-            {activeUnlocked && (
+            {activeUnlocked && !activeLesson.videoUrl && (
+              <p className="mt-4 inline-flex items-center gap-2 rounded-xl bg-ink/[0.05] px-3 py-2 text-xs font-medium text-muted">
+                <Lock className="h-3.5 w-3.5" />
+                Marcar como concluída fica liberado quando o vídeo sair.
+              </p>
+            )}
+            {activeUnlocked && activeLesson.videoUrl && (
               <button
                 disabled={pending}
                 onClick={() =>

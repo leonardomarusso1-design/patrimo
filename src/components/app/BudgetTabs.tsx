@@ -10,6 +10,26 @@ import { clearBudgetMonth } from "@/app/app/orcamento/actions";
 
 export type BudgetTab = { key: string; label: string; total: string; node: ReactNode };
 
+// cor leve por tipo de lançamento
+const TINT: Record<string, { active: string; idle: string }> = {
+  income: {
+    active: "border-emerald-400 bg-emerald-50 text-emerald-700",
+    idle: "border-transparent text-emerald-700/60 hover:bg-emerald-50",
+  },
+  fixed: {
+    active: "border-sky-400 bg-sky-50 text-sky-700",
+    idle: "border-transparent text-sky-700/60 hover:bg-sky-50",
+  },
+  variable: {
+    active: "border-amber-400 bg-amber-50 text-amber-700",
+    idle: "border-transparent text-amber-700/60 hover:bg-amber-50",
+  },
+};
+const FALLBACK_TINT = {
+  active: "border-brand bg-card text-brand-700",
+  idle: "border-transparent text-muted hover:bg-card/60 hover:text-ink",
+};
+
 export function BudgetTabs({
   tabs,
   referenceMonth,
@@ -31,21 +51,25 @@ export function BudgetTabs({
     <div>
       <div className="flex flex-wrap items-center justify-between gap-3 border-b border-border pb-3">
         <div className="-mx-1 flex gap-1.5 overflow-x-auto rounded-xl bg-ink/[0.05] p-1">
-          {tabs.map((t) => (
-            <button
-              key={t.key}
-              onClick={() => setActive(t.key)}
-              className={cn(
-                "shrink-0 whitespace-nowrap rounded-lg border px-3 py-1.5 text-sm font-semibold transition-colors",
-                active === t.key
-                  ? "border-brand bg-card text-brand-700 shadow-[var(--shadow-card)]"
-                  : "border-transparent text-muted hover:bg-card/60 hover:text-ink",
-              )}
-            >
-              {t.label}
-              <span className="ml-1.5 hidden text-xs font-medium text-muted sm:inline">{t.total}</span>
-            </button>
-          ))}
+          {tabs.map((t) => {
+            const tint = TINT[t.key] ?? FALLBACK_TINT;
+            const on = active === t.key;
+            return (
+              <button
+                key={t.key}
+                onClick={() => setActive(t.key)}
+                className={cn(
+                  "shrink-0 whitespace-nowrap rounded-lg border px-3 py-1.5 text-sm font-semibold transition-colors",
+                  on ? `${tint.active} shadow-[var(--shadow-card)]` : tint.idle,
+                )}
+              >
+                {t.label}
+                <span className="ml-1.5 hidden text-xs font-medium opacity-70 sm:inline">
+                  {t.total}
+                </span>
+              </button>
+            );
+          })}
         </div>
 
         <div className="flex gap-2">

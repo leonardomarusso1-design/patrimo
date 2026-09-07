@@ -6,6 +6,8 @@ export type Lesson = {
   description: string;
   duration: string;
   planRequired: PlanId;
+  /** URL do vídeo. Enquanto vazio, a aula fica "em gravação" e não pode ser concluída. */
+  videoUrl?: string;
 };
 
 /**
