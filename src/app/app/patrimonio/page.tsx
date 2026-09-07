@@ -3,6 +3,7 @@ import { PageHeader } from "@/components/app/PageHeader";
 import { EntityManager, type Field } from "@/components/app/EntityManager";
 import { Donut } from "@/components/app/Donut";
 import { StatTile, Progress } from "@/components/ui/Misc";
+import { FipeConsulta } from "@/components/app/FipeConsulta";
 import { formatCurrency, clamp } from "@/lib/utils";
 import type { Tables } from "@/types/database";
 
@@ -99,6 +100,7 @@ export default async function PatrimonioPage() {
       <PageHeader
         title="Patrimônio"
         subtitle="Tudo que você tem, menos tudo que você deve. Bens financiados contam só o que já foi quitado."
+        action={<FipeConsulta />}
       />
 
       <div className="grid gap-4 sm:grid-cols-4">
