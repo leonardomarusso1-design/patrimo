@@ -8,6 +8,16 @@ updates:
     groups:
       dev-deps:
         dependency-type: development
+        update-types: [minor, patch]
+    ignore:
+      # majors de tooling quebram entre si (typescript-eslint x TS, eslint-config-next x eslint).
+      # patch/minor de segurança seguem passando.
+      - dependency-name: "typescript"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "eslint"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "@types/node"
+        update-types: ["version-update:semver-major"]
   - package-ecosystem: github-actions
     directory: "/"
     schedule:
