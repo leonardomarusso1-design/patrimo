@@ -154,11 +154,13 @@ A anon key está em `C:\patrimo\.env.local` — copie a linha `NEXT_PUBLIC_SUPAB
 Clique **Deploy**. Em ~2 minutos você recebe uma URL tipo
 `https://patrimo-xxxx.vercel.app`.
 
-### 4.4 Depois do deploy
+### 4.4 Depois do deploy (domínio atual: `patrimo-ashy.vercel.app`)
 
 1. Volte ao Supabase → **Authentication → URL Configuration**:
-   - **Site URL**: troque para a URL da Vercel (ou o domínio final).
-   - **Redirect URLs**: adicione `https://patrimo-xxxx.vercel.app/**`.
+   - **Site URL**: `https://patrimo-ashy.vercel.app` (ou o domínio final).
+   - **Redirect URLs**: adicione `https://patrimo-ashy.vercel.app/**`.
+2. Habilite **Leaked Password Protection** em Authentication → Providers → Email
+   (checa senhas vazadas no HaveIBeenPwned). Advisor do Supabase pediu isso.
 2. Na Vercel → **Settings → Environment Variables**: ajuste `NEXT_PUBLIC_SITE_URL`
    para a mesma URL e faça **Redeploy** (aba Deployments → menu do último deploy →
    Redeploy).
@@ -214,27 +216,36 @@ Sem isso o app roda, mas sem limite de tentativas nos endpoints de login/consent
 
 ---
 
-## Passo 8 — Kiwify (pagamento e planos)
+## Passo 8 — Kiwify (plano único)
 
-A cobrança em si você configura na Kiwify. O código que ativa o plano no banco
-(`/api/kiwify/webhook`) **ainda não existe** — é a próxima feature a construir. Mas
-já dá para adiantar a parte da Kiwify:
+O produto é **um plano só**: R$ 97,90 pelo ano, parcelável em até 12x no cartão.
+O link de checkout já está no código (`src/lib/plans.ts` → `https://kiwify.app/LuK5uon`).
+O webhook (`/api/kiwify/webhook`) **já foi construído**.
 
-1. `https://dashboard.kiwify.com.br` → **Produtos → Criar produto**.
-2. Crie 6 ofertas (ou 3 produtos com 2 ofertas cada):
-   | Plano | Mensal | Anual |
-   |---|---|---|
-   | Essencial | R$ 49 | R$ 490 |
-   | Pro | R$ 97 | R$ 970 |
-   | Elite | R$ 197 | R$ 1.970 |
-   Todos como **assinatura** (recorrência mensal / anual).
-3. Para cada oferta, copie o **link de checkout**.
-4. Em **Apps → Webhooks** (ou "Configurações → Webhooks"), crie um webhook:
-   - URL: `https://SEU-DOMINIO/api/kiwify/webhook` (essa rota será criada na próxima etapa)
-   - Eventos: compra aprovada, assinatura renovada, assinatura cancelada, reembolso.
-   - Copie o **token/segredo** do webhook → será a env var `KIWIFY_WEBHOOK_SECRET`.
-5. Me passe os 6 links de checkout + o segredo. Eu construo o webhook e ligo os
-   botões da página de preços.
+O que falta na Kiwify:
+
+1. Confirme que o produto/oferta em `https://kiwify.app/LuK5uon` está:
+   - Preço **R$ 97,90**, cobrança **anual** (ou pagamento único de 1 ano).
+   - **Parcelamento em até 12x** habilitado no cartão.
+2. **Apps → Webhooks → Criar webhook**:
+   - URL: `https://patrimo-ashy.vercel.app/api/kiwify/webhook`
+   - Eventos: **compra aprovada**, **compra recusada/reembolsada**, **chargeback**,
+     **assinatura renovada**, **assinatura cancelada**.
+   - Copie o **token/segredo** do webhook.
+3. Na Vercel, a env var **`KIWIFY_WEBHOOK_SECRET`** = esse token. (Já aparece na sua
+   lista de env vars — confirme que o valor está preenchido.)
+4. **Falta uma env var na Vercel: `SUPABASE_SERVICE_ROLE_KEY`** — o webhook precisa
+   dela para liberar o plano de outros usuários (ignora RLS). Pegue em
+   Supabase → Project Settings → API → `service_role` secret e adicione na Vercel
+   (Production + Preview). Sem isso o webhook retorna erro 500.
+
+Como o acesso funciona (hard paywall):
+- Pessoa se cadastra → faz onboarding → cai em **`/ativar`** com o botão da Kiwify.
+- Paga na Kiwify → webhook libera o plano por 1 ano → `/app` abre.
+- Se a pessoa comprar **antes** de ter conta, a compra fica guardada em
+  `pending_purchases` e é aplicada automaticamente quando ela criar a conta com o
+  mesmo e-mail.
+- Reembolso / cancelamento / chargeback → webhook remove o acesso.
 
 ---
 
