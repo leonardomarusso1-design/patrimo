@@ -12,9 +12,10 @@ import { cn } from "@/lib/utils";
 export type Field = {
   name: string;
   label: string;
-  type: "text" | "number" | "money" | "date" | "day" | "select";
+  type: "text" | "number" | "money" | "date" | "day" | "select" | "boolean";
   required?: boolean;
   placeholder?: string;
+  hint?: string;
   options?: { value: string; label: string }[];
   defaultValue?: string;
   step?: string;
@@ -24,7 +25,7 @@ export type Field = {
 export type ManagedRow = {
   id: string;
   node: ReactNode;
-  raw: Record<string, string | number | null | undefined>;
+  raw: Record<string, string | number | boolean | null | undefined>;
 };
 
 const empty: MutationState = {};
@@ -115,12 +116,30 @@ function EntityForm({
         </p>
       )}
 
-      {fields.map((field) => (
-        <div key={field.name}>
-          <Label htmlFor={field.name}>{field.label}</Label>
-          <FieldInput field={field} defaultValue={raw?.[field.name]} />
-        </div>
-      ))}
+      {fields.map((field) =>
+        field.type === "boolean" ? (
+          <label key={field.name} className="flex items-start gap-2.5 rounded-xl bg-ink/[0.03] p-3 text-sm">
+            <input
+              type="checkbox"
+              name={field.name}
+              defaultChecked={raw?.[field.name] === true}
+              className="mt-0.5 h-4 w-4 shrink-0 accent-brand"
+            />
+            <span>
+              <span className="font-medium text-ink">{field.label}</span>
+              {field.hint && <span className="mt-0.5 block text-xs text-muted">{field.hint}</span>}
+            </span>
+          </label>
+        ) : (
+          <div key={field.name}>
+            <Label htmlFor={field.name}>{field.label}</Label>
+            <FieldInput
+              field={field}
+              defaultValue={raw?.[field.name] as string | number | null | undefined}
+            />
+          </div>
+        ),
+      )}
 
       <div className="flex justify-end gap-2 pt-2">
         <Button type="button" variant="ghost" onClick={onDone}>

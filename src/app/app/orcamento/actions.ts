@@ -55,6 +55,73 @@ export async function importBudgetCsv(
   }
 }
 
+/** Confirma um lançamento previsto: passa a contar nos totais do mês. */
+export async function confirmPending(id: string, path: string) {
+  if (!id) return;
+  const safePath = path.startsWith("/app/orcamento") ? path : "/app/orcamento";
+  try {
+    const { user, supabase } = await requireUser();
+    await supabase
+      .from("budget_entries")
+      .update({ pending: false })
+      .eq("id", id)
+      .eq("user_id", user.id);
+    revalidatePath(safePath);
+    revalidatePath("/app");
+  } catch (err) {
+    safeError("orcamento.confirmPending", err);
+  }
+}
+
+/**
+ * Copia os lançamentos recorrentes do mês anterior para `refMonth` que ainda
+ * não existem lá (dedup por kind+name). Ação explícita — nada roda no render.
+ */
+export async function carryRecurring(refMonth: string) {
+  if (!/^\d{4}-\d{2}-01$/.test(refMonth)) return;
+  const [y, m] = refMonth.split("-").map(Number);
+  const prev = new Date(y, m - 2, 1);
+  const prevMonth = `${prev.getFullYear()}-${String(prev.getMonth() + 1).padStart(2, "0")}-01`;
+
+  try {
+    const { user, supabase } = await requireUser();
+    const [{ data: templates }, { data: existing }] = await Promise.all([
+      supabase
+        .from("budget_entries")
+        .select("kind, name, category, amount, due_day")
+        .eq("user_id", user.id)
+        .eq("reference_month", prevMonth)
+        .eq("recurring", true),
+      supabase
+        .from("budget_entries")
+        .select("kind, name")
+        .eq("user_id", user.id)
+        .eq("reference_month", refMonth),
+    ]);
+    const have = new Set((existing ?? []).map((r) => `${r.kind}::${r.name.toLowerCase()}`));
+    const rows = (templates ?? [])
+      .filter((t) => !have.has(`${t.kind}::${t.name.toLowerCase()}`))
+      .map((t) => ({
+        user_id: user.id,
+        reference_month: refMonth,
+        kind: t.kind,
+        name: t.name,
+        category: t.category,
+        amount: t.amount,
+        due_day: t.due_day,
+        entry_date: refMonth,
+        recurring: true,
+        pending: false,
+      }));
+    if (rows.length) {
+      await supabase.from("budget_entries").insert(rows);
+      revalidatePath("/app/orcamento");
+    }
+  } catch (err) {
+    safeError("orcamento.carryRecurring", err);
+  }
+}
+
 export async function clearBudgetMonth(formData: FormData) {
   const month = z
     .string()

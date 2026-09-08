@@ -91,6 +91,8 @@ export interface Database {
           entry_date: string | null; // date
           external_id: string | null;
           notes: string | null;
+          recurring: boolean;
+          pending: boolean;
           created_at: string;
         }
       >;

@@ -43,7 +43,7 @@ export default async function InicioPage() {
   const nw = await computeNetWorth(supabase, user.id, cur);
 
   const [budget, fund, goals, contribs] = await Promise.all([
-    supabase.from("budget_entries").select("kind, amount").eq("user_id", user.id).eq("reference_month", ref),
+    supabase.from("budget_entries").select("kind, amount, pending").eq("user_id", user.id).eq("reference_month", ref),
     supabase.from("emergency_fund").select("*").eq("user_id", user.id).maybeSingle(),
     supabase
       .from("goals")
@@ -53,7 +53,7 @@ export default async function InicioPage() {
     supabase.from("goal_contributions").select("goal_id, amount").eq("user_id", user.id),
   ]);
 
-  const b = budget.data ?? [];
+  const b = (budget.data ?? []).filter((r) => !r.pending); // previstos não contam
   const income = b.filter((r) => r.kind === "income").reduce((s, r) => s + Number(r.amount), 0);
   const expense = b.filter((r) => r.kind !== "income").reduce((s, r) => s + Number(r.amount), 0);
   const variable = b.filter((r) => r.kind === "expense_variable").reduce((s, r) => s + Number(r.amount), 0);
@@ -122,7 +122,7 @@ export default async function InicioPage() {
   ];
 
   const setup = [
-    { href: "/app/orcamento?new=income", label: "Lance sua renda e as despesas do mês", done: b.length > 0 },
+    { href: "/app/orcamento?new=income", label: "Lance sua renda e as despesas do mês", done: (budget.data ?? []).length > 0 },
     { href: "/app/reserva", label: "Defina o custo essencial da sua reserva", done: Number(fund.data?.essential_monthly_cost ?? 0) > 0 },
     { href: "/app/metas", label: "Crie sua primeira meta", done: goalsList.length > 0 },
   ];

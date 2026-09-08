@@ -25,6 +25,8 @@ const SCHEMAS = {
     due_day: z.coerce.number().int().min(1).max(31).optional().nullable(),
     reference_month: z.string().regex(/^\d{4}-\d{2}-01$/),
     notes: z.string().trim().max(300).optional().nullable(),
+    recurring: z.coerce.boolean().default(false),
+    pending: z.coerce.boolean().default(false),
   }),
   goals: z.object({
     name: shortText,

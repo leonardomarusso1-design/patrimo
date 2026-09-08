@@ -1,6 +1,9 @@
 import Link from "next/link";
+import { Clock, Repeat } from "lucide-react";
 import { requireUser, getProfile } from "@/lib/data";
 import { PageHeader } from "@/components/app/PageHeader";
+import { PendingConfirm } from "@/components/app/PendingConfirm";
+import { RecurringBanner } from "@/components/app/RecurringBanner";
 import { EntityManager, type Field } from "@/components/app/EntityManager";
 import { Donut } from "@/components/app/Donut";
 import { BudgetTabs } from "@/components/app/BudgetTabs";
@@ -36,11 +39,26 @@ const CAT_FIELD: Field = {
 };
 
 function fieldsFor(kind: string, refMonth: string, entryDate: string): Field[] {
+  const isIncome = kind === "income";
   return [
-    { name: "name", label: "Nome", type: "text", required: true, placeholder: kind === "income" ? "Salário, freela…" : "Aluguel, mercado…" },
-    ...(kind === "income" ? [] : [CAT_FIELD]),
+    { name: "name", label: "Nome", type: "text", required: true, placeholder: isIncome ? "Salário, freela…" : "Aluguel, mercado…" },
+    ...(isIncome ? [] : [CAT_FIELD]),
     { name: "amount", label: "Valor (R$)", type: "money", required: true },
     { name: "entry_date", label: "Data", type: "date", defaultValue: entryDate, required: true },
+    {
+      name: "recurring",
+      label: "Repetir todos os meses",
+      type: "boolean",
+      hint: isIncome
+        ? "Pra renda fixa, como salário. Se o valor muda a cada mês, deixe desmarcado."
+        : "Pra despesa fixa que se repete. O valor pode ser ajustado depois em cada mês.",
+    },
+    {
+      name: "pending",
+      label: isIncome ? "Ainda não recebi (previsto)" : "Ainda não paguei (previsto)",
+      type: "boolean",
+      hint: `Não entra no ${isIncome ? "saldo" : "total de despesas"} até você confirmar.`,
+    },
     { name: "due_day", label: "Dia de vencimento (opcional)", type: "day" },
     { name: "reference_month", label: "Mês de referência", type: "text", defaultValue: refMonth, required: true },
   ];
@@ -83,20 +101,43 @@ export default async function OrcamentoPage({
   const rows = (data ?? []) as Entry[];
   const cur = profile.display_currency;
   const by = (k: Entry["kind"]) => rows.filter((r) => r.kind === k);
-  const sum = (list: Entry[]) => list.reduce((s, r) => s + Number(r.amount), 0);
+  // totais ignoram lançamentos previstos (pending); a lista mostra todos.
+  const sum = (list: Entry[]) =>
+    list.reduce((s, r) => (r.pending ? s : s + Number(r.amount)), 0);
 
   const income = sum(by("income"));
   const fixed = sum(by("expense_fixed"));
   const variable = sum(by("expense_variable"));
   const balance = income - fixed - variable;
+  const pendingIncome = by("income")
+    .filter((r) => r.pending)
+    .reduce((s, r) => s + Number(r.amount), 0);
 
   const byCategory = new Map<string, number>();
   for (const r of rows) {
-    if (r.kind === "income") continue;
+    if (r.kind === "income" || r.pending) continue;
     const key = r.category?.trim() || "Sem categoria";
     byCategory.set(key, (byCategory.get(key) ?? 0) + Number(r.amount));
   }
   const donut = [...byCategory.entries()].map(([name, value]) => ({ name, value }));
+
+  // recorrentes do mês passado ainda não trazidos para este mês
+  let missingRecurring = 0;
+  if (!isRange) {
+    const [py, pm] = current.split("-").map(Number);
+    const prev = new Date(py, pm - 2, 1);
+    const prevMonth = `${prev.getFullYear()}-${String(prev.getMonth() + 1).padStart(2, "0")}-01`;
+    const { data: prevRec } = await supabase
+      .from("budget_entries")
+      .select("kind, name")
+      .eq("user_id", user.id)
+      .eq("reference_month", prevMonth)
+      .eq("recurring", true);
+    const have = new Set(rows.map((r) => `${r.kind}::${r.name.toLowerCase()}`));
+    missingRecurring = (prevRec ?? []).filter(
+      (t) => !have.has(`${t.kind}::${t.name.toLowerCase()}`),
+    ).length;
+  }
 
   const path = isRange
     ? `/app/orcamento?from=${rangeFrom}&to=${rangeTo}`
@@ -113,6 +154,8 @@ export default async function OrcamentoPage({
         category: r.category,
         amount: Number(r.amount),
         entry_date: r.entry_date ?? undefined,
+        recurring: r.recurring,
+        pending: r.pending,
         due_day: r.due_day,
         reference_month: r.reference_month,
       },
@@ -124,12 +167,17 @@ export default async function OrcamentoPage({
                 {r.entry_date.slice(8, 10)}/{r.entry_date.slice(5, 7)}
               </span>
             )}
-            {r.name}
+            {r.pending && <Clock className="h-3.5 w-3.5 text-gold" />}
+            {r.recurring && <Repeat className="h-3.5 w-3.5 text-muted" />}
+            <span className={r.pending ? "text-muted" : undefined}>{r.name}</span>
             {withCat && r.category && (
               <CategoryPill name={r.category} color={catColor.get(r.category.toLowerCase())} />
             )}
+            {r.pending && <PendingConfirm id={r.id} path={path} kind={r.kind} />}
           </span>
-          <span className="tabular-nums text-ink sm:text-right">
+          <span
+            className={`tabular-nums sm:text-right ${r.pending ? "text-muted" : "text-ink"}`}
+          >
             {formatCurrency(Number(r.amount), cur)}
           </span>
         </>
@@ -159,9 +207,23 @@ export default async function OrcamentoPage({
           label={isRange ? "Saldo do período" : "Saldo do mês"}
           value={formatCurrency(balance, cur)}
           tone="ink"
-          hint={balance >= 0 ? "Sobrou — direcione para metas" : "No vermelho — corte o variável"}
+          hint={
+            pendingIncome > 0
+              ? `+ ${formatCurrency(pendingIncome, cur)} previsto (não contado)`
+              : balance >= 0
+                ? "Sobrou — direcione para metas"
+                : "No vermelho — corte o variável"
+          }
         />
       </div>
+
+      {!isRange && (
+        <RecurringBanner
+          count={missingRecurring}
+          refMonth={refMonth}
+          monthLabel={monthLabel(current)}
+        />
+      )}
 
       <div className="mt-6 grid gap-6 lg:grid-cols-[1fr_320px]">
         <div className="rounded-2xl border border-border bg-card p-5 shadow-[var(--shadow-card)]">

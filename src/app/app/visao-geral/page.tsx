@@ -40,7 +40,7 @@ export default async function VisaoGeralPage() {
   const [{ data: budget }, { data: snaps }] = await Promise.all([
     supabase
       .from("budget_entries")
-      .select("kind, amount, reference_month")
+      .select("kind, amount, reference_month, pending")
       .eq("user_id", user.id)
       .gte("reference_month", fromStr),
     supabase
@@ -56,7 +56,7 @@ export default async function VisaoGeralPage() {
   for (let i = 5; i >= 0; i--) {
     const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
     const key = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-01`;
-    const monthRows = rows.filter((r) => r.reference_month === key);
+    const monthRows = rows.filter((r) => r.reference_month === key && !r.pending);
     buckets.push({
       month: MONTHS[d.getMonth()],
       receita: monthRows.filter((r) => r.kind === "income").reduce((s, r) => s + Number(r.amount), 0),
