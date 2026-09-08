@@ -38,13 +38,27 @@ const CAT_FIELD: Field = {
   placeholder: "Casa, Carro, Lazer…",
 };
 
-function fieldsFor(kind: string, refMonth: string, entryDate: string): Field[] {
+type Opt = { value: string; label: string };
+
+function fieldsFor(
+  kind: string,
+  refMonth: string,
+  entryDate: string,
+  accOpts: Opt[],
+  cardOpts: Opt[],
+): Field[] {
   const isIncome = kind === "income";
   return [
     { name: "name", label: "Nome", type: "text", required: true, placeholder: isIncome ? "Salário, freela…" : "Aluguel, mercado…" },
     ...(isIncome ? [] : [CAT_FIELD]),
     { name: "amount", label: "Valor (R$)", type: "money", required: true },
     { name: "entry_date", label: "Data", type: "date", defaultValue: entryDate, required: true },
+    ...(accOpts.length
+      ? [{ name: "account_id", label: "Conta (opcional)", type: "select", options: accOpts } as Field]
+      : []),
+    ...(!isIncome && cardOpts.length
+      ? [{ name: "card_id", label: "Cartão de crédito (opcional)", type: "select", options: cardOpts } as Field]
+      : []),
     {
       name: "recurring",
       label: "Repetir todos os meses",
@@ -84,13 +98,16 @@ export default async function OrcamentoPage({
 
   const [{ user, supabase }, profile] = await Promise.all([requireUser(), getProfile()]);
 
-  const { data: catRows } = await supabase
-    .from("budget_categories")
-    .select("name, color")
-    .eq("user_id", user.id);
+  const [{ data: catRows }, { data: accs }, { data: crds }] = await Promise.all([
+    supabase.from("budget_categories").select("name, color").eq("user_id", user.id),
+    supabase.from("accounts").select("id, name").eq("user_id", user.id).eq("archived", false),
+    supabase.from("cards").select("id, name").eq("user_id", user.id).eq("archived", false),
+  ]);
   const catColor = new Map(
     (catRows ?? []).map((c) => [c.name.toLowerCase(), c.color]),
   );
+  const accOpts = (accs ?? []).map((a) => ({ value: a.id, label: a.name }));
+  const cardOpts = (crds ?? []).map((c) => ({ value: c.id, label: c.name }));
 
   let q = supabase.from("budget_entries").select("*").eq("user_id", user.id);
   q = isRange
@@ -154,6 +171,8 @@ export default async function OrcamentoPage({
         category: r.category,
         amount: Number(r.amount),
         entry_date: r.entry_date ?? undefined,
+        account_id: r.account_id ?? undefined,
+        card_id: r.card_id ?? undefined,
         recurring: r.recurring,
         pending: r.pending,
         due_day: r.due_day,
@@ -242,7 +261,7 @@ export default async function OrcamentoPage({
                     path={path}
                     title="Receita"
                     addLabel="Adicionar receita"
-                    fields={fieldsFor("income", refMonth, defaultEntryDate)}
+                    fields={fieldsFor("income", refMonth, defaultEntryDate, accOpts, cardOpts)}
                     hidden={{ kind: "income" }}
                     autoOpen={openKind === "income"}
                     flat
@@ -263,7 +282,7 @@ export default async function OrcamentoPage({
                     path={path}
                     title="Despesa fixa"
                     addLabel="Adicionar despesa fixa"
-                    fields={fieldsFor("expense_fixed", refMonth, defaultEntryDate)}
+                    fields={fieldsFor("expense_fixed", refMonth, defaultEntryDate, accOpts, cardOpts)}
                     hidden={{ kind: "expense_fixed" }}
                     autoOpen={openKind === "fixed"}
                     flat
@@ -284,7 +303,7 @@ export default async function OrcamentoPage({
                     path={path}
                     title="Despesa variável"
                     addLabel="Adicionar despesa variável"
-                    fields={fieldsFor("expense_variable", refMonth, defaultEntryDate)}
+                    fields={fieldsFor("expense_variable", refMonth, defaultEntryDate, accOpts, cardOpts)}
                     hidden={{ kind: "expense_variable" }}
                     autoOpen={openKind === "variable"}
                     flat

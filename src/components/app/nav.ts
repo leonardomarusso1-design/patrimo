@@ -10,6 +10,7 @@ import {
   Calculator,
   Link2,
   Settings,
+  Wallet,
   type LucideIcon,
 } from "lucide-react";
 
@@ -28,6 +29,7 @@ export const NAV_SECTIONS: NavSection[] = [
     items: [
       { href: "/app", label: "Início", icon: LayoutGrid },
       { href: "/app/orcamento", label: "Orçamento", icon: ArrowLeftRight },
+      { href: "/app/contas", label: "Contas e cartões", icon: Wallet },
       { href: "/app/metas", label: "Metas", icon: Target },
     ],
   },

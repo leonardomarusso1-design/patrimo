@@ -94,9 +94,31 @@ export interface Database {
           notes: string | null;
           recurring: boolean;
           pending: boolean;
+          account_id: string | null;
+          card_id: string | null;
           created_at: string;
         }
       >;
+      accounts: Table<{
+        id: string;
+        user_id: string;
+        name: string;
+        type: string;
+        opening_balance: number;
+        archived: boolean;
+        created_at: string;
+      }>;
+      cards: Table<{
+        id: string;
+        user_id: string;
+        name: string;
+        brand: string | null;
+        limit_amount: number;
+        closing_day: number | null;
+        due_day: number | null;
+        archived: boolean;
+        created_at: string;
+      }>;
       emergency_fund: Table<
         {
           user_id: string;

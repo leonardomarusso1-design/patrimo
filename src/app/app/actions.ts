@@ -27,6 +27,20 @@ const SCHEMAS = {
     notes: z.string().trim().max(300).optional().nullable(),
     recurring: z.coerce.boolean().default(false),
     pending: z.coerce.boolean().default(false),
+    account_id: z.string().uuid().optional().nullable(),
+    card_id: z.string().uuid().optional().nullable(),
+  }),
+  accounts: z.object({
+    name: shortText,
+    type: z.enum(["corrente", "poupanca", "carteira", "investimento", "outro"]).default("corrente"),
+    opening_balance: signedMoney.default(0),
+  }),
+  cards: z.object({
+    name: shortText,
+    brand: z.string().trim().max(40).optional().nullable(),
+    limit_amount: money.default(0),
+    closing_day: z.coerce.number().int().min(1).max(31).optional().nullable(),
+    due_day: z.coerce.number().int().min(1).max(31).optional().nullable(),
   }),
   goals: z.object({
     name: shortText,
