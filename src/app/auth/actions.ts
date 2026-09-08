@@ -62,7 +62,7 @@ export async function signUp(_prev: AuthState, formData: FormData): Promise<Auth
     return { error: parsed.error.issues[0]?.message ?? "Dados inválidos." };
 
   const supabase = await createClient();
-  const { error } = await supabase.auth.signUp({
+  const { data, error } = await supabase.auth.signUp({
     email: parsed.data.email,
     password: parsed.data.password,
     options: {
@@ -75,6 +75,10 @@ export async function signUp(_prev: AuthState, formData: FormData): Promise<Auth
       return { error: "Esse e-mail já tem conta. Tente entrar." };
     return { error: safeError("auth.signup", error) };
   }
+  // Supabase devolve 200 sem erro quando o e-mail já existe (anti-enumeração):
+  // o usuário volta sem identities. Não adianta prometer "enviamos o link".
+  if (data.user && (data.user.identities?.length ?? 0) === 0)
+    return { error: "Esse e-mail já tem conta. Tente entrar ou recuperar a senha." };
   return {
     message:
       "Enviamos um link de confirmação pro seu e-mail. Abra para ativar a conta.",
