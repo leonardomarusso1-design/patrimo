@@ -12,6 +12,7 @@ import {
   Settings,
   Wallet,
   Waves,
+  CalendarClock,
   type LucideIcon,
 } from "lucide-react";
 
@@ -31,6 +32,7 @@ export const NAV_SECTIONS: NavSection[] = [
       { href: "/app", label: "Início", icon: LayoutGrid },
       { href: "/app/orcamento", label: "Orçamento", icon: ArrowLeftRight },
       { href: "/app/contas", label: "Contas e cartões", icon: Wallet },
+      { href: "/app/vencimentos", label: "Contas a pagar", icon: CalendarClock },
       { href: "/app/metas", label: "Metas", icon: Target },
     ],
   },

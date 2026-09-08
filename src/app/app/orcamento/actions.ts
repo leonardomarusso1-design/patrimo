@@ -68,6 +68,8 @@ export async function confirmPending(id: string, path: string) {
       .eq("user_id", user.id);
     revalidatePath(safePath);
     revalidatePath("/app");
+    revalidatePath("/app/vencimentos");
+    revalidatePath("/app/fluxo");
   } catch (err) {
     safeError("orcamento.confirmPending", err);
   }
