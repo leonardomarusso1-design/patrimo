@@ -4,7 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Menu, X, LogOut, Lock, MoreHorizontal } from "lucide-react";
-import { NAV } from "./nav";
+import { NAV, NAV_SECTIONS } from "./nav";
 import { cn } from "@/lib/utils";
 import { planName } from "@/lib/plans";
 import type { PlanId } from "@/types/database";
@@ -13,35 +13,44 @@ import { signOut } from "@/app/auth/actions";
 function NavLinks({ onNavigate }: { onNavigate?: () => void }) {
   const pathname = usePathname();
   return (
-    <nav className="space-y-0.5">
-      {NAV.map((item) => {
-        const active =
-          item.href === "/app" ? pathname === "/app" : pathname.startsWith(item.href);
-        return (
-          <Link
-            key={item.href}
-            href={item.href}
-            onClick={onNavigate}
-            className={cn(
-              "flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-colors",
-              active
-                ? "bg-accent/10 text-accent-dim"
-                : "text-muted hover:bg-ink/[0.04] hover:text-ink",
-            )}
-          >
-            <item.icon className="h-[18px] w-[18px]" />
-            <span className="flex-1">{item.label}</span>
-            {item.locked && (
-              <span
-                className="inline-flex items-center gap-1 rounded-md bg-ink/[0.06] px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-muted"
-                title="Em construção"
-              >
-                <Lock className="h-3 w-3" />
-              </span>
-            )}
-          </Link>
-        );
-      })}
+    <nav className="space-y-5">
+      {NAV_SECTIONS.map((section) => (
+        <div key={section.title}>
+          <p className="px-3 pb-1 text-[11px] font-semibold uppercase tracking-wide text-muted/70">
+            {section.title}
+          </p>
+          <div className="space-y-0.5">
+            {section.items.map((item) => {
+              const active =
+                item.href === "/app" ? pathname === "/app" : pathname.startsWith(item.href);
+              return (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  onClick={onNavigate}
+                  className={cn(
+                    "flex items-center gap-3 rounded-xl px-3 py-2 text-sm font-medium transition-colors",
+                    active
+                      ? "bg-accent/10 text-accent-dim"
+                      : "text-muted hover:bg-ink/[0.04] hover:text-ink",
+                  )}
+                >
+                  <item.icon className="h-[18px] w-[18px]" />
+                  <span className="flex-1">{item.label}</span>
+                  {item.locked && (
+                    <span
+                      className="inline-flex items-center gap-1 rounded-md bg-ink/[0.06] px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-muted"
+                      title="Em construção"
+                    >
+                      <Lock className="h-3 w-3" />
+                    </span>
+                  )}
+                </Link>
+              );
+            })}
+          </div>
+        </div>
+      ))}
     </nav>
   );
 }
@@ -77,7 +86,7 @@ export function AppSidebar({
         <Link href="/" className="px-3 py-2 font-display text-xl font-extrabold text-ink">
           Ord<span className="text-accent">re</span>
         </Link>
-        <div className="mt-4 flex-1">
+        <div className="mt-4 flex-1 overflow-y-auto">
           <NavLinks />
         </div>
         <SidebarFooter name={name} plan={plan} />
