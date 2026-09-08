@@ -106,6 +106,10 @@ export interface Database {
         type: string;
         opening_balance: number;
         archived: boolean;
+        source: string;
+        external_ref: string | null;
+        synced_at: string | null;
+        connection_id: string | null;
         created_at: string;
       }>;
       cards: Table<{
@@ -117,6 +121,10 @@ export interface Database {
         closing_day: number | null;
         due_day: number | null;
         archived: boolean;
+        source: string;
+        external_ref: string | null;
+        synced_at: string | null;
+        connection_id: string | null;
         created_at: string;
       }>;
       emergency_fund: Table<

@@ -57,14 +57,18 @@ export default async function ContasPage() {
       .eq("user_id", user.id),
   ]);
 
-  const accounts = (accData ?? []) as Acc[];
-  const cards = (cardData ?? []) as Card[];
+  const allAccounts = (accData ?? []) as Acc[];
+  const allCards = (cardData ?? []) as Card[];
+  const accounts = allAccounts.filter((a) => a.source === "manual");
+  const cards = allCards.filter((c) => c.source === "manual");
+  const syncedAccounts = allAccounts.filter((a) => a.source !== "manual");
+  const syncedCards = allCards.filter((c) => c.source !== "manual");
   const rows = entries ?? [];
   const refMonth = monthKey();
 
   // saldo corrente por conta = saldo inicial + entradas − saídas (não previstas)
   const balanceOf = (id: string) => {
-    const acc = accounts.find((a) => a.id === id);
+    const acc = allAccounts.find((a) => a.id === id);
     let b = Number(acc?.opening_balance ?? 0);
     for (const e of rows) {
       if (e.account_id !== id || e.pending) continue;
@@ -78,25 +82,40 @@ export default async function ContasPage() {
       .filter((e) => e.card_id === id && !e.pending && e.reference_month === refMonth && e.kind !== "income")
       .reduce((s, e) => s + Number(e.amount), 0);
 
-  const totalBalance = accounts.reduce((s, a) => s + balanceOf(a.id), 0);
+  const totalBalance = allAccounts.reduce((s, a) => s + balanceOf(a.id), 0);
+  const totalFatura = allCards.reduce((s, c) => s + faturaOf(c.id), 0);
 
   return (
     <>
       <PageHeader
         title="Contas e cartões"
-        subtitle="Onde seu dinheiro está. Ligue os lançamentos do Orçamento a cada conta ou cartão."
+        subtitle="Onde seu dinheiro está. Cadastre à mão ou, em breve, conecte o banco via Open Finance para preencher sozinho."
       />
 
       <div className="grid gap-4 sm:grid-cols-2">
         <StatTile label="Saldo somado das contas" value={formatCurrency(totalBalance, cur)} tone="ink" />
-        <StatTile
-          label="Fatura aberta (mês)"
-          value={formatCurrency(
-            cards.reduce((s, c) => s + faturaOf(c.id), 0),
-            cur,
-          )}
-        />
+        <StatTile label="Fatura aberta (mês)" value={formatCurrency(totalFatura, cur)} />
       </div>
+
+      {(syncedAccounts.length > 0 || syncedCards.length > 0) && (
+        <div className="mt-8 rounded-2xl border border-border bg-card p-5 shadow-[var(--shadow-card)]">
+          <p className="text-xs font-semibold uppercase tracking-wide text-muted">
+            Sincronizado via Open Finance · não editável aqui
+          </p>
+          <ul className="mt-2 divide-y divide-border text-sm">
+            {[...syncedAccounts, ...syncedCards].map((x) => (
+              <li key={x.id} className="flex justify-between py-2">
+                <span className="text-ink">{x.name}</span>
+                <span className="tabular-nums text-muted">
+                  {"opening_balance" in x
+                    ? formatCurrency(balanceOf(x.id), cur)
+                    : formatCurrency(faturaOf(x.id), cur)}
+                </span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
 
       <div className="mt-8">
         <h2 className="mb-3 flex items-center gap-2 font-display text-base font-bold text-ink">

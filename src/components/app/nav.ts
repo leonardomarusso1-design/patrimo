@@ -54,7 +54,7 @@ export const NAV_SECTIONS: NavSection[] = [
   {
     title: "Conta",
     items: [
-      { href: "/app/conexoes", label: "Contas conectadas", icon: Link2, locked: true },
+      { href: "/app/conexoes", label: "Open Finance", icon: Link2, locked: true },
       { href: "/app/configuracoes", label: "Configurações", icon: Settings },
     ],
   },

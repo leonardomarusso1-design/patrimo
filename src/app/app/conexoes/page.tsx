@@ -1,7 +1,7 @@
 import { Lock, Landmark } from "lucide-react";
 import { PageHeader } from "@/components/app/PageHeader";
 
-export const metadata = { title: "Contas conectadas" };
+export const metadata = { title: "Open Finance" };
 
 // Open Finance (Pluggy) está pronto no backend, mas em modo demo.
 // Liberamos para clientes depois de revisar o acesso de produção.
@@ -9,7 +9,7 @@ export default function ConexoesPage() {
   return (
     <>
       <PageHeader
-        title="Contas conectadas"
+        title="Open Finance"
         subtitle="Conecte seu banco via Open Finance e as transações entram no Orçamento sozinhas."
       />
 
