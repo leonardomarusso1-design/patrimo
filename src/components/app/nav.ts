@@ -13,6 +13,7 @@ import {
   Wallet,
   Waves,
   CalendarClock,
+  FileText,
   type LucideIcon,
 } from "lucide-react";
 
@@ -41,6 +42,7 @@ export const NAV_SECTIONS: NavSection[] = [
     items: [
       { href: "/app/visao-geral", label: "Visão geral", icon: BarChart3 },
       { href: "/app/fluxo", label: "Fluxo de caixa", icon: Waves },
+      { href: "/app/relatorios", label: "Relatórios", icon: FileText },
       { href: "/app/reserva", label: "Reserva de emergência", icon: ShieldCheck },
       { href: "/app/patrimonio", label: "Patrimônio", icon: Landmark },
     ],
