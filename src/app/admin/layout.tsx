@@ -12,7 +12,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
         <div className="mx-auto flex max-w-5xl items-center justify-between px-4 py-3">
           <div className="flex items-center gap-4">
             <span className="font-display text-lg font-extrabold text-ink">
-              Patri<span className="text-accent">mo</span>{" "}
+              Ord<span className="text-accent">re</span>{" "}
               <span className="text-sm font-semibold text-muted">admin</span>
             </span>
             <nav className="flex gap-3 text-sm">

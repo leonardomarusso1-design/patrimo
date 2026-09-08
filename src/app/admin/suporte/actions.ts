@@ -52,13 +52,13 @@ export async function replySupport(_prev: ReplyState, fd: FormData): Promise<Rep
 
     const sent = await sendEmail({
       to: msg.email,
-      subject: "Resposta do suporte — Patrimo",
+      subject: "Resposta do suporte — Ordre",
       html: `<div style="font-family:system-ui,sans-serif;max-width:520px;color:#14211c">
         <p>Olá, ${msg.name.replace(/</g, "&lt;")}.</p>
         <p style="white-space:pre-wrap">${p.data.text.replace(/</g, "&lt;")}</p>
         <hr style="border:none;border-top:1px solid #e4e8e2;margin:16px 0">
         <p style="font-size:12px;color:#5b6660">Você escreveu: ${msg.message.slice(0, 300).replace(/</g, "&lt;")}</p>
-        <p style="font-size:12px;color:#5b6660">Patrimo · Leonardo Marusso</p>
+        <p style="font-size:12px;color:#5b6660">Ordre · Leonardo Marusso</p>
       </div>`,
     });
 

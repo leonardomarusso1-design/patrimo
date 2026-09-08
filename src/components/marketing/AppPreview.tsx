@@ -81,7 +81,7 @@ function Tile({
   );
 }
 
-/** Mock do painel do Patrimo — sem screenshot, é DOM estilizado com os tokens reais. */
+/** Mock do painel do Ordre — sem screenshot, é DOM estilizado com os tokens reais. */
 export function AppPreview() {
   return (
     <div>
@@ -92,7 +92,7 @@ export function AppPreview() {
           <span className="h-2.5 w-2.5 rounded-full bg-ink/15" />
           <span className="h-2.5 w-2.5 rounded-full bg-ink/15" />
           <span className="ml-3 rounded-md bg-card px-3 py-1 text-[0.65rem] text-muted">
-            app.patrimo.com.br
+            app.ordre.app
           </span>
         </div>
 

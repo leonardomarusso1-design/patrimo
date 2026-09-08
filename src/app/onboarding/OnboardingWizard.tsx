@@ -194,7 +194,7 @@ export function OnboardingWizard({ firstName }: { firstName: string }) {
                   checked={data.terms}
                   onChange={(e) => set({ terms: e.target.checked })}
                 />
-                <span>Li e aceito os Termos de Uso e a Política de Privacidade da Patrimo.</span>
+                <span>Li e aceito os Termos de Uso e a Política de Privacidade da Ordre.</span>
               </label>
               <label className="flex items-start gap-3 rounded-xl bg-surface p-3 text-sm">
                 <input

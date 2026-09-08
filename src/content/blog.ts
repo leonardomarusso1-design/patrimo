@@ -41,7 +41,7 @@ export const BLOG_POSTS: BlogPost[] = [
     title: "A regra 50-30-20: o método que organiza qualquer salário",
     excerpt:
       "Divida a renda em 50% necessidades, 30% desejos e 20% para poupar e investir. Por que essa estrutura simples funciona — e como adaptar ao Brasil.",
-    author: "Time Patrimo",
+    author: "Time Ordre",
     publishedAt: "2026-08-01",
     readingMinutes: 6,
     tags: ["orçamento", "iniciante"],
@@ -65,7 +65,7 @@ Um estudo do Federal Reserve (2020) apontou que 36% dos americanos não cobriria
 
 Com juros e inflação mais voláteis, especialistas sugerem variações: **50-20-30** (mais para poupança) ou **40-30-30** para quem carrega dívidas caras.
 
-## No Patrimo
+## No Ordre
 
 O módulo de Orçamento calcula seus percentuais automaticamente e avisa quando um grupo passa do limite.
 
@@ -77,7 +77,7 @@ O módulo de Orçamento calcula seus percentuais automaticamente e avisa quando 
     title: "Reserva de emergência: 6 ou 12 meses?",
     excerpt:
       "Famílias com reserva de 3+ meses têm menos chance de se endividar no curto prazo. Veja qual nível faz sentido pro seu tipo de renda.",
-    author: "Time Patrimo",
+    author: "Time Ordre",
     publishedAt: "2026-08-04",
     readingMinutes: 5,
     tags: ["reserva", "iniciante"],
@@ -103,7 +103,7 @@ Recomendado para autônomos e PJ, quem tem dependentes, ou trabalha em setor vol
 
 Ativos líquidos e seguros: Tesouro Selic, CDB de liquidez diária, fundos DI. **Nunca** em ações, cripto ou imóveis.
 
-## No Patrimo
+## No Ordre
 
 O módulo de Reserva analisa seu custo de vida essencial e mostra o alvo (6 ou 12 meses), com acompanhamento visual.
 
@@ -115,7 +115,7 @@ O módulo de Reserva analisa seu custo de vida essencial e mostra o alvo (6 ou 1
     title: "Juros compostos: a força que transforma aportes pequenos em fortuna",
     excerpt:
       "R$ 500 por mês a 10% ao ano viram mais de R$ 1 milhão em 30 anos. E adiar 10 anos custa mais de R$ 700 mil. A matemática por trás.",
-    author: "Time Patrimo",
+    author: "Time Ordre",
     publishedAt: "2026-08-07",
     readingMinutes: 6,
     tags: ["investimentos", "juros compostos"],
@@ -141,7 +141,7 @@ Começar aos 25 vs. aos 35, aportando R$ 500/mês a 10% a.a., faz diferença de 
 
 **M = P × (1 + i)ⁿ**, onde P é o principal, i a taxa por período e n o número de períodos.
 
-## No Patrimo
+## No Ordre
 
 As calculadoras mostram a projeção em tempo real: defina meta, veja o aporte necessário, acompanhe o progresso.
 
@@ -153,7 +153,7 @@ As calculadoras mostram a projeção em tempo real: defina meta, veja o aporte n
     title: "Perfil de investidor: conservador, moderado ou arrojado?",
     excerpt:
       "O desalinhamento entre perfil e carteira causa ansiedade e decisões impulsivas. Descubra o seu e a alocação que combina.",
-    author: "Time Patrimo",
+    author: "Time Ordre",
     publishedAt: "2026-08-10",
     readingMinutes: 5,
     tags: ["investimentos", "perfil"],
@@ -172,9 +172,9 @@ A CVM exige que corretoras avaliem o perfil do investidor antes de liberar opera
 
 Investir em ações sendo conservador, ou deixar tudo na poupança sendo arrojado. Os dois levam a arrependimento.
 
-## No Patrimo
+## No Ordre
 
-No Patrimo, a IA observa seu comportamento real (não só o que você declara) e sugere ajustes de carteira.
+No Ordre, a IA observa seu comportamento real (não só o que você declara) e sugere ajustes de carteira.
 
 ---
 *Fonte: CVM — materiais de educação do investidor.*`,
@@ -184,7 +184,7 @@ No Patrimo, a IA observa seu comportamento real (não só o que você declara) e
     title: "Open Finance no Brasil: o que é e por que usar",
     excerpt:
       "Desde 2021 você decide quem acessa seus dados bancários. Como isso automatiza o controle financeiro — com consentimento e revogação a qualquer momento.",
-    author: "Time Patrimo",
+    author: "Time Ordre",
     publishedAt: "2026-08-13",
     readingMinutes: 5,
     tags: ["open finance", "automação"],
@@ -210,9 +210,9 @@ Visão consolidada de todas as contas, ofertas melhores baseadas em dados reais,
 
 Consentimento explícito, token com validade limitada, revogação a qualquer momento, LGPD aplicada.
 
-## No Patrimo
+## No Ordre
 
-No Patrimo conectamos suas contas via Open Finance e as transações entram categorizadas.
+No Ordre conectamos suas contas via Open Finance e as transações entram categorizadas.
 
 ---
 *Fonte: Banco Central do Brasil — portal Open Finance.*`,
@@ -222,7 +222,7 @@ No Patrimo conectamos suas contas via Open Finance e as transações entram cate
     title: "Diversificação: por que não colocar todos os ovos na mesma cesta",
     excerpt:
       "Harry Markowitz ganhou o Nobel provando que diversificar reduz risco sem sacrificar retorno esperado. As 5 dimensões que importam.",
-    author: "Time Patrimo",
+    author: "Time Ordre",
     publishedAt: "2026-08-16",
     readingMinutes: 5,
     tags: ["investimentos", "carteira"],
@@ -243,7 +243,7 @@ Harry Markowitz recebeu o Nobel de Economia em 1990 pela Teoria Moderna de Carte
 4. **Moeda:** real, dólar, euro.
 5. **Prazo:** curto, médio e longo.
 
-## No Patrimo
+## No Ordre
 
 O gráfico de composição da carteira mostra onde você está concentrado e alerta quando um ativo passa de 20% do total.
 
@@ -255,7 +255,7 @@ O gráfico de composição da carteira mostra onde você está concentrado e ale
     title: "Independência financeira: a regra dos 4%",
     excerpt:
       "O estudo Trinity analisou 70 anos de dados e concluiu: retirar 4% do patrimônio ao ano tende a ser sustentável. Calcule o seu número.",
-    author: "Time Patrimo",
+    author: "Time Ordre",
     publishedAt: "2026-08-19",
     readingMinutes: 6,
     tags: ["independência financeira", "FIRE"],
@@ -277,7 +277,7 @@ O *Trinity Study* (1998) analisou dados de 1926 a 1995 e concluiu que retirar ce
 
 *Financial Independence, Retire Early*: viver abaixo dos meios, investir com consistência, comprar tempo. Variantes: Lean FIRE, Fat FIRE, Coast FIRE.
 
-## No Patrimo
+## No Ordre
 
 A calculadora de independência mostra quanto acumular, quanto aportar por mês e quando você chega lá.
 
@@ -289,7 +289,7 @@ A calculadora de independência mostra quanto acumular, quanto aportar por mês 
     title: "Imposto de Renda nos investimentos: como pagar menos, legalmente",
     excerpt:
       "Isenção de R$ 20 mil/mês em ações, alíquota regressiva que cai de 22,5% para 15%, come-cotas em fundos. O que muda o resultado no fim do ano.",
-    author: "Time Patrimo",
+    author: "Time Ordre",
     publishedAt: "2026-08-22",
     readingMinutes: 6,
     tags: ["impostos", "investimentos"],
@@ -322,7 +322,7 @@ LCI, LCA, CRI, CRA, debêntures incentivadas e poupança.
 
 Fundos abertos antecipam IR a cada 6 meses. Tesouro Direto só recolhe no resgate — diferença que pode somar ao longo dos anos.
 
-## No Patrimo
+## No Ordre
 
 O relatório fiscal anual resume vendas, lucros, prejuízos a compensar e preço médio.
 
@@ -334,7 +334,7 @@ O relatório fiscal anual resume vendas, lucros, prejuízos a compensar e preço
     title: "Onde o dinheiro rende mais: poupança, Tesouro, CDB, LCI e ações",
     excerpt:
       "Comparativo de rentabilidade, liquidez e risco. E o custo real de deixar a reserva parada na poupança.",
-    author: "Time Patrimo",
+    author: "Time Ordre",
     publishedAt: "2026-08-25",
     readingMinutes: 6,
     tags: ["renda fixa", "comparativo"],
@@ -374,7 +374,7 @@ A poupança rende menos que o Tesouro Selic. Ao longo de anos, essa diferença s
     title: "Como sair das dívidas: bola de neve vs. avalanche",
     excerpt:
       "Liste tudo, calcule o custo real de cada dívida, escolha uma estratégia e negocie. O passo a passo que funciona sob pressão.",
-    author: "Time Patrimo",
+    author: "Time Ordre",
     publishedAt: "2026-08-28",
     readingMinutes: 6,
     tags: ["dívidas", "iniciante"],
@@ -410,7 +410,7 @@ Ligue para o credor e ofereça pagamento à vista com desconto. É comum aceitar
 
 Deixe um cartão só, corte o cheque especial, monte a reserva antes de investir.
 
-## No Patrimo
+## No Ordre
 
 O módulo de Dívidas mostra o custo real de cada uma e simula bola de neve vs. avalanche.
 
@@ -422,7 +422,7 @@ O módulo de Dívidas mostra o custo real de cada uma e simula bola de neve vs. 
     title: "Juros simples vs. juros compostos: a diferença que muda tudo",
     excerpt:
       "No juros simples a taxa incide sempre sobre o valor inicial. No composto, sobre o acumulado. Em prazos longos, a diferença vira uma montanha.",
-    author: "Time Patrimo",
+    author: "Time Ordre",
     publishedAt: "2026-09-08",
     readingMinutes: 4,
     tags: ["conceitos", "iniciante"],
@@ -453,7 +453,7 @@ Em 30 anos, R$ 1.000 a 10% a.a.:
 
 A diferença acelera com o tempo. É por isso que dívida no rotativo do cartão destrói um orçamento, e investir cedo constrói patrimônio.
 
-## No Patrimo
+## No Ordre
 
 A calculadora de Juros compostos projeta seus aportes mês a mês. A de Juros simples serve para comparar contratos.
 
@@ -465,7 +465,7 @@ A calculadora de Juros compostos projeta seus aportes mês a mês. A de Juros si
     title: "Quanto poupar por mês para chegar ao primeiro milhão",
     excerpt:
       "Não é sobre sorte nem salário alto. É aporte constante, tempo e uma taxa de retorno realista. Veja os números.",
-    author: "Time Patrimo",
+    author: "Time Ordre",
     publishedAt: "2026-09-09",
     readingMinutes: 5,
     tags: ["metas", "investimentos"],
@@ -496,7 +496,7 @@ Dobrar o aporte **não** corta o prazo pela metade — o tempo é quem faz o tra
 
 Começar cedo com pouco vence começar tarde com muito. Quem aporta R$ 500 aos 25 chega perto de quem aporta R$ 1.500 aos 40.
 
-## No Patrimo
+## No Ordre
 
 A calculadora "Primeiro milhão" resolve para o aporte: você diz a meta, o prazo e o retorno, ela diz quanto guardar por mês. As Metas acompanham o progresso real.
 
@@ -508,7 +508,7 @@ A calculadora "Primeiro milhão" resolve para o aporte: você diz a meta, o praz
     title: "Quanto rende o CDI, e por que ele é a régua da renda fixa",
     excerpt:
       "CDB de 100% do CDI, 110%, LCI isenta... entenda o que o CDI é, quanto paga hoje e como comparar aplicações.",
-    author: "Time Patrimo",
+    author: "Time Ordre",
     publishedAt: "2026-09-10",
     readingMinutes: 5,
     tags: ["renda fixa", "iniciante"],
@@ -535,7 +535,7 @@ Renda fixa tributável (CDB, Tesouro) tem **IR regressivo**: 22,5% até 180 dias
 
 Sempre no **líquido**. Uma LCI de 95% do CDI isenta ≈ um CDB de ~112% do CDI para prazo de 1 ano.
 
-## No Patrimo
+## No Ordre
 
 A calculadora "Rendimento do CDI" traz a taxa atual do Banco Central e calcula o líquido de IR para CDB e para papéis isentos.
 
@@ -547,7 +547,7 @@ A calculadora "Rendimento do CDI" traz a taxa atual do Banco Central e calcula o
     title: "Como calcular porcentagem sem decorar fórmula",
     excerpt:
       "Quanto é 15% de 240? Um valor subiu de 80 para 95, quantos por cento? Três operações resolvem quase tudo.",
-    author: "Time Patrimo",
+    author: "Time Ordre",
     publishedAt: "2026-09-11",
     readingMinutes: 3,
     tags: ["conceitos", "iniciante"],
@@ -575,7 +575,7 @@ Divida X por Y e multiplique por 100. 45 de 180 → 45 ÷ 180 × 100 = **25%**
 - Subir 10% e depois cair 10% **não** volta ao início: 100 → 110 → 99.
 - "50% + 20% de desconto" não é 70%: é 100 → 50 → 40, ou seja 60%.
 
-## No Patrimo
+## No Ordre
 
 A calculadora de Porcentagem faz as três operações. Útil para juros, descontos e rateio de despesas.
 
@@ -587,7 +587,7 @@ A calculadora de Porcentagem faz as três operações. Útil para juros, descont
     title: "Câmbio: dólar comercial, turismo, IOF e spread",
     excerpt:
       "Por que o dólar que você paga é sempre maior que o do noticiário — e como estimar o custo real de uma compra em moeda estrangeira.",
-    author: "Time Patrimo",
+    author: "Time Ordre",
     publishedAt: "2026-09-12",
     readingMinutes: 4,
     tags: ["câmbio", "iniciante"],
@@ -613,7 +613,7 @@ Compra de US$ 100 com dólar comercial a R$ 5,00:
 - + spread 2%: R$ 10
 - **Total ≈ R$ 527,50** — dólar efetivo de R$ 5,27
 
-## No Patrimo
+## No Ordre
 
 O conversor de moedas usa a cotação comercial atualizada. Some IOF e spread por fora para o custo real.
 
@@ -625,7 +625,7 @@ O conversor de moedas usa a cotação comercial atualizada. Some IOF e spread po
     title: "Converter cripto: preço à vista, volatilidade e imposto",
     excerpt:
       "Quanto vale 1 BTC em real, por que o preço muda a cada segundo e quando a Receita cobra imposto sobre cripto.",
-    author: "Time Patrimo",
+    author: "Time Ordre",
     publishedAt: "2026-09-13",
     readingMinutes: 4,
     tags: ["cripto", "iniciante"],
@@ -647,7 +647,7 @@ Bitcoin já subiu e caiu 10% no mesmo dia várias vezes. Para conversão pontual
 - Acima disso: **15%** sobre o lucro (alíquota maior para valores muito altos).
 - Você declara a posição na ficha de bens, mesmo sem vender.
 
-## No Patrimo
+## No Ordre
 
 O conversor de cripto traz o preço à vista de BTC, ETH e outras em real e dólar, atualizado a cada poucos minutos.
 
@@ -659,7 +659,7 @@ O conversor de cripto traz o preço à vista de BTC, ETH e outras em real e dól
     title: "Dividend yield e yield on cost: a matemática da renda passiva",
     excerpt:
       "Dividend yield mede o retorno em proventos sobre o preço atual. Yield on cost, sobre o que você pagou. A segunda é a que cresce com o tempo.",
-    author: "Time Patrimo",
+    author: "Time Ordre",
     publishedAt: "2026-09-14",
     readingMinutes: 5,
     tags: ["dividendos", "investimentos"],
@@ -686,7 +686,7 @@ R$ 50.000 numa carteira com DY médio de 8% → R$ 4.000 por ano ≈ **R$ 333 po
 - DY muito alto (15%+) às vezes é armadilha: preço caiu porque o mercado espera corte no provento.
 - FIIs distribuem quase todo o resultado; ações retêm parte para crescer. Comparar os dois só pelo DY engana.
 
-## No Patrimo
+## No Ordre
 
 A calculadora de Dividendos estima sua renda passiva pelo yield informado e mostra o yield on cost se você preencher o preço médio.
 
@@ -698,7 +698,7 @@ A calculadora de Dividendos estima sua renda passiva pelo yield informado e most
     title: "Guia do iniciante: renda fixa x renda variável",
     excerpt:
       "Todo investimento cabe em duas caixas. Entender a diferença é o primeiro passo para montar uma carteira que faz sentido.",
-    author: "Time Patrimo",
+    author: "Time Ordre",
     publishedAt: "2026-09-15",
     readingMinutes: 5,
     tags: ["iniciante", "investimentos"],
@@ -728,7 +728,7 @@ Uma abordagem comum:
 
 O seu **perfil de investidor** (conservador, moderado, arrojado) ajuda a definir esse peso.
 
-## No Patrimo
+## No Ordre
 
 O quiz de perfil de investidor sugere uma divisão. O módulo de Investimentos acompanha quanto você tem em cada classe.
 
@@ -740,7 +740,7 @@ O quiz de perfil de investidor sugere uma divisão. O módulo de Investimentos a
     title: "Tesouro Direto: Selic, Prefixado e IPCA+ explicados",
     excerpt:
       "O investimento mais seguro do país tem três sabores. Cada um serve para um objetivo diferente — usar o errado custa dinheiro.",
-    author: "Time Patrimo",
+    author: "Time Ordre",
     publishedAt: "2026-09-16",
     readingMinutes: 6,
     tags: ["iniciante", "renda fixa"],
@@ -782,7 +782,7 @@ Paga **inflação + um percentual fixo** (ex.: "IPCA + 6%"). Protege o poder de 
     title: "Fundos imobiliários (FIIs): renda de aluguel sem comprar imóvel",
     excerpt:
       "Com uma cota de ~R$ 100 você vira sócio de shoppings, galpões e prédios — e recebe a parte dos aluguéis todo mês, isenta de IR.",
-    author: "Time Patrimo",
+    author: "Time Ordre",
     publishedAt: "2026-09-17",
     readingMinutes: 6,
     tags: ["iniciante", "investimentos"],
@@ -822,7 +822,7 @@ Um FII junta o dinheiro de milhares de cotistas e investe em imóveis ou em dív
     title: "Ações: o que são e como comprar a primeira",
     excerpt:
       "Comprar uma ação é comprar um pedacinho de uma empresa. Veja o que muda entre ON e PN e o passo a passo para investir.",
-    author: "Time Patrimo",
+    author: "Time Ordre",
     publishedAt: "2026-09-18",
     readingMinutes: 5,
     tags: ["iniciante", "investimentos"],
@@ -862,7 +862,7 @@ Muitos iniciantes começam por um **ETF** (ex.: um que replica o Ibovespa) — u
     title: "Como analisar uma ação: os indicadores que importam",
     excerpt:
       "P/L, ROE, dívida líquida, dividend yield. O que cada número diz sobre a empresa — e por que nenhum funciona sozinho.",
-    author: "Time Patrimo",
+    author: "Time Ordre",
     publishedAt: "2026-09-19",
     readingMinutes: 7,
     tags: ["investimentos", "análise"],
@@ -893,9 +893,9 @@ Análise fundamentalista olha para a **empresa por trás do papel**: ela lucra, 
 
 Nenhum indicador funciona sozinho. Uma ação "barata" no P/L pode estar barata porque o lucro vai cair. Cruze os números com: o setor, o histórico de 5–10 anos, a vantagem competitiva e a qualidade da gestão.
 
-## No Patrimo
+## No Ordre
 
-O foco do Patrimo é o **seu** patrimônio consolidado, não a análise de ativos individuais. Para estudar empresas, use as demonstrações financeiras (site de RI) e ferramentas dedicadas.
+O foco do Ordre é o **seu** patrimônio consolidado, não a análise de ativos individuais. Para estudar empresas, use as demonstrações financeiras (site de RI) e ferramentas dedicadas.
 
 ---
 *Referência: conceitos de análise fundamentalista (Graham, "O Investidor Inteligente"; material da APIMEC).*`,
@@ -905,7 +905,7 @@ O foco do Patrimo é o **seu** patrimônio consolidado, não a análise de ativo
     title: "Investir no exterior: stocks, ETFs e BDRs",
     excerpt:
       "Dá para ter Apple e S&P 500 na carteira sem abrir conta lá fora. Veja os três caminhos e o risco que ninguém conta: o câmbio.",
-    author: "Time Patrimo",
+    author: "Time Ordre",
     publishedAt: "2026-09-20",
     readingMinutes: 6,
     tags: ["iniciante", "investimentos"],
@@ -941,7 +941,7 @@ Não há número mágico. Muitos investidores de longo prazo colocam entre **10%
     title: "Criptomoedas para quem está começando",
     excerpt:
       "Blockchain, carteira, exchange, custódia. O mínimo que você precisa entender antes de comprar seu primeiro satoshi — e por que alocar pouco.",
-    author: "Time Patrimo",
+    author: "Time Ordre",
     publishedAt: "2026-09-21",
     readingMinutes: 6,
     tags: ["iniciante", "cripto"],
@@ -979,7 +979,7 @@ Trate como a parte mais arriscada da carteira. Uma faixa comum entre investidore
     title: "Rentabilidade: nominal, real e como comparar de verdade",
     excerpt:
       "Rendeu 12%? Pode ter perdido dinheiro. Entenda a diferença entre retorno nominal e real e como comparar aplicações no mesmo pé.",
-    author: "Time Patrimo",
+    author: "Time Ordre",
     publishedAt: "2026-09-22",
     readingMinutes: 5,
     tags: ["conceitos", "iniciante"],
@@ -1010,7 +1010,7 @@ Só então compare. Uma LCI de 90% do CDI isenta pode ganhar de um CDB de 100% d
 
 Fundo que rendeu 30% ano passado pode render −10% neste. Histórico serve para entender consistência e risco, não para prever.
 
-## No Patrimo
+## No Ordre
 
 A calculadora de Juros compostos projeta a rentabilidade dos seus aportes. O módulo de Investimentos mostra o ganho de cada ativo (valor atual − investido).
 
@@ -1022,7 +1022,7 @@ A calculadora de Juros compostos projeta a rentabilidade dos seus aportes. O mó
     title: "Taxa Selic: o que é e como ela mexe no seu bolso",
     excerpt:
       "A Selic é o preço do dinheiro no Brasil. Quando sobe, sua renda fixa rende mais e o crédito fica mais caro. Quando cai, o contrário.",
-    author: "Time Patrimo",
+    author: "Time Ordre",
     publishedAt: "2026-09-23",
     readingMinutes: 5,
     tags: ["conceitos", "indicadores"],
@@ -1049,7 +1049,7 @@ A Selic é a taxa básica de juros da economia, definida a cada 45 dias pelo Com
 
 O **CDI** é a taxa dos empréstimos entre bancos e anda praticamente colada na Selic (poucos centésimos abaixo). Por isso "rende 100% do CDI" ≈ "rende a Selic".
 
-## No Patrimo
+## No Ordre
 
 A faixa de indicadores no seu painel mostra a Selic e o CDI atuais. A calculadora "Rendimento do CDI" usa a taxa vigente do Banco Central.
 
@@ -1061,7 +1061,7 @@ A faixa de indicadores no seu painel mostra a Selic e o CDI atuais. A calculador
     title: "IPCA, IGP-M e os índices de inflação que afetam sua vida",
     excerpt:
       "A inflação oficial (IPCA) reajusta salários e metas do BC. O IGP-M reajusta aluguel. Saber qual é qual evita surpresa no boleto.",
-    author: "Time Patrimo",
+    author: "Time Ordre",
     publishedAt: "2026-09-24",
     readingMinutes: 5,
     tags: ["conceitos", "indicadores"],
@@ -1088,7 +1088,7 @@ Parecido com o IPCA, mas foca em famílias de renda mais baixa (1 a 5 salários)
 - Tesouro IPCA+ e alguns CDBs pagam "inflação + spread" — protegem o poder de compra.
 - Renda fixa prefixada é uma **aposta**: você ganha se a inflação vier abaixo do embutido no preço.
 
-## No Patrimo
+## No Ordre
 
 O painel mostra o IPCA acumulado em 12 meses. Use como piso: seus investimentos precisam render acima disso para valer a pena.
 
@@ -1100,7 +1100,7 @@ O painel mostra o IPCA acumulado em 12 meses. Use como piso: seus investimentos 
     title: "Previdência privada: PGBL, VGBL e quando realmente vale",
     excerpt:
       "Previdência não é mágica — é um fundo com regra de imposto diferente. Veja quando o PGBL compensa e a armadilha da tabela progressiva.",
-    author: "Time Patrimo",
+    author: "Time Ordre",
     publishedAt: "2026-09-25",
     readingMinutes: 6,
     tags: ["investimentos", "aposentadoria"],
@@ -1130,7 +1130,7 @@ Um plano de previdência (PGBL ou VGBL) é, no fundo, um fundo de investimento c
 
 Para quem declara no completo, mira o longo prazo e acha um plano com taxa baixa: sim, o PGBL + tabela regressiva é eficiente. Caso contrário, um Tesouro IPCA+ longo costuma bater um plano caro.
 
-## No Patrimo
+## No Ordre
 
 A calculadora de Independência financeira estima o patrimônio necessário para viver de renda — some previdência, investimentos e INSS no total.
 
@@ -1142,7 +1142,7 @@ A calculadora de Independência financeira estima o patrimônio necessário para
     title: "Fundos de investimento: tipos, taxas e o come-cotas",
     excerpt:
       "Um gestor cuida da carteira por você — cobrando por isso. Entenda taxa de administração, performance e o imposto que morde duas vezes por ano.",
-    author: "Time Patrimo",
+    author: "Time Ordre",
     publishedAt: "2026-09-26",
     readingMinutes: 6,
     tags: ["investimentos", "fundos"],
@@ -1173,9 +1173,9 @@ Fundos de renda fixa e multimercado sofrem antecipação de IR em **maio e novem
 
 Preste atenção no prazo de resgate: "D+1" (dinheiro na conta no dia seguinte) x "D+30" (trinta dias depois). Reserva de emergência só em fundo D+0/D+1.
 
-## No Patrimo
+## No Ordre
 
-Lance suas cotas no módulo de Investimentos com o valor investido e o valor atual — o Patrimo mostra o ganho e o peso na carteira.
+Lance suas cotas no módulo de Investimentos com o valor investido e o valor atual — o Ordre mostra o ganho e o peso na carteira.
 
 ---
 *Fonte: CVM (Resolução 175); regras de come-cotas da Receita Federal.*`,
@@ -1185,7 +1185,7 @@ Lance suas cotas no módulo de Investimentos com o valor investido e o valor atu
     title: "ETFs: o atalho da diversificação em um único papel",
     excerpt:
       "Com uma cota você compra uma cesta inteira de ações ou títulos. Como funcionam, quanto custam e por que costumam bater fundos ativos.",
-    author: "Time Patrimo",
+    author: "Time Ordre",
     publishedAt: "2026-09-27",
     readingMinutes: 5,
     tags: ["investimentos", "iniciante"],
@@ -1213,7 +1213,7 @@ Ações via ETF: **15% sobre o ganho na venda, sem a isenção de R$ 20 mil**. E
 - Veja o **índice** que o ETF segue e a taxa.
 - ETFs muito pequenos ou pouco negociados podem ter spread alto na hora de comprar/vender.
 
-## No Patrimo
+## No Ordre
 
 Registre seus ETFs na classe "ETFs" do módulo de Investimentos — o gráfico de composição mostra o peso deles na carteira.
 
@@ -1225,7 +1225,7 @@ Registre seus ETFs na classe "ETFs" do módulo de Investimentos — o gráfico d
     title: "Como investir com segurança: os 5 filtros antes de aplicar",
     excerpt:
       "Não existe investimento sem risco — existe risco que você entende e risco que te pega de surpresa. Cinco perguntas antes de clicar em 'aplicar'.",
-    author: "Time Patrimo",
+    author: "Time Ordre",
     publishedAt: "2026-09-28",
     readingMinutes: 6,
     tags: ["iniciante", "segurança"],
@@ -1256,7 +1256,7 @@ Se 20% de queda te faria vender no desespero, sua alocação em renda variável 
 
 Retorno fixo acima de ~1,5% ao mês, "sem risco", com pressão para entrar rápido: é golpe. Pirâmides e esquemas Ponzi usam exatamente esse roteiro.
 
-## No Patrimo
+## No Ordre
 
 O quiz de perfil de investidor calibra quanto de risco faz sentido pra você. Os alertas do painel avisam quando a carteira sai do alvo.
 

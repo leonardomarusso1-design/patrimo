@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { Bell, Eye, EyeOff } from "lucide-react";
 
-const KEY = "patrimo.hide-values";
+const KEY = "ordre.hide-values";
 
 export function TopBarActions() {
   const [hidden, setHidden] = useState(false);

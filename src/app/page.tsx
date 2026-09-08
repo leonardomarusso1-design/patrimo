@@ -95,7 +95,7 @@ export default function LandingPage() {
           </p>
           <p className="mt-5 text-center text-muted">
             O problema não é falta de disciplina. É que a informação está espalhada.
-            O Patrimo junta tudo — e transforma número solto em decisão.
+            O Ordre junta tudo — e transforma número solto em decisão.
           </p>
         </section>
 
@@ -140,13 +140,13 @@ export default function LandingPage() {
         <section className="bg-surface py-20">
           <div className="mx-auto max-w-3xl px-4 sm:px-6">
             <h2 className="text-3xl font-extrabold text-ink sm:text-4xl">
-              Patrimo vs. a planilha de sempre
+              Ordre vs. a planilha de sempre
             </h2>
             <div className="mt-10 overflow-hidden rounded-2xl border border-border bg-card">
               <div className="grid grid-cols-[1fr_4rem_4rem] items-center gap-3 border-b border-border px-5 py-3 text-xs font-semibold uppercase tracking-wide text-muted">
                 <span>Recurso</span>
                 <span className="text-center">Planilha</span>
-                <span className="text-center">Patrimo</span>
+                <span className="text-center">Ordre</span>
               </div>
               {COMPARISON.map((feature) => (
                 <div
@@ -182,7 +182,7 @@ export default function LandingPage() {
         <section id="escola" className="bg-ink py-20 text-[#eaf5ee]">
           <div className="mx-auto max-w-6xl px-4 sm:px-6">
             <h2 className="text-3xl font-extrabold sm:text-4xl">
-              Escola Patrimo — {LESSONS.length} aulas do zero à independência
+              Escola Ordre — {LESSONS.length} aulas do zero à independência
             </h2>
             <p className="mt-3 max-w-xl text-[#eaf5ee]/70">
               Do &ldquo;pra onde foi meu salário&rdquo; até &ldquo;quando posso parar de

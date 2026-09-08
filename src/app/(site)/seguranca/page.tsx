@@ -3,7 +3,7 @@ import { LegalPage, COMPANY } from "@/components/LegalPage";
 
 export const metadata = pageMetadata({
   title: "Segurança",
-  description: "Como a Patrimo protege seus dados e como reportar uma vulnerabilidade.",
+  description: "Como a Ordre protege seus dados e como reportar uma vulnerabilidade.",
   path: "/seguranca",
 });
 
@@ -35,7 +35,7 @@ O arquivo padrão está em \`/.well-known/security.txt\` (RFC 9116).
 
 - Use uma senha forte e única.
 - Ative verificação em duas etapas quando disponível.
-- Desconfie de e-mails pedindo sua senha — a Patrimo nunca pede.
+- Desconfie de e-mails pedindo sua senha — a Ordre nunca pede.
 `;
 
 export default function SegurancaPage() {

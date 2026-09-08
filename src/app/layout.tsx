@@ -41,7 +41,7 @@ export default function RootLayout({
         <script
           dangerouslySetInnerHTML={{
             __html:
-              "try{var t=localStorage.getItem('patrimo-theme');if(t==='light'||t==='dark')document.documentElement.dataset.theme=t;}catch(e){}",
+              "try{var t=localStorage.getItem('ordre-theme');if(t==='light'||t==='dark')document.documentElement.dataset.theme=t;}catch(e){}",
           }}
         />
       </head>

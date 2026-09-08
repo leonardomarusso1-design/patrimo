@@ -17,8 +17,8 @@ export function Analytics() {
       const detail = (e as CustomEvent<ConsentState>).detail;
       setAllowed(!!detail?.analytics);
     };
-    window.addEventListener("patrimo:consent", onConsent);
-    return () => window.removeEventListener("patrimo:consent", onConsent);
+    window.addEventListener("ordre:consent", onConsent);
+    return () => window.removeEventListener("ordre:consent", onConsent);
   }, []);
 
   if (!GA_ID || !allowed) return null;

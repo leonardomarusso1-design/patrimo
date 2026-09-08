@@ -1,7 +1,7 @@
 import { ImageResponse } from "next/og";
 
 export const runtime = "nodejs";
-export const alt = "Patrimo — seu dinheiro inteiro numa tela só";
+export const alt = "Ordre — seu dinheiro inteiro numa tela só";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -21,7 +21,7 @@ export default function OpengraphImage() {
           fontFamily: "sans-serif",
         }}
       >
-        <div style={{ display: "flex", fontSize: 40, fontWeight: 800 }}>Patrimo</div>
+        <div style={{ display: "flex", fontSize: 40, fontWeight: 800 }}>Ordre</div>
         <div
           style={{
             display: "flex",

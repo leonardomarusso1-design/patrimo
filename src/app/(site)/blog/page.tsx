@@ -7,7 +7,7 @@ import { BlogCover } from "@/components/BlogCover";
 export const metadata = pageMetadata({
   title: "Blog",
   description:
-    "Educação financeira baseada em evidência: orçamento, reserva, investimentos, indicadores e as calculadoras do Patrimo.",
+    "Educação financeira baseada em evidência: orçamento, reserva, investimentos, indicadores e as calculadoras do Ordre.",
   path: "/blog",
 });
 

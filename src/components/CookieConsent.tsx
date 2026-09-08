@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/Button";
 
-const KEY = "patrimo.cookie-consent.v1";
+const KEY = "ordre.cookie-consent.v1";
 
 export type ConsentState = {
   necessary: true;
@@ -28,7 +28,7 @@ function persist(state: ConsentState) {
   } catch {
     /* modo privado — segue sem persistir */
   }
-  window.dispatchEvent(new CustomEvent("patrimo:consent", { detail: state }));
+  window.dispatchEvent(new CustomEvent("ordre:consent", { detail: state }));
   // Registro server-side (best-effort, não bloqueia UI).
   fetch("/api/consent", {
     method: "POST",

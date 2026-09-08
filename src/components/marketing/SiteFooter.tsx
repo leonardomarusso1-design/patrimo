@@ -90,7 +90,7 @@ export function SiteFooter() {
             Todo mês que passa sem controle é dinheiro que não volta.
           </p>
           <p className="mt-1 text-sm text-muted">
-            © {new Date().getFullYear()} Patrimo · Leonardo Marusso · CPF 473.503.798-54
+            © {new Date().getFullYear()} Ordre · Leonardo Marusso · CPF 473.503.798-54
           </p>
         </div>
       </div>

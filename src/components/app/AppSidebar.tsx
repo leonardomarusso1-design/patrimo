@@ -65,7 +65,7 @@ export function AppSidebar({
       {/* topbar mobile */}
       <div className="flex items-center justify-between border-b border-border bg-card px-4 py-3 lg:hidden">
         <span className="font-display text-lg font-extrabold text-ink">
-          Patri<span className="text-accent">mo</span>
+          Ord<span className="text-accent">re</span>
         </span>
         <button onClick={() => setOpen(true)} aria-label="Abrir menu">
           <Menu className="h-6 w-6 text-ink" />
@@ -75,7 +75,7 @@ export function AppSidebar({
       {/* sidebar desktop */}
       <aside className="hidden w-64 shrink-0 flex-col border-r border-border bg-card p-4 lg:flex">
         <Link href="/" className="px-3 py-2 font-display text-xl font-extrabold text-ink">
-          Patri<span className="text-accent">mo</span>
+          Ord<span className="text-accent">re</span>
         </Link>
         <div className="mt-4 flex-1">
           <NavLinks />
@@ -90,7 +90,7 @@ export function AppSidebar({
           <div className="absolute inset-y-0 left-0 flex w-72 flex-col bg-card p-4">
             <div className="flex items-center justify-between px-3 py-2">
               <span className="font-display text-lg font-extrabold text-ink">
-                Patri<span className="text-accent">mo</span>
+                Ord<span className="text-accent">re</span>
               </span>
               <button onClick={() => setOpen(false)} aria-label="Fechar menu">
                 <X className="h-6 w-6 text-ink" />

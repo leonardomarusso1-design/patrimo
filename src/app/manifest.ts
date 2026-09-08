@@ -2,8 +2,8 @@ import type { MetadataRoute } from "next";
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "Patrimo",
-    short_name: "Patrimo",
+    name: "Ordre",
+    short_name: "Ordre",
     description: "Controle financeiro completo, com IA.",
     start_url: "/app",
     display: "standalone",

@@ -14,7 +14,7 @@ type PortfolioInput = {
   byClass: { name: string; value: number }[];
 };
 
-const SYSTEM = `Você é um assistente de alocação de carteira do app Patrimo.
+const SYSTEM = `Você é um assistente de alocação de carteira do app Ordre.
 Regras:
 - NÃO faça previsões de curto prazo nem recomende ativos específicos por nome/ticker para comprar.
 - Baseie-se em princípios de alocação, no perfil do investidor e na composição atual.
@@ -43,7 +43,7 @@ function fallback(input: PortfolioInput): Advice {
       input.variablePct,
     )}% em renda variável (alvo ~${target}%).`,
     actions,
-    model: "regras-patrimo",
+    model: "regras-ordre",
   };
 }
 

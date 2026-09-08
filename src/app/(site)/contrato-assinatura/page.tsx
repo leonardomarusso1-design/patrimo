@@ -9,11 +9,11 @@ export const metadata = pageMetadata({
 const content = `
 ## Partes
 
-Este contrato é firmado entre **${COMPANY.legalName}** (${COMPANY.doc}), ${COMPANY.city} ("Patrimo"), e você, pessoa física que contrata um plano ("Assinante").
+Este contrato é firmado entre **${COMPANY.legalName}** (${COMPANY.doc}), ${COMPANY.city} ("Ordre"), e você, pessoa física que contrata um plano ("Assinante").
 
 ## 1. Objeto
 
-Licença de uso, não exclusiva e intransferível, da plataforma Patrimo, na modalidade software como serviço (SaaS), conforme o plano contratado (Essencial, Pro ou Elite).
+Licença de uso, não exclusiva e intransferível, da plataforma Ordre, na modalidade software como serviço (SaaS), conforme o plano contratado (Essencial, Pro ou Elite).
 
 ## 2. Vigência e renovação
 
@@ -33,7 +33,7 @@ O cancelamento pode ser feito a qualquer momento e passa a valer no ciclo seguin
 
 ## 6. Nível de serviço
 
-A Patrimo empregará esforços comercialmente razoáveis para manter o serviço disponível. Manutenções programadas serão avisadas quando possível.
+A Ordre empregará esforços comercialmente razoáveis para manter o serviço disponível. Manutenções programadas serão avisadas quando possível.
 
 ## 7. Dados do Assinante
 
@@ -41,7 +41,7 @@ Os dados são tratados conforme a Política de Privacidade. O Assinante pode exp
 
 ## 8. Rescisão
 
-Qualquer parte pode rescindir por descumprimento não sanado em 10 dias após notificação. A Patrimo pode rescindir imediatamente em caso de uso fraudulento ou ilícito.
+Qualquer parte pode rescindir por descumprimento não sanado em 10 dias após notificação. A Ordre pode rescindir imediatamente em caso de uso fraudulento ou ilícito.
 
 ## 9. Disposições gerais
 

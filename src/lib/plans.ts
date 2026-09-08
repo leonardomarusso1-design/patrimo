@@ -1,12 +1,12 @@
 import type { PlanId } from "@/types/database";
 
 /**
- * Patrimo tem um único plano pago: anual, R$ 97,90/ano, parcelável em até 12x.
+ * Ordre tem um único plano pago: anual, R$ 97,90/ano, parcelável em até 12x.
  * O acesso ao painel é liberado só após a compra (hard paywall).
  */
 export const PLAN = {
   id: "pro" as PlanId,
-  name: "Patrimo Anual",
+  name: "Ordre Anual",
   price: 97.9,
   installments: 12,
   get installmentValue() {

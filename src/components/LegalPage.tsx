@@ -24,7 +24,7 @@ export function LegalPage({
 }
 
 /**
- * Enquanto não há CNPJ dedicado ao Patrimo, o serviço é operado por Leonardo
+ * Enquanto não há CNPJ dedicado ao Ordre, o serviço é operado por Leonardo
  * Marusso como pessoa física (CPF). Trocar por CNPJ quando existir.
  */
 export const COMPANY = {

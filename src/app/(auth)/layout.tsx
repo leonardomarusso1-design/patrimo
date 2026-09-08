@@ -22,7 +22,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
         />
         <Link href="/" className="relative">
           <span className="font-display text-xl font-extrabold">
-            Patri<span className="text-gold">mo</span>
+            Ord<span className="text-gold">re</span>
           </span>
         </Link>
         <div className="relative">
@@ -30,7 +30,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
             Suas finanças, finalmente no controle.
           </h2>
           <p className="mt-4 max-w-sm text-[#eaf5ee]/75">
-            O Patrimo reúne tudo o que você precisa para entender, planejar e fazer
+            O Ordre reúne tudo o que você precisa para entender, planejar e fazer
             seu dinheiro render — num só lugar.
           </p>
 
@@ -62,7 +62,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
           </ul>
         </div>
         <p className="relative text-xs text-[#eaf5ee]/40">
-          © {new Date().getFullYear()} Patrimo · Leonardo Marusso
+          © {new Date().getFullYear()} Ordre · Leonardo Marusso
         </p>
       </aside>
 

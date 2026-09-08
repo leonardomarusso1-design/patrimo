@@ -41,7 +41,7 @@ export function ReplyBox({ id, email }: { id: string; email: string }) {
           {pending ? "Enviando…" : "Responder"}
         </button>
         <a
-          href={`mailto:${email}?subject=${encodeURIComponent("Resposta do suporte — Patrimo")}`}
+          href={`mailto:${email}?subject=${encodeURIComponent("Resposta do suporte — Ordre")}`}
           className="rounded-lg border border-border px-3 py-1.5 text-xs font-semibold text-muted hover:text-ink"
         >
           Abrir no e-mail

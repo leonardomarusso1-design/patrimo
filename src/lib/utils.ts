@@ -45,7 +45,7 @@ export function clamp(n: number, min: number, max: number): number {
 
 /** SHA-256 hex de um IP para logs sem guardar o IP em claro (LGPD). */
 export async function hashIp(ip: string): Promise<string> {
-  const data = new TextEncoder().encode(`${ip}:patrimo`);
+  const data = new TextEncoder().encode(`${ip}:ordre`);
   const digest = await crypto.subtle.digest("SHA-256", data);
   return Array.from(new Uint8Array(digest))
     .map((b) => b.toString(16).padStart(2, "0"))

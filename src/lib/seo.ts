@@ -1,17 +1,17 @@
 import type { Metadata } from "next";
 
 export const SITE_URL =
-  process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") || "https://patrimo.com.br";
+  process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") || "https://ordre.app";
 
-export const SITE_NAME = "Patrimo";
+export const SITE_NAME = "Ordre";
 export const SITE_DESCRIPTION =
   "Orçamento, reserva de emergência, metas, investimentos e patrimônio líquido em um só lugar. Do descontrole ao patrimônio, numa sequência só.";
 
 export const baseMetadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: "Patrimo — Controle financeiro pessoal completo",
-    template: "%s · Patrimo",
+    default: "Ordre — Controle financeiro pessoal completo",
+    template: "%s · Ordre",
   },
   description: SITE_DESCRIPTION,
   applicationName: SITE_NAME,
@@ -25,21 +25,21 @@ export const baseMetadata: Metadata = {
     "educação financeira",
     "open finance",
   ],
-  authors: [{ name: "Patrimo" }],
-  creator: "Patrimo",
+  authors: [{ name: "Ordre" }],
+  creator: "Ordre",
   alternates: { canonical: "/" },
   openGraph: {
     type: "website",
     locale: "pt_BR",
     url: SITE_URL,
     siteName: SITE_NAME,
-    title: "Patrimo — Controle financeiro pessoal completo",
+    title: "Ordre — Controle financeiro pessoal completo",
     description: SITE_DESCRIPTION,
-    images: [{ url: "/opengraph-image", width: 1200, height: 630, alt: "Patrimo" }],
+    images: [{ url: "/opengraph-image", width: 1200, height: 630, alt: "Ordre" }],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Patrimo — Controle financeiro pessoal completo",
+    title: "Ordre — Controle financeiro pessoal completo",
     description: SITE_DESCRIPTION,
     images: ["/opengraph-image"],
   },
@@ -63,7 +63,7 @@ export function pageMetadata(opts: {
     alternates: opts.path ? { canonical: opts.path } : undefined,
     robots: opts.noindex ? { index: false, follow: false } : undefined,
     openGraph: {
-      title: `${opts.title} · Patrimo`,
+      title: `${opts.title} · Ordre`,
       description: opts.description ?? SITE_DESCRIPTION,
       url: opts.path ? `${SITE_URL}${opts.path}` : SITE_URL,
     },

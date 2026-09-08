@@ -6,7 +6,7 @@ export const metadata = pageMetadata({ title: "Política de Privacidade", path: 
 const content = `
 ## 1. Controlador
 
-${COMPANY.legalName} (${COMPANY.doc}), ${COMPANY.city}, é a controladora dos dados tratados na Patrimo, nos termos da Lei nº 13.709/2018 (LGPD). Encarregado / contato: ${COMPANY.privacyEmail}.
+${COMPANY.legalName} (${COMPANY.doc}), ${COMPANY.city}, é a controladora dos dados tratados na Ordre, nos termos da Lei nº 13.709/2018 (LGPD). Encarregado / contato: ${COMPANY.privacyEmail}.
 
 ## 2. Dados que coletamos
 
@@ -53,7 +53,7 @@ Detalhes na Política de Cookies. Você controla os cookies de análise e market
 
 ## 10. Crianças
 
-A Patrimo não é destinada a menores de 18 anos e não coletamos dados dessa faixa de forma consciente.
+A Ordre não é destinada a menores de 18 anos e não coletamos dados dessa faixa de forma consciente.
 `;
 
 export default function PrivacidadePage() {

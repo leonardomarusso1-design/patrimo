@@ -26,7 +26,7 @@ function limiter(name: string, tokens: number, window: `${number} ${"s" | "m" | 
       new Ratelimit({
         redis,
         limiter: Ratelimit.slidingWindow(tokens, window),
-        prefix: `patrimo:rl:${name}`,
+        prefix: `ordre:rl:${name}`,
         analytics: false,
       }),
     );

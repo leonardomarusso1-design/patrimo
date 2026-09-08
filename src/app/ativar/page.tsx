@@ -41,7 +41,7 @@ export default async function AtivarPage() {
             </span>
           </div>
           <h1 className="mt-3 font-display text-2xl font-extrabold text-ink">
-            Ative seu acesso ao Patrimo
+            Ative seu acesso ao Ordre
           </h1>
           <p className="mt-2 text-sm text-muted">
             Sua conta está pronta, {profile.full_name?.split(" ")[0] ?? "tudo certo"}.

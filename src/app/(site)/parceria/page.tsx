@@ -4,7 +4,7 @@ import { ButtonLink } from "@/components/ui/Button";
 export const metadata = pageMetadata({
   title: "Programa de parceria",
   description:
-    "Influenciadores de finanças ganham 50% de comissão por cada assinatura anual do Patrimo. Seguidor entra com 5% de desconto.",
+    "Influenciadores de finanças ganham 50% de comissão por cada assinatura anual do Ordre. Seguidor entra com 5% de desconto.",
   path: "/parceria",
 });
 
@@ -35,7 +35,7 @@ export default function ParceriaPage() {
         Programa de parceria
       </p>
       <h1 className="mt-2 font-display text-3xl font-extrabold leading-tight text-ink sm:text-4xl">
-        Indique o Patrimo e ganhe 50% por assinatura
+        Indique o Ordre e ganhe 50% por assinatura
       </h1>
       <p className="mt-4 text-muted">
         Para criadores de conteúdo de finanças. Você recomenda a ferramenta que usa,

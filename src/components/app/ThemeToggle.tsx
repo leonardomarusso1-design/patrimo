@@ -18,12 +18,12 @@ function apply(t: Theme) {
   if (t === "system") {
     delete el.dataset.theme;
     try {
-      localStorage.removeItem("patrimo-theme");
+      localStorage.removeItem("ordre-theme");
     } catch {}
   } else {
     el.dataset.theme = t;
     try {
-      localStorage.setItem("patrimo-theme", t);
+      localStorage.setItem("ordre-theme", t);
     } catch {}
   }
 }

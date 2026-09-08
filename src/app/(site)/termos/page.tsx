@@ -6,11 +6,11 @@ export const metadata = pageMetadata({ title: "Termos de Uso", path: "/termos" }
 const content = `
 ## 1. Quem somos
 
-A Patrimo é um serviço de software operado por ${COMPANY.legalName} (${COMPANY.doc}), com sede em ${COMPANY.city}, responsável ${COMPANY.owner}. Contato: ${COMPANY.supportEmail}.
+A Ordre é um serviço de software operado por ${COMPANY.legalName} (${COMPANY.doc}), com sede em ${COMPANY.city}, responsável ${COMPANY.owner}. Contato: ${COMPANY.supportEmail}.
 
-## 2. O que a Patrimo faz
+## 2. O que a Ordre faz
 
-A Patrimo é uma ferramenta de organização financeira pessoal. Ela ajuda você a registrar e visualizar orçamento, reserva de emergência, metas, investimentos e patrimônio. **A Patrimo não executa transações, não movimenta dinheiro e não é instituição financeira.**
+A Ordre é uma ferramenta de organização financeira pessoal. Ela ajuda você a registrar e visualizar orçamento, reserva de emergência, metas, investimentos e patrimônio. **A Ordre não executa transações, não movimenta dinheiro e não é instituição financeira.**
 
 ## 3. Conteúdo informativo, não consultoria
 
@@ -21,7 +21,7 @@ Os textos, calculadoras, aulas e sugestões da IA têm caráter educativo e info
 - Você precisa fornecer dados verdadeiros no cadastro.
 - Você é responsável por manter a senha em segurança e por toda atividade na sua conta.
 - Avise imediatamente em ${COMPANY.securityEmail} se suspeitar de acesso não autorizado.
-- É proibido usar a Patrimo para atividade ilícita, tentar burlar limites de plano, ou acessar dados de outros usuários.
+- É proibido usar a Ordre para atividade ilícita, tentar burlar limites de plano, ou acessar dados de outros usuários.
 
 ## 5. Planos e pagamento
 
@@ -37,7 +37,7 @@ Fazemos esforço razoável para manter o serviço disponível, mas ele é fornec
 
 ## 8. Limitação de responsabilidade
 
-Na máxima extensão permitida pela lei, a Patrimo não responde por perdas financeiras decorrentes de decisões que você tomou com base em informações do serviço, nem por lucros cessantes.
+Na máxima extensão permitida pela lei, a Ordre não responde por perdas financeiras decorrentes de decisões que você tomou com base em informações do serviço, nem por lucros cessantes.
 
 ## 9. Encerramento
 

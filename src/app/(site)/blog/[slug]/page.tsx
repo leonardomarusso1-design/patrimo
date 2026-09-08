@@ -51,7 +51,7 @@ export default async function BlogPostPage({
     description: post.excerpt,
     datePublished: post.publishedAt,
     author: { "@type": "Organization", name: post.author },
-    publisher: { "@type": "Organization", name: "Patrimo" },
+    publisher: { "@type": "Organization", name: "Ordre" },
   };
 
   return (
@@ -91,7 +91,7 @@ export default async function BlogPostPage({
             Faça a conta com seus números
           </p>
           <p className="mt-1 text-sm text-brand-700/80">
-            Este artigo tem uma calculadora no Patrimo. Ela fica na sua conta —
+            Este artigo tem uma calculadora no Ordre. Ela fica na sua conta —
             disponível para assinantes.
           </p>
           <ButtonLink href={`/app/calculadoras?c=${post.calc}`} className="mt-4">
@@ -105,7 +105,7 @@ export default async function BlogPostPage({
           Coloque isso em prática hoje
         </p>
         <p className="mt-1 text-sm text-muted">
-          O Patrimo faz as contas por você — orçamento a patrimônio, numa tela só.
+          O Ordre faz as contas por você — orçamento a patrimônio, numa tela só.
         </p>
         <ButtonLink href="/cadastro" className="mt-4">
           Criar minha conta
