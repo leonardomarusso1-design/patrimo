@@ -14,7 +14,8 @@ import {
 } from "lucide-react";
 import { requireUser, getProfile } from "@/lib/data";
 import { PageHeader } from "@/components/app/PageHeader";
-import { Progress } from "@/components/ui/Misc";
+import { Progress, StatTile } from "@/components/ui/Misc";
+import { CustomizeDash } from "@/components/app/CustomizeDash";
 import { formatCurrency } from "@/lib/utils";
 import { emergencyTarget } from "@/lib/finance";
 import { computeNetWorth } from "@/lib/networth";
@@ -70,6 +71,31 @@ export default async function InicioPage() {
     savedByGoal.set(c.goal_id, (savedByGoal.get(c.goal_id) ?? 0) + Number(c.amount));
   }
   const goalsList = goals.data ?? [];
+  const goalsSaved = [...savedByGoal.values()].reduce((s, v) => s + v, 0);
+  const goalsTarget = goalsList.reduce((s, g) => s + Number(g.target_amount), 0);
+
+  const dashSel = profile.dashboard_cards ?? ["reserva", "metas"];
+  const CARD_VALUE: Record<string, { label: string; value: string; hint?: string }> = {
+    patrimonio: { label: "Patrimônio líquido", value: formatCurrency(nw.netWorth, cur) },
+    investido: {
+      label: "Investido na carteira",
+      value: formatCurrency(nw.wallet, cur),
+      hint: nw.wallet === 0 ? "nada lançado ainda" : undefined,
+    },
+    reserva: {
+      label: "Reserva de emergência",
+      value: formatCurrency(reserveSaved, cur),
+      hint: reserveTarget > 0 ? `${Math.round(reservePct)}% de ${formatCurrency(reserveTarget, cur)}` : undefined,
+    },
+    metas: {
+      label: "Guardado em metas",
+      value: formatCurrency(goalsSaved, cur),
+      hint: goalsTarget > 0 ? `de ${formatCurrency(goalsTarget, cur)}` : undefined,
+    },
+    bens: { label: "Valor dos bens", value: formatCurrency(nw.assets, cur) },
+    dividas: { label: "Dívidas", value: formatCurrency(nw.debts, cur) },
+  };
+  const dashCards = dashSel.map((id) => CARD_VALUE[id]).filter(Boolean).slice(0, 4);
 
   const alerts = buildAlerts({
     currency: cur,
@@ -219,6 +245,24 @@ export default async function InicioPage() {
             Abrir o patrimônio <ArrowUpRight className="h-3.5 w-3.5" />
           </Link>
         </div>
+      </div>
+
+      <div className="mt-6">
+        <div className="mb-2 flex items-center justify-between">
+          <h2 className="font-display text-sm font-bold text-ink">Acompanhando</h2>
+          <CustomizeDash selected={dashSel} />
+        </div>
+        {dashCards.length > 0 ? (
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {dashCards.map((c) => (
+              <StatTile key={c.label} label={c.label} value={c.value} hint={c.hint} />
+            ))}
+          </div>
+        ) : (
+          <p className="text-sm text-muted">
+            Nenhum card escolhido. Toque em Personalizar para adicionar.
+          </p>
+        )}
       </div>
 
       <div className="mt-6 grid gap-6 lg:grid-cols-2">
