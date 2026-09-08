@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { requireUser, getProfile } from "@/lib/data";
 import { PageHeader } from "@/components/app/PageHeader";
 import { EntityManager, type Field } from "@/components/app/EntityManager";
@@ -65,6 +66,14 @@ export default async function OrcamentoPage({
 
   const [{ user, supabase }, profile] = await Promise.all([requireUser(), getProfile()]);
 
+  const { data: catRows } = await supabase
+    .from("budget_categories")
+    .select("name, color")
+    .eq("user_id", user.id);
+  const catColor = new Map(
+    (catRows ?? []).map((c) => [c.name.toLowerCase(), c.color]),
+  );
+
   let q = supabase.from("budget_entries").select("*").eq("user_id", user.id);
   q = isRange
     ? q.gte("entry_date", rangeFrom).lte("entry_date", rangeTo)
@@ -116,7 +125,9 @@ export default async function OrcamentoPage({
               </span>
             )}
             {r.name}
-            {withCat && r.category && <CategoryPill name={r.category} />}
+            {withCat && r.category && (
+              <CategoryPill name={r.category} color={catColor.get(r.category.toLowerCase())} />
+            )}
           </span>
           <span className="tabular-nums text-ink sm:text-right">
             {formatCurrency(Number(r.amount), cur)}
@@ -227,9 +238,12 @@ export default async function OrcamentoPage({
         </div>
 
         <div className="rounded-2xl border border-border bg-card p-5 shadow-[var(--shadow-card)]">
-          <h3 className="mb-4 font-display text-base font-bold text-ink">
-            Despesas por categoria
-          </h3>
+          <div className="mb-4 flex items-center justify-between">
+            <h3 className="font-display text-base font-bold text-ink">Despesas por categoria</h3>
+            <Link href="/app/categorias" className="text-xs font-medium text-accent-dim hover:underline">
+              Gerenciar categorias
+            </Link>
+          </div>
           {donut.length > 0 ? (
             <Donut data={donut} currency={cur} centerLabel={isRange ? "no período" : "no mês"} />
           ) : (

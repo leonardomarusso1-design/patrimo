@@ -15,8 +15,8 @@ function pick(name: string) {
   return COLORS[Math.abs(h) % COLORS.length];
 }
 
-export function CategoryPill({ name }: { name: string }) {
-  const c = pick(name);
+export function CategoryPill({ name, color }: { name: string; color?: string }) {
+  const c = color ?? pick(name);
   return (
     <span
       className="inline-flex items-center gap-1.5 rounded-full px-2 py-0.5 text-xs font-medium"

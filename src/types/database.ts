@@ -75,6 +75,7 @@ export interface Database {
         name: string;
         color: string;
         kind: BudgetKind;
+        archived: boolean;
         created_at: string;
       }>;
       budget_entries: Table<
