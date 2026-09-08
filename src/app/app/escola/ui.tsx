@@ -3,28 +3,19 @@
 import { useState, useTransition } from "react";
 import { Lock, Play, Check } from "lucide-react";
 import { LESSONS } from "@/lib/school";
-import { planAllows, planName } from "@/lib/plans";
-import type { PlanId } from "@/types/database";
 import { toggleLesson } from "./actions";
 import { Progress } from "@/components/ui/Misc";
 import { cn } from "@/lib/utils";
 
-export function EscolaList({
-  plan,
-  completed,
-}: {
-  plan: PlanId;
-  completed: number[];
-}) {
+export function EscolaList({ completed }: { completed: number[] }) {
   const [done, setDone] = useState<number[]>(completed);
   const [pending, start] = useTransition();
   const [active, setActive] = useState<number | null>(null);
 
-  const unlocked = LESSONS.filter((l) => planAllows(plan, l.planRequired));
-  const pct = unlocked.length ? (done.length / unlocked.length) * 100 : 0;
+  const withVideo = LESSONS.filter((l) => l.videoUrl).length;
+  const pct = withVideo ? (done.length / withVideo) * 100 : 0;
 
   const activeLesson = LESSONS.find((l) => l.id === active);
-  const activeUnlocked = activeLesson && planAllows(plan, activeLesson.planRequired);
 
   return (
     <div className="grid gap-6 lg:grid-cols-[1fr_360px]">
@@ -32,33 +23,21 @@ export function EscolaList({
         {activeLesson ? (
           <div>
             <div className="flex aspect-video items-center justify-center rounded-xl bg-ink text-[#eaf5ee]">
-              {activeUnlocked ? (
-                <div className="text-center">
+              <div className="text-center">
+                {activeLesson.videoUrl ? (
                   <Play className="mx-auto h-10 w-10 text-accent" />
-                  <p className="mt-3 text-sm text-[#eaf5ee]/70">
-                    Aula em gravação — disponível em breve
-                  </p>
-                </div>
-              ) : (
-                <div className="text-center">
+                ) : (
                   <Lock className="mx-auto h-8 w-8 text-[#eaf5ee]/60" />
-                  <p className="mt-3 text-sm text-[#eaf5ee]/70">
-                    Disponível no plano {planName(activeLesson.planRequired)}
-                  </p>
-                </div>
-              )}
+                )}
+                <p className="mt-3 text-sm text-[#eaf5ee]/70">
+                  {activeLesson.videoUrl ? "Assista a aula" : "Aula em gravação — disponível em breve"}
+                </p>
+              </div>
             </div>
-            <h2 className="mt-4 font-display text-lg font-bold text-ink">
-              {activeLesson.title}
-            </h2>
+            <h2 className="mt-4 font-display text-lg font-bold text-ink">{activeLesson.title}</h2>
             <p className="mt-1 text-sm text-muted">{activeLesson.description}</p>
-            {activeUnlocked && !activeLesson.videoUrl && (
-              <p className="mt-4 inline-flex items-center gap-2 rounded-xl bg-ink/[0.05] px-3 py-2 text-xs font-medium text-muted">
-                <Lock className="h-3.5 w-3.5" />
-                Marcar como concluída fica liberado quando o vídeo sair.
-              </p>
-            )}
-            {activeUnlocked && activeLesson.videoUrl && (
+
+            {activeLesson.videoUrl ? (
               <button
                 disabled={pending}
                 onClick={() =>
@@ -80,6 +59,11 @@ export function EscolaList({
                 <Check className="h-4 w-4" />
                 {done.includes(activeLesson.id) ? "Concluída" : "Marcar como concluída"}
               </button>
+            ) : (
+              <p className="mt-4 inline-flex items-center gap-2 rounded-xl bg-ink/[0.05] px-3 py-2 text-xs font-medium text-muted">
+                <Lock className="h-3.5 w-3.5" />
+                Marcar como concluída fica liberado quando o vídeo sair.
+              </p>
             )}
           </div>
         ) : (
@@ -95,13 +79,15 @@ export function EscolaList({
         <div className="mt-3">
           <Progress value={pct} tone="success" />
           <p className="mt-1.5 text-xs text-muted">
-            {done.length} de {unlocked.length} desbloqueadas concluídas
+            {withVideo === 0
+              ? "Vídeos em gravação"
+              : `${done.length} de ${withVideo} disponíveis concluídas`}
           </p>
         </div>
         <ul className="mt-4 space-y-1">
           {LESSONS.map((l) => {
-            const locked = !planAllows(plan, l.planRequired);
             const isDone = done.includes(l.id);
+            const noVideo = !l.videoUrl;
             return (
               <li key={l.id}>
                 <button
@@ -114,16 +100,12 @@ export function EscolaList({
                   <span
                     className={cn(
                       "flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-xs font-bold",
-                      isDone
-                        ? "bg-success/15 text-success"
-                        : locked
-                          ? "bg-ink/[0.06] text-muted"
-                          : "bg-ink/[0.06] text-ink",
+                      isDone ? "bg-success/15 text-success" : "bg-ink/[0.06] text-ink",
                     )}
                   >
-                    {isDone ? <Check className="h-3.5 w-3.5" /> : locked ? <Lock className="h-3 w-3" /> : l.id}
+                    {isDone ? <Check className="h-3.5 w-3.5" /> : noVideo ? <Lock className="h-3 w-3" /> : l.id}
                   </span>
-                  <span className={cn("flex-1", locked && "text-muted")}>{l.title}</span>
+                  <span className={cn("flex-1", noVideo && "text-muted")}>{l.title}</span>
                 </button>
               </li>
             );

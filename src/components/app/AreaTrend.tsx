@@ -10,6 +10,7 @@ import {
   CartesianGrid,
 } from "recharts";
 import { formatCurrency } from "@/lib/utils";
+import { useChartColors } from "@/components/app/useChartColors";
 
 export function AreaTrend({
   data,
@@ -18,6 +19,7 @@ export function AreaTrend({
   data: { month: string; valor: number }[];
   currency: string;
 }) {
+  const t = useChartColors();
   return (
     <div className="h-72 w-full">
       <ResponsiveContainer>
@@ -28,15 +30,15 @@ export function AreaTrend({
               <stop offset="100%" stopColor="#0B7A55" stopOpacity={0} />
             </linearGradient>
           </defs>
-          <CartesianGrid stroke="#E4E8E2" vertical={false} />
+          <CartesianGrid stroke={t.grid} vertical={false} />
           <XAxis
             dataKey="month"
-            tick={{ fill: "#5B6660", fontSize: 12 }}
+            tick={{ fill: t.text, fontSize: 12 }}
             tickLine={false}
             axisLine={false}
           />
           <YAxis
-            tick={{ fill: "#5B6660", fontSize: 12 }}
+            tick={{ fill: t.text, fontSize: 12 }}
             tickLine={false}
             axisLine={false}
             width={72}
@@ -44,15 +46,14 @@ export function AreaTrend({
           />
           <Tooltip
             formatter={(v) => formatCurrency(Number(v), currency)}
-            contentStyle={{ borderRadius: 12, border: "1px solid #E4E8E2" }}
+            contentStyle={{
+              borderRadius: 12,
+              border: `1px solid ${t.grid}`,
+              background: t.card,
+              color: t.text,
+            }}
           />
-          <Area
-            type="monotone"
-            dataKey="valor"
-            stroke="#0B7A55"
-            fill="url(#nw)"
-            strokeWidth={2}
-          />
+          <Area type="monotone" dataKey="valor" stroke="#0B7A55" fill="url(#nw)" strokeWidth={2} />
         </AreaChart>
       </ResponsiveContainer>
     </div>

@@ -3,8 +3,6 @@
 import { revalidatePath } from "next/cache";
 import { requireUser } from "@/lib/data";
 import { LESSONS } from "@/lib/school";
-import { planAllows } from "@/lib/plans";
-import { getProfile } from "@/lib/data";
 import { safeError } from "@/lib/logger";
 
 export async function toggleLesson(lessonId: number, completed: boolean) {
@@ -12,9 +10,6 @@ export async function toggleLesson(lessonId: number, completed: boolean) {
   if (!lesson) return;
   // sem vídeo publicado, não dá pra concluir
   if (completed && !lesson.videoUrl) return;
-
-  const profile = await getProfile();
-  if (!planAllows(profile.plan, lesson.planRequired)) return;
 
   try {
     const { user, supabase } = await requireUser();

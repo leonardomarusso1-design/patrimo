@@ -10,6 +10,7 @@ import {
   CartesianGrid,
 } from "recharts";
 import { formatCurrency } from "@/lib/utils";
+import { useChartColors } from "@/components/app/useChartColors";
 
 export function ReportChart({
   data,
@@ -18,6 +19,7 @@ export function ReportChart({
   data: { month: string; receita: number; gastos: number }[];
   currency: string;
 }) {
+  const t = useChartColors();
   return (
     <div className="h-72 w-full">
       <ResponsiveContainer>
@@ -32,10 +34,10 @@ export function ReportChart({
               <stop offset="100%" stopColor="#D64545" stopOpacity={0} />
             </linearGradient>
           </defs>
-          <CartesianGrid stroke="#E4E8E2" vertical={false} />
-          <XAxis dataKey="month" tick={{ fill: "#5B6660", fontSize: 12 }} tickLine={false} axisLine={false} />
+          <CartesianGrid stroke={t.grid} vertical={false} />
+          <XAxis dataKey="month" tick={{ fill: t.text, fontSize: 12 }} tickLine={false} axisLine={false} />
           <YAxis
-            tick={{ fill: "#5B6660", fontSize: 12 }}
+            tick={{ fill: t.text, fontSize: 12 }}
             tickLine={false}
             axisLine={false}
             width={72}
@@ -43,7 +45,12 @@ export function ReportChart({
           />
           <Tooltip
             formatter={(v) => formatCurrency(Number(v), currency)}
-            contentStyle={{ borderRadius: 12, border: "1px solid #E4E8E2" }}
+            contentStyle={{
+              borderRadius: 12,
+              border: `1px solid ${t.grid}`,
+              background: t.card,
+              color: t.text,
+            }}
           />
           <Area type="monotone" dataKey="receita" stroke="#0B7A55" fill="url(#r)" strokeWidth={2} />
           <Area type="monotone" dataKey="gastos" stroke="#D64545" fill="url(#g)" strokeWidth={2} />
