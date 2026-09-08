@@ -7,6 +7,7 @@ import { createClient } from "@/lib/supabase/server";
 import { checkRateLimit } from "@/lib/rate-limit";
 import { safeError } from "@/lib/logger";
 import { SITE_URL } from "@/lib/seo";
+import { safeNext } from "@/lib/url";
 
 export type AuthState = { error?: string; message?: string };
 
@@ -43,8 +44,8 @@ export async function signIn(_prev: AuthState, formData: FormData): Promise<Auth
   const { error } = await supabase.auth.signInWithPassword(parsed.data);
   if (error) return { error: "E-mail ou senha incorretos." };
 
-  const next = (formData.get("next") as string) || "/app";
-  redirect(next.startsWith("/") ? next : "/app");
+  const next = safeNext(formData.get("next"));
+  redirect(next);
 }
 
 export async function signUp(_prev: AuthState, formData: FormData): Promise<AuthState> {

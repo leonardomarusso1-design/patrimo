@@ -64,6 +64,15 @@ export async function requirePlan(required?: string, feature?: string) {
   return requirePaidAccess();
 }
 
+/**
+ * Como requireUser(), mas também exige assinatura ativa + AAL2. Usar em toda
+ * Server Action de escrita/custo — o layout não roda para POSTs de action.
+ */
+export async function requirePaidUser() {
+  await requirePaidAccess();
+  return requireUser();
+}
+
 export function currentReferenceMonth(): string {
   const d = new Date();
   return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-01`;

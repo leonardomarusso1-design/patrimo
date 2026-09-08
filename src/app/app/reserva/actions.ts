@@ -2,7 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
-import { requireUser } from "@/lib/data";
+import { requirePaidUser } from "@/lib/data";
 import { safeError } from "@/lib/logger";
 
 const schema = z.object({
@@ -20,7 +20,7 @@ export async function saveEmergencyFund(
   if (!parsed.success) return { error: "Dados inválidos." };
 
   try {
-    const { user, supabase } = await requireUser();
+    const { user, supabase } = await requirePaidUser();
     const { error } = await supabase.from("emergency_fund").upsert(
       { user_id: user.id, ...parsed.data },
       { onConflict: "user_id" },

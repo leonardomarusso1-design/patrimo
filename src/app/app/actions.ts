@@ -2,7 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
-import { requireUser } from "@/lib/data";
+import { requirePaidUser } from "@/lib/data";
 import { safeError } from "@/lib/logger";
 
 /**
@@ -95,7 +95,7 @@ export async function createRow(
     return { error: parsed.error.issues[0]?.message ?? "Dados inválidos." };
 
   try {
-    const { user, supabase } = await requireUser();
+    const { user, supabase } = await requirePaidUser();
     const { error } = await supabase
       .from(table)
       .insert({ ...parsed.data, user_id: user.id });
@@ -122,7 +122,7 @@ export async function updateRow(
     return { error: parsed.error.issues[0]?.message ?? "Dados inválidos." };
 
   try {
-    const { user, supabase } = await requireUser();
+    const { user, supabase } = await requirePaidUser();
     const { error } = await supabase
       .from(table)
       .update(parsed.data)
@@ -142,7 +142,7 @@ export async function deleteRow(formData: FormData): Promise<void> {
   const path = (formData.get("_path") as string) || "/app";
   if (!SCHEMAS[table] || !id) return;
   try {
-    const { user, supabase } = await requireUser();
+    const { user, supabase } = await requirePaidUser();
     await supabase.from(table).delete().eq("id", id).eq("user_id", user.id);
     revalidatePath(path);
   } catch (err) {

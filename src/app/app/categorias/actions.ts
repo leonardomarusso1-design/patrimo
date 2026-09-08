@@ -2,7 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
-import { requireUser } from "@/lib/data";
+import { requirePaidUser } from "@/lib/data";
 import { safeError } from "@/lib/logger";
 
 const HEX = /^#[0-9a-fA-F]{6}$/;
@@ -24,7 +24,7 @@ export async function createCategory(_prev: CatState, fd: FormData): Promise<Cat
   const p = createSchema.safeParse(Object.fromEntries(fd));
   if (!p.success) return { error: "Dados inválidos." };
   try {
-    const { user, supabase } = await requireUser();
+    const { user, supabase } = await requirePaidUser();
     const { error } = await supabase.from("budget_categories").insert({
       user_id: user.id,
       name: p.data.name,
@@ -50,7 +50,7 @@ export async function updateCategory(fd: FormData) {
   if (HEX.test(color)) patch.color = color;
   if (!id || (patch.name === undefined && patch.color === undefined)) return;
   try {
-    const { user, supabase } = await requireUser();
+    const { user, supabase } = await requirePaidUser();
     await supabase.from("budget_categories").update(patch).eq("id", id).eq("user_id", user.id);
     refresh();
   } catch (err) {
@@ -63,7 +63,7 @@ export async function toggleArchive(fd: FormData) {
   const archived = fd.get("archived") === "1";
   if (!id) return;
   try {
-    const { user, supabase } = await requireUser();
+    const { user, supabase } = await requirePaidUser();
     await supabase.from("budget_categories").update({ archived }).eq("id", id).eq("user_id", user.id);
     refresh();
   } catch (err) {
@@ -75,7 +75,7 @@ export async function deleteCategory(fd: FormData) {
   const id = String(fd.get("id") ?? "");
   if (!id) return;
   try {
-    const { user, supabase } = await requireUser();
+    const { user, supabase } = await requirePaidUser();
     await supabase.from("budget_categories").delete().eq("id", id).eq("user_id", user.id);
     refresh();
   } catch (err) {

@@ -2,7 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
-import { requireUser } from "@/lib/data";
+import { requireUser, requirePaidUser } from "@/lib/data";
 import { safeError, logger } from "@/lib/logger";
 import {
   pluggyConfigured,
@@ -32,7 +32,16 @@ export async function saveConnection(itemId: string): Promise<ConnState> {
   if (!parsed.success) return { error: "Conexão inválida." };
 
   try {
-    const { user, supabase } = await requireUser();
+    const { user, supabase } = await requirePaidUser();
+    // impede sequestrar um item já vinculado a outra conta
+    const { data: owned } = await supabase
+      .from("bank_connections")
+      .select("user_id")
+      .eq("pluggy_item_id", parsed.data)
+      .maybeSingle();
+    if (owned && owned.user_id !== user.id) {
+      return { error: "Essa conexão já pertence a outra conta." };
+    }
     const item = await getItem(parsed.data);
     await supabase.from("bank_connections").upsert(
       {
@@ -55,13 +64,14 @@ export async function saveConnection(itemId: string): Promise<ConnState> {
 export async function syncConnection(formData: FormData): Promise<void> {
   const itemId = String(formData.get("item_id"));
   try {
-    const { user, supabase } = await requireUser();
+    const { user, supabase } = await requirePaidUser();
     const { data: conn } = await supabase
       .from("bank_connections")
       .select("last_synced_at")
       .eq("user_id", user.id)
       .eq("pluggy_item_id", itemId)
       .maybeSingle();
+    if (!conn) return; // não é uma conexão desta conta
     const days = conn?.last_synced_at
       ? Math.min(
           Math.max(
@@ -82,12 +92,14 @@ export async function syncConnection(formData: FormData): Promise<void> {
 export async function removeConnection(formData: FormData): Promise<void> {
   const itemId = String(formData.get("item_id"));
   try {
-    const { user, supabase } = await requireUser();
-    await supabase
+    const { user, supabase } = await requirePaidUser();
+    const { data: removed } = await supabase
       .from("bank_connections")
       .delete()
       .eq("user_id", user.id)
-      .eq("pluggy_item_id", itemId);
+      .eq("pluggy_item_id", itemId)
+      .select("id");
+    if (!removed || removed.length === 0) return; // não era desta conta
     await deleteItem(itemId);
     revalidatePath("/app/conexoes");
   } catch (err) {

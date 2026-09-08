@@ -17,9 +17,14 @@ export async function GET(req: Request) {
 
   const p = new URL(req.url).searchParams;
   const step = p.get("step");
+  const idOk = (v: string | null) => v === null || /^\d{1,7}$/.test(v);
+  const anoOk = (v: string | null) => v === null || /^\d{4}(-\d{1,2})?$/.test(v);
   const marca = p.get("marca");
   const modelo = p.get("modelo");
   const ano = p.get("ano");
+  if (!idOk(marca) || !idOk(modelo) || !anoOk(ano)) {
+    return NextResponse.json({ error: "parâmetros inválidos" }, { status: 400 });
+  }
 
   let url: string | null = null;
   if (step === "marcas") url = `${BASE}/marcas`;

@@ -34,13 +34,24 @@ function limiter(name: string, tokens: number, window: `${number} ${"s" | "m" | 
   return limiters.get(key)!;
 }
 
+type HeaderGetter = { get(name: string): string | null };
+
 export function getClientIp(req: Request): string {
-  const h = req.headers;
-  return (
-    h.get("x-forwarded-for")?.split(",")[0]?.trim() ||
-    h.get("x-real-ip") ||
-    "0.0.0.0"
-  );
+  return ipFromHeaders(req.headers);
+}
+
+/** Mesmo cálculo, a partir de um objeto de headers (ex.: next/headers). */
+export function ipFromHeaders(h: HeaderGetter): string {
+  // Na Vercel, x-forwarded-for é controlado pelo cliente (a plataforma só
+  // APPENDA o IP real). Usar o header próprio da Vercel ou o último hop.
+  const vercel = h.get("x-vercel-forwarded-for")?.split(",")[0]?.trim();
+  if (vercel) return vercel;
+  const xff = h.get("x-forwarded-for");
+  if (xff) {
+    const parts = xff.split(",").map((s) => s.trim());
+    return parts[parts.length - 1] || "0.0.0.0";
+  }
+  return h.get("x-real-ip") || "0.0.0.0";
 }
 
 export type RateLimitResult = { ok: true } | { ok: false; retryAfter: number };

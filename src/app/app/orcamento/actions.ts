@@ -2,7 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
-import { requireUser } from "@/lib/data";
+import { requirePaidUser } from "@/lib/data";
 import { safeError } from "@/lib/logger";
 
 const importSchema = z.object({
@@ -38,7 +38,7 @@ export async function importBudgetCsv(
   if (!parsed.success) return { error: "Não consegui ler os lançamentos do arquivo." };
 
   try {
-    const { user, supabase } = await requireUser();
+    const { user, supabase } = await requirePaidUser();
     const rows = parsed.data.items.map((it) => ({
       ...it,
       user_id: user.id,
@@ -60,7 +60,7 @@ export async function confirmPending(id: string, path: string) {
   if (!id) return;
   const safePath = path.startsWith("/app/orcamento") ? path : "/app/orcamento";
   try {
-    const { user, supabase } = await requireUser();
+    const { user, supabase } = await requirePaidUser();
     await supabase
       .from("budget_entries")
       .update({ pending: false })
@@ -84,7 +84,7 @@ export async function carryRecurring(refMonth: string) {
   const prevMonth = `${prev.getFullYear()}-${String(prev.getMonth() + 1).padStart(2, "0")}-01`;
 
   try {
-    const { user, supabase } = await requireUser();
+    const { user, supabase } = await requirePaidUser();
     const [{ data: templates }, { data: existing }] = await Promise.all([
       supabase
         .from("budget_entries")
@@ -130,7 +130,7 @@ export async function clearBudgetMonth(formData: FormData) {
   if (!month.success) return;
 
   try {
-    const { user, supabase } = await requireUser();
+    const { user, supabase } = await requirePaidUser();
     await supabase
       .from("budget_entries")
       .delete()
