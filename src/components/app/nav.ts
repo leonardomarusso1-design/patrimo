@@ -8,6 +8,7 @@ import {
   Landmark,
   GraduationCap,
   Calculator,
+  Sparkles,
   Link2,
   Settings,
   Wallet,
@@ -51,6 +52,7 @@ export const NAV_SECTIONS: NavSection[] = [
     title: "Crescer",
     items: [
       { href: "/app/investimentos", label: "Investimentos", icon: TrendingUp },
+      { href: "/app/assistente", label: "Assistente", icon: Sparkles },
       { href: "/app/calculadoras", label: "Calculadoras", icon: Calculator },
       { href: "/app/escola", label: "Escola", icon: GraduationCap },
     ],
