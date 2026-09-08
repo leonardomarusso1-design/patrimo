@@ -1,5 +1,17 @@
 import Link from "next/link";
-import { ArrowUpRight, CheckCircle2, Circle, AlertTriangle, Info } from "lucide-react";
+import {
+  ArrowUpRight,
+  CheckCircle2,
+  Circle,
+  AlertTriangle,
+  Info,
+  ArrowLeftRight,
+  Wallet,
+  Target,
+  TrendingUp,
+  Landmark,
+  Calculator,
+} from "lucide-react";
 import { requireUser, getProfile } from "@/lib/data";
 import { PageHeader } from "@/components/app/PageHeader";
 import { Progress } from "@/components/ui/Misc";
@@ -75,10 +87,12 @@ export default async function InicioPage() {
   });
 
   const shortcuts = [
-    { href: "/app/orcamento", label: "Lançar no orçamento" },
-    { href: "/app/metas", label: "Registrar aporte em meta" },
-    { href: "/app/investimentos", label: "Atualizar carteira" },
-    { href: "/app/escola", label: "Continuar a Escola" },
+    { href: "/app/orcamento?new=variable", label: "Lançar gasto", icon: ArrowLeftRight, tint: "bg-amber-50 text-amber-700" },
+    { href: "/app/orcamento?new=income", label: "Lançar receita", icon: Wallet, tint: "bg-emerald-50 text-emerald-700" },
+    { href: "/app/metas", label: "Aporte em meta", icon: Target, tint: "bg-sky-50 text-sky-700" },
+    { href: "/app/investimentos", label: "Carteira", icon: TrendingUp, tint: "bg-brand-50 text-brand-700" },
+    { href: "/app/patrimonio", label: "Patrimônio", icon: Landmark, tint: "bg-violet-50 text-violet-700" },
+    { href: "/app/calculadoras", label: "Calculadoras", icon: Calculator, tint: "bg-ink/[0.05] text-ink" },
   ];
 
   const setup = [
@@ -230,20 +244,21 @@ export default async function InicioPage() {
         </div>
 
         <div className="rounded-2xl border border-border bg-card p-5 shadow-[var(--shadow-card)]">
-          <h3 className="font-display text-base font-bold text-ink">Atalhos</h3>
-          <ul className="mt-3 divide-y divide-border">
+          <h3 className="font-display text-base font-bold text-ink">Acesso rápido</h3>
+          <div className="mt-3 grid grid-cols-3 gap-2">
             {shortcuts.map((s) => (
-              <li key={s.href}>
-                <Link
-                  href={s.href}
-                  className="flex items-center justify-between py-2.5 text-sm text-ink/90 hover:text-ink"
-                >
-                  {s.label}
-                  <ArrowUpRight className="h-4 w-4 text-muted" />
-                </Link>
-              </li>
+              <Link
+                key={s.href}
+                href={s.href}
+                className="flex flex-col items-center gap-2 rounded-xl border border-border p-3 text-center transition-colors hover:border-brand/40"
+              >
+                <span className={`flex h-10 w-10 items-center justify-center rounded-lg ${s.tint}`}>
+                  <s.icon className="h-5 w-5" />
+                </span>
+                <span className="text-xs font-medium text-ink">{s.label}</span>
+              </Link>
             ))}
-          </ul>
+          </div>
         </div>
       </div>
 
