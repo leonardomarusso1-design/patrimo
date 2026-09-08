@@ -52,10 +52,10 @@ export default async function ConfiguracoesPage() {
               a qualquer momento, conforme a LGPD.
             </p>
             <a
-              href="mailto:privacidade@patrimo.com.br?subject=Solicitação LGPD"
+              href="mailto:leonardomarusso1@gmail.com?subject=Solicitação LGPD - Patrimo"
               className="mt-3 inline-block font-semibold text-accent-dim hover:underline"
             >
-              Falar com privacidade@patrimo.com.br
+              Falar com leonardomarusso1@gmail.com
             </a>
           </div>
 

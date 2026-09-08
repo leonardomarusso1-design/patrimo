@@ -62,7 +62,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
           </ul>
         </div>
         <p className="relative text-xs text-[#eaf5ee]/40">
-          © {new Date().getFullYear()} Patrimo · Marusso Produções
+          © {new Date().getFullYear()} Patrimo · Leonardo Marusso
         </p>
       </aside>
 

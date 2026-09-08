@@ -17,20 +17,24 @@ export function LegalPage({
         <Markdown content={content} />
       </div>
       <p className="mt-12 rounded-xl bg-surface p-4 text-xs text-muted">
-        Este documento é um modelo operacional da Patrimo e deve ser revisado por
-        assessoria jurídica antes de qualquer uso comercial. Dúvidas:
-        privacidade@patrimo.com.br.
+        Dúvidas sobre este documento: {COMPANY.privacyEmail}.
       </p>
     </div>
   );
 }
 
+/**
+ * Enquanto não há CNPJ dedicado ao Patrimo, o serviço é operado por Leonardo
+ * Marusso como pessoa física (CPF). Trocar por CNPJ quando existir.
+ */
 export const COMPANY = {
-  legalName: "Marusso Produções",
+  legalName: "Leonardo Marusso",
   owner: "Leonardo Marusso",
   doc: "CPF 473.503.798-54",
   city: "Indaiatuba – SP, Brasil",
-  privacyEmail: "privacidade@patrimo.com.br",
-  supportEmail: "suporte@patrimo.com.br",
-  securityEmail: "seguranca@patrimo.com.br",
+  privacyEmail: "leonardomarusso1@gmail.com",
+  supportEmail: "leonardomarusso1@gmail.com",
+  securityEmail: "leonardomarusso1@gmail.com",
+  instagram: "@leomvideomaker",
+  instagramUrl: "https://instagram.com/leomvideomaker",
 };
