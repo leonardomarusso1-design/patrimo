@@ -96,6 +96,7 @@ export interface Database {
           pending: boolean;
           account_id: string | null;
           card_id: string | null;
+          tags: string[];
           created_at: string;
         }
       >;

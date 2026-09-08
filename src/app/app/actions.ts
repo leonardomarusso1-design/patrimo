@@ -29,6 +29,20 @@ const SCHEMAS = {
     pending: z.coerce.boolean().default(false),
     account_id: z.string().uuid().optional().nullable(),
     card_id: z.string().uuid().optional().nullable(),
+    tags: z.preprocess(
+      (v) =>
+        typeof v === "string"
+          ? Array.from(
+              new Set(
+                v
+                  .split(",")
+                  .map((t) => t.trim().toLowerCase())
+                  .filter(Boolean),
+              ),
+            ).slice(0, 8)
+          : (v ?? undefined),
+      z.array(z.string().min(1).max(24)).max(8).optional(),
+    ),
   }),
   accounts: z.object({
     name: shortText,

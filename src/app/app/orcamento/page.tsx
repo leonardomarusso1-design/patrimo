@@ -59,6 +59,7 @@ function fieldsFor(
     ...(!isIncome && cardOpts.length
       ? [{ name: "card_id", label: "Cartão de crédito (opcional)", type: "select", options: cardOpts } as Field]
       : []),
+    { name: "tags", label: "Tags (opcional)", type: "text", placeholder: "viagem, presente" },
     {
       name: "recurring",
       label: "Repetir todos os meses",
@@ -173,6 +174,7 @@ export default async function OrcamentoPage({
         entry_date: r.entry_date ?? undefined,
         account_id: r.account_id ?? undefined,
         card_id: r.card_id ?? undefined,
+        tags: (r.tags ?? []).join(", "),
         recurring: r.recurring,
         pending: r.pending,
         due_day: r.due_day,
@@ -192,6 +194,14 @@ export default async function OrcamentoPage({
             {withCat && r.category && (
               <CategoryPill name={r.category} color={catColor.get(r.category.toLowerCase())} />
             )}
+            {(r.tags ?? []).map((t) => (
+              <span
+                key={t}
+                className="rounded bg-border/60 px-1.5 py-0.5 text-[10px] font-normal text-muted"
+              >
+                #{t}
+              </span>
+            ))}
             {r.pending && <PendingConfirm id={r.id} path={path} kind={r.kind} />}
           </span>
           <span
