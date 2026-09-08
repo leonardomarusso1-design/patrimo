@@ -7,11 +7,15 @@ import { SITE_URL } from "@/lib/seo";
  * E-mail transacional via Resend. Sem RESEND_API_KEY, vira no-op (loga e segue).
  * De: usa RESEND_FROM ou um padrão.
  */
-export async function sendEmail(opts: { to: string; subject: string; html: string }) {
+export async function sendEmail(opts: {
+  to: string;
+  subject: string;
+  html: string;
+}): Promise<boolean> {
   const key = process.env.RESEND_API_KEY;
   if (!key) {
     logger.info("email.skipped_no_key", { to: mask(opts.to), subject: opts.subject });
-    return;
+    return false;
   }
   try {
     const res = await fetch("https://api.resend.com/emails", {
@@ -25,11 +29,13 @@ export async function sendEmail(opts: { to: string; subject: string; html: strin
       }),
     });
     if (!res.ok) throw new Error(`resend ${res.status}`);
+    return true;
   } catch (err) {
     logger.error("email.send_failed", {
       to: mask(opts.to),
       error: err instanceof Error ? err.message : String(err),
     });
+    return false;
   }
 }
 

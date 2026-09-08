@@ -269,6 +269,8 @@ export interface Database {
         email: string;
         message: string;
         status: string;
+        admin_reply: string | null;
+        replied_at: string | null;
         created_at: string;
       }>;
     };
