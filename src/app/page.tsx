@@ -15,6 +15,7 @@ import {
 } from "lucide-react";
 import { SiteHeader } from "@/components/marketing/SiteHeader";
 import { SiteFooter } from "@/components/marketing/SiteFooter";
+import { SupportWidget } from "@/components/marketing/SupportWidget";
 import { HeroPulse } from "@/components/marketing/HeroPulse";
 import { AppPreview } from "@/components/marketing/AppPreview";
 import { BlogCover } from "@/components/BlogCover";
@@ -239,6 +240,7 @@ export default function LandingPage() {
       </main>
 
       <SiteFooter />
+      <SupportWidget />
     </>
   );
 }

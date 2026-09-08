@@ -18,6 +18,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
             <nav className="flex gap-3 text-sm">
               <Link href="/admin" className="text-muted hover:text-ink">Resumo</Link>
               <Link href="/admin/assinantes" className="text-muted hover:text-ink">Assinantes</Link>
+              <Link href="/admin/suporte" className="text-muted hover:text-ink">Suporte</Link>
               <Link href="/admin/eventos" className="text-muted hover:text-ink">Webhooks</Link>
             </nav>
           </div>

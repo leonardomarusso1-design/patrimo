@@ -262,6 +262,15 @@ export interface Database {
         debts: number;
         created_at: string;
       }>;
+      support_messages: Table<{
+        id: string;
+        user_id: string | null;
+        name: string;
+        email: string;
+        message: string;
+        status: string;
+        created_at: string;
+      }>;
     };
     Views: { [_ in never]: never };
     Functions: { [_ in never]: never };
