@@ -5,6 +5,7 @@ import { Donut } from "@/components/app/Donut";
 import { BudgetTabs } from "@/components/app/BudgetTabs";
 import { CategoryPill } from "@/components/app/CategoryPill";
 import { MonthPicker } from "@/components/app/MonthPicker";
+import { InvestCard } from "@/components/app/InvestCard";
 import { StatTile } from "@/components/ui/Misc";
 import { formatCurrency, formatDate } from "@/lib/utils";
 import type { Tables } from "@/types/database";
@@ -138,8 +139,9 @@ export default async function OrcamentoPage({
         }
       />
 
-      <div className="grid gap-4 sm:grid-cols-4">
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
         <StatTile label="Receita" value={formatCurrency(income, cur)} />
+        <InvestCard income={income} pct={profile.invest_pct} currency={cur} />
         <StatTile label="Despesa fixa" value={formatCurrency(fixed, cur)} />
         <StatTile label="Despesa variável" value={formatCurrency(variable, cur)} />
         <StatTile
