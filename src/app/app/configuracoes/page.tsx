@@ -2,6 +2,7 @@ import Link from "next/link";
 import { getProfile } from "@/lib/data";
 import { PageHeader } from "@/components/app/PageHeader";
 import { SettingsForm } from "./ui";
+import { ThemeToggle } from "@/components/app/ThemeToggle";
 import { MfaSetup } from "@/components/app/MfaSetup";
 import { PLAN, hasActiveAccess } from "@/lib/plans";
 import { formatDate } from "@/lib/utils";
@@ -19,6 +20,8 @@ export default async function ConfiguracoesPage() {
         <SettingsForm profile={profile} />
 
         <div className="space-y-4">
+          <ThemeToggle current={profile.theme} />
+
           <div className="rounded-2xl border border-border bg-card p-5 shadow-[var(--shadow-card)]">
             <p className="text-xs font-semibold uppercase tracking-wide text-muted">Assinatura</p>
             <p className="mt-1 font-display text-xl font-extrabold text-ink">

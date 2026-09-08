@@ -17,6 +17,39 @@ const schema = z.object({
 
 export type SettingsState = { error?: string; ok?: boolean };
 
+export async function setTheme(theme: "system" | "light" | "dark") {
+  if (!["system", "light", "dark"].includes(theme)) return;
+  try {
+    const { user, supabase } = await requireUser();
+    await supabase.from("profiles").update({ theme }).eq("id", user.id);
+  } catch (err) {
+    safeError("settings.theme", err);
+  }
+}
+
+export async function setInvestPct(pct: number) {
+  const v = Math.round(pct);
+  if (!Number.isFinite(v) || v < 0 || v > 100) return;
+  try {
+    const { user, supabase } = await requireUser();
+    await supabase.from("profiles").update({ invest_pct: v }).eq("id", user.id);
+    revalidatePath("/app/orcamento");
+  } catch (err) {
+    safeError("settings.investpct", err);
+  }
+}
+
+export async function setDashboardCards(cards: string[]) {
+  const clean = cards.filter((c) => typeof c === "string").slice(0, 4);
+  try {
+    const { user, supabase } = await requireUser();
+    await supabase.from("profiles").update({ dashboard_cards: clean }).eq("id", user.id);
+    revalidatePath("/app");
+  } catch (err) {
+    safeError("settings.dashcards", err);
+  }
+}
+
 export async function updateProfile(
   _prev: SettingsState,
   formData: FormData,

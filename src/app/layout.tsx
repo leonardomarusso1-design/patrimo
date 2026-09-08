@@ -37,6 +37,14 @@ export default function RootLayout({
       lang="pt-BR"
       className={`${display.variable} ${manrope.variable} h-full`}
     >
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html:
+              "try{var t=localStorage.getItem('patrimo-theme');if(t==='light'||t==='dark')document.documentElement.dataset.theme=t;}catch(e){}",
+          }}
+        />
+      </head>
       <body className="min-h-full flex flex-col bg-bg text-ink">
         {children}
         <CookieConsent />

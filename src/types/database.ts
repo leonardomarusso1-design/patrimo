@@ -64,6 +64,9 @@ export interface Database {
           investor_profile: InvestorProfile | null;
           investor_profile_at: string | null;
           renewal_reminded_at: string | null;
+          theme: "system" | "light" | "dark";
+          dashboard_cards: string[] | null;
+          invest_pct: number;
         } & Timestamps
       >;
       budget_categories: Table<{
