@@ -115,7 +115,12 @@ export async function POST(req: Request) {
       if (userId) {
         await admin
           .from("profiles")
-          .update({ plan: PLAN.id, plan_expires_at: expiresAt, renewal_reminded_at: null })
+          .update({
+            plan: PLAN.id,
+            plan_expires_at: expiresAt,
+            renewal_reminded_at: null,
+            trial_started_at: null,
+          })
           .eq("id", userId);
         await admin.from("subscriptions").upsert(
           {

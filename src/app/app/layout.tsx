@@ -1,7 +1,9 @@
 import { requirePaidAccess } from "@/lib/data";
+import { isTrial, daysLeft } from "@/lib/plans";
 import { AppSidebar } from "@/components/app/AppSidebar";
 import { TopBarActions } from "@/components/app/TopBarActions";
 import { QuickExpenseFab } from "@/components/app/QuickExpenseFab";
+import { TrialBanner } from "@/components/app/TrialBanner";
 
 export const metadata = { title: "Painel", robots: { index: false, follow: false } };
 
@@ -24,6 +26,7 @@ export default async function AppLayout({
             </p>
             <TopBarActions />
           </div>
+          {isTrial(profile) && <TrialBanner days={daysLeft(profile)} />}
           {children}
         </div>
       </div>

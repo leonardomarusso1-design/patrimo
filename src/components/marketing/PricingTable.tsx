@@ -27,11 +27,17 @@ export function PricingTable() {
           <span className="text-xs text-brand-700/80">no cartão</span>
         </div>
 
-        <ButtonLink href={PLAN.checkoutUrl} className="mt-6 w-full">
-          Assinar agora
+        <ButtonLink href="/cadastro" className="mt-6 w-full">
+          Testar 7 dias grátis
         </ButtonLink>
+        <a
+          href={PLAN.checkoutUrl}
+          className="mt-2 block text-center text-xs font-medium text-accent-dim hover:underline"
+        >
+          ou assinar agora →
+        </a>
         <p className="mt-2 text-center text-xs text-muted">
-          Pagamento seguro via Kiwify · Pix, boleto ou cartão em até 12x
+          Grátis por 7 dias, sem cartão. Depois, cobrança via Kiwify (Pix, boleto ou 12x).
         </p>
 
         <ul className="mt-6 space-y-2.5 border-t border-border pt-6">

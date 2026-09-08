@@ -67,6 +67,7 @@ export interface Database {
           theme: "system" | "light" | "dark";
           dashboard_cards: string[] | null;
           invest_pct: number;
+          trial_started_at: string | null;
         } & Timestamps
       >;
       budget_categories: Table<{

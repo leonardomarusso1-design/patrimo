@@ -1,7 +1,7 @@
 import { redirect } from "next/navigation";
 import { RefreshCw, Check, ShieldCheck } from "lucide-react";
 import { getProfile } from "@/lib/data";
-import { hasActiveAccess, PLAN } from "@/lib/plans";
+import { hasActiveAccess, isTrial, daysLeft, PLAN } from "@/lib/plans";
 import { formatCurrency } from "@/lib/utils";
 import { ButtonLink, Button } from "@/components/ui/Button";
 import { Wordmark } from "@/components/marketing/Wordmark";
@@ -19,7 +19,10 @@ async function recheck() {
 export default async function AtivarPage() {
   const profile = await getProfile();
   if (!profile.onboarding_completed) redirect("/onboarding");
-  if (hasActiveAccess(profile)) redirect("/app");
+  // usuário pago: já tem tudo. Em teste: deixa assinar antes de acabar.
+  if (hasActiveAccess(profile) && !isTrial(profile)) redirect("/app");
+  const trial = isTrial(profile);
+  const trialDays = daysLeft(profile);
 
   const checkout = `${PLAN.checkoutUrl}?email=${encodeURIComponent(profile.email)}`;
 
@@ -37,15 +40,16 @@ export default async function AtivarPage() {
           <div className="flex items-center gap-2 text-brand">
             <ShieldCheck className="h-5 w-5" />
             <span className="text-xs font-semibold uppercase tracking-widest">
-              Falta um passo
+              {trial ? "Seu teste está rodando" : "Falta um passo"}
             </span>
           </div>
           <h1 className="mt-3 font-display text-2xl font-extrabold text-ink">
-            Ative seu acesso ao Ordre
+            {trial ? "Continue com o Ordre" : "Ative seu acesso ao Ordre"}
           </h1>
           <p className="mt-2 text-sm text-muted">
-            Sua conta está pronta, {profile.full_name?.split(" ")[0] ?? "tudo certo"}.
-            Assine para liberar o painel completo.
+            {trial
+              ? `Faltam ${trialDays} dia${trialDays === 1 ? "" : "s"} do teste grátis, ${profile.full_name?.split(" ")[0] ?? "tudo certo"}. Assine agora e não perde nada.`
+              : `Sua conta está pronta, ${profile.full_name?.split(" ")[0] ?? "tudo certo"}. Assine para liberar o painel completo.`}
           </p>
 
           <p className="mt-6 font-display text-4xl font-extrabold text-ink">

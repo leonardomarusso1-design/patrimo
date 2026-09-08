@@ -10,16 +10,16 @@ export const metadata = pageMetadata({
 
 const FAQ = [
   {
+    q: "Como funciona o teste grátis?",
+    a: "7 dias com tudo liberado, sem pedir cartão. No fim do período, se você não assinar, o acesso pausa — seus dados ficam salvos e voltam quando você assinar.",
+  },
+  {
     q: "Como funciona o pagamento?",
     a: "R$ 97,90 pelo ano inteiro. Você paga à vista (Pix ou boleto) ou parcela em até 12x no cartão — cada parcela fica em torno de R$ 8,16. A cobrança é feita pela Kiwify.",
   },
   {
     q: "É assinatura que renova sozinha?",
     a: "O acesso vale 1 ano. Perto do vencimento você recebe um aviso para renovar. Nada é cobrado automaticamente sem você confirmar.",
-  },
-  {
-    q: "Por que não tem plano grátis?",
-    a: "Menos de 3% dos usuários grátis convertem e eles puxam o roadmap para o lado errado. Preferimos cobrar um valor baixo e justo e entregar um produto que vale a pena.",
   },
   {
     q: "Posso pedir reembolso?",

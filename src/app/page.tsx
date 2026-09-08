@@ -67,18 +67,18 @@ export default function LandingPage() {
             </h1>
             <p className="animate-fade-up mx-auto mt-6 max-w-xl text-lg text-muted">
               Orçamento, reserva, metas, investimentos e patrimônio no mesmo lugar.
-              Com IA que lê o mercado todo dia e indica seus aportes.
+              Do descontrole ao patrimônio, numa sequência só.
             </p>
             <div className="animate-fade-up mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row">
               <ButtonLink href="/cadastro" size="lg" className="shadow-[var(--shadow-glow)]">
-                Criar minha conta <ArrowRight className="h-4 w-4" />
+                Testar 7 dias grátis <ArrowRight className="h-4 w-4" />
               </ButtonLink>
               <ButtonLink href="/precos" size="lg" variant="secondary">
                 Ver planos
               </ButtonLink>
             </div>
             <p className="animate-fade-up mt-5 text-sm text-muted">
-              R$ 97,90 por ano · <strong className="text-ink">em até 12x</strong> no cartão · Pix ou boleto
+              7 dias grátis, sem cartão · depois <strong className="text-ink">R$ 97,90/ano</strong> em até 12x
             </p>
           </div>
         </section>
@@ -233,7 +233,7 @@ export default function LandingPage() {
           </h2>
           <div className="mt-8">
             <ButtonLink href="/cadastro" size="lg" className="shadow-[var(--shadow-glow)]">
-              Criar minha conta <ArrowRight className="h-4 w-4" />
+              Testar 7 dias grátis <ArrowRight className="h-4 w-4" />
             </ButtonLink>
           </div>
         </section>

@@ -51,3 +51,21 @@ export function hasActiveAccess(profile: {
 export function planName(id: PlanId): string {
   return id === "free" ? "Sem acesso" : PLAN.name;
 }
+
+type TrialProfile = {
+  plan: PlanId;
+  plan_expires_at: string | null;
+  trial_started_at: string | null;
+};
+
+/** Está em teste grátis (não comprou ainda). Webhook limpa trial_started_at na compra. */
+export function isTrial(p: TrialProfile): boolean {
+  return !!p.trial_started_at && hasActiveAccess(p);
+}
+
+/** Dias restantes do acesso (arredonda pra cima, mínimo 0). */
+export function daysLeft(p: { plan_expires_at: string | null }): number {
+  if (!p.plan_expires_at) return 999;
+  const ms = new Date(p.plan_expires_at).getTime() - new Date().getTime();
+  return Math.max(Math.ceil(ms / 86400000), 0);
+}
