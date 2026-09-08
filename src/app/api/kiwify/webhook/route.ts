@@ -61,6 +61,7 @@ function classify(p: Payload): "grant" | "revoke" | "ignore" {
 }
 
 export async function POST(req: Request) {
+  let bodyHash: string | null = null;
   try {
     const ip = getClientIp(req);
     const rl = await checkRateLimit("webhook", ip);
@@ -89,7 +90,7 @@ export async function POST(req: Request) {
     const admin = createAdminClient();
 
     // idempotência: Kiwify reenvia eventos. Se já processamos este corpo, ignora.
-    const bodyHash = crypto.createHash("sha256").update(rawBody).digest("hex");
+    bodyHash = crypto.createHash("sha256").update(rawBody).digest("hex");
     const { error: dedupErr } = await admin.from("webhook_events").insert({
       provider: "kiwify",
       event_type: payload.webhook_event_type ?? null,
@@ -153,6 +154,13 @@ export async function POST(req: Request) {
     logger.info("kiwify.webhook.revoke", { email: mask(email), hasUser: !!userId });
     return NextResponse.json({ ok: true, action: "revoked" });
   } catch (err) {
+    // processamento falhou depois da linha de dedup — remove pra que o retry
+    // do Kiwify seja reprocessado em vez de virar "duplicate".
+    if (bodyHash) {
+      try {
+        await createAdminClient().from("webhook_events").delete().eq("body_hash", bodyHash);
+      } catch {}
+    }
     return NextResponse.json({ error: safeError("kiwify.webhook", err) }, { status: 500 });
   }
 }
