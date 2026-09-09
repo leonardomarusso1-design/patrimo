@@ -12,7 +12,7 @@ export const PLAN = {
   get installmentValue() {
     return this.price / this.installments;
   },
-  checkoutUrl: "https://kiwify.app/LuK5uon",
+  checkoutUrl: "https://pay.kiwify.com.br/m6Lxmo2",
   features: [
     "Orçamento completo (receita, despesa fixa e variável)",
     "Reserva de emergência com meta guiada",

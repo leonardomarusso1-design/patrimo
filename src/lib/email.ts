@@ -2,6 +2,7 @@ import "server-only";
 
 import { logger } from "@/lib/logger";
 import { SITE_URL } from "@/lib/seo";
+import { PLAN } from "@/lib/plans";
 
 /**
  * E-mail transacional via Resend. Sem RESEND_API_KEY, vira no-op (loga e segue).
@@ -91,7 +92,7 @@ export function renewalReminderEmail(to: string, firstName: string, daysLeft: nu
       `<p>Seu acesso ao Ordre expira em <strong>${daysLeft} dias</strong>. Renove por
        R$ 97,90 (ou 12x no cartão) e continue com tudo funcionando — seus dados
        ficam salvos de qualquer forma.</p>
-       <p><a href="https://kiwify.app/LuK5uon?email=${encodeURIComponent(to)}" style="display:inline-block;background:#0b7a55;color:#fff;padding:10px 18px;border-radius:10px;text-decoration:none;font-weight:600">Renovar agora</a></p>`,
+       <p><a href="${PLAN.checkoutUrl}?email=${encodeURIComponent(to)}" style="display:inline-block;background:#0b7a55;color:#fff;padding:10px 18px;border-radius:10px;text-decoration:none;font-weight:600">Renovar agora</a></p>`,
     ),
   };
 }
