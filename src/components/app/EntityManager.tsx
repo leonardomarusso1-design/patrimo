@@ -268,6 +268,13 @@ export function EntityManager({
 }) {
   const [query, setQuery] = useState("");
   const [cats, setCats] = useState<Set<string>>(new Set());
+  const [tags, setTags] = useState<Set<string>>(new Set());
+
+  const rowTags = (r: ManagedRow) =>
+    String(r.raw.tags ?? "")
+      .split(",")
+      .map((t) => t.trim())
+      .filter(Boolean);
 
   const allCats = filterable
     ? Array.from(
@@ -279,13 +286,25 @@ export function EntityManager({
       ).sort()
     : [];
 
+  const allTags = filterable
+    ? Array.from(new Set(rows.flatMap(rowTags))).sort()
+    : [];
+
   const visible =
-    filterable && (query || cats.size)
+    filterable && (query || cats.size || tags.size)
       ? rows.filter((r) => {
           const name = String(r.raw.name ?? "").toLowerCase();
           const cat = r.raw.category ? String(r.raw.category) : "";
-          if (query && !name.includes(query.toLowerCase())) return false;
+          const rts = rowTags(r);
+          const q = query.toLowerCase();
+          if (
+            query &&
+            !name.includes(q) &&
+            !rts.some((t) => t.toLowerCase().includes(q))
+          )
+            return false;
           if (cats.size && !cats.has(cat)) return false;
+          if (tags.size && !rts.some((t) => tags.has(t))) return false;
           return true;
         })
       : rows;
@@ -320,7 +339,7 @@ export function EntityManager({
           <Input
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            placeholder="Buscar por nome…"
+            placeholder="Buscar por nome ou tag…"
             className="h-9"
           />
           {allCats.length > 0 && (
@@ -350,6 +369,40 @@ export function EntityManager({
               {cats.size > 0 && (
                 <button
                   onClick={() => setCats(new Set())}
+                  className="rounded-full px-2.5 py-1 text-xs text-accent-dim"
+                >
+                  limpar
+                </button>
+              )}
+            </div>
+          )}
+          {allTags.length > 0 && (
+            <div className="flex flex-wrap gap-1.5">
+              {allTags.map((t) => {
+                const on = tags.has(t);
+                return (
+                  <button
+                    key={t}
+                    onClick={() =>
+                      setTags((s) => {
+                        const n = new Set(s);
+                        if (n.has(t)) n.delete(t);
+                        else n.add(t);
+                        return n;
+                      })
+                    }
+                    className={cn(
+                      "rounded-full px-2.5 py-1 text-xs font-medium",
+                      on ? "bg-ink text-[#eaf5ee]" : "bg-ink/[0.05] text-muted hover:text-ink",
+                    )}
+                  >
+                    #{t}
+                  </button>
+                );
+              })}
+              {tags.size > 0 && (
+                <button
+                  onClick={() => setTags(new Set())}
                   className="rounded-full px-2.5 py-1 text-xs text-accent-dim"
                 >
                   limpar
