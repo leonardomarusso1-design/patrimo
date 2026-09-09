@@ -11,6 +11,7 @@ import {
   TrendingUp,
   Landmark,
   Calculator,
+  CalendarClock,
 } from "lucide-react";
 import { requireUser, getProfile } from "@/lib/data";
 import { PageHeader } from "@/components/app/PageHeader";
@@ -43,7 +44,11 @@ export default async function InicioPage() {
   const nw = await computeNetWorth(supabase, user.id, cur);
 
   const [budget, fund, goals, contribs] = await Promise.all([
-    supabase.from("budget_entries").select("kind, amount, pending").eq("user_id", user.id).eq("reference_month", ref),
+    supabase
+      .from("budget_entries")
+      .select("kind, amount, pending, name, entry_date, due_day")
+      .eq("user_id", user.id)
+      .eq("reference_month", ref),
     supabase.from("emergency_fund").select("*").eq("user_id", user.id).maybeSingle(),
     supabase
       .from("goals")
@@ -58,6 +63,18 @@ export default async function InicioPage() {
   const expense = b.filter((r) => r.kind !== "income").reduce((s, r) => s + Number(r.amount), 0);
   const variable = b.filter((r) => r.kind === "expense_variable").reduce((s, r) => s + Number(r.amount), 0);
   const monthBalance = income - expense;
+
+  const compromissos = (budget.data ?? [])
+    .filter((r) => r.pending && r.kind !== "income")
+    .map((r) => ({
+      name: r.name,
+      amount: Number(r.amount),
+      due:
+        r.entry_date ??
+        (r.due_day ? `${ref.slice(0, 8)}${String(r.due_day).padStart(2, "0")}` : ref),
+    }))
+    .sort((a, b) => a.due.localeCompare(b.due));
+  const compromissosTotal = compromissos.reduce((s, c) => s + c.amount, 0);
 
   const reserveSaved = nw.reserve;
   const reserveTarget = emergencyTarget(
@@ -246,6 +263,37 @@ export default async function InicioPage() {
           </Link>
         </div>
       </div>
+
+      {compromissos.length > 0 && (
+        <div className="mt-6 rounded-2xl border border-border bg-card p-5 shadow-[var(--shadow-card)]">
+          <div className="flex items-center justify-between">
+            <h3 className="flex items-center gap-2 font-display text-base font-bold text-ink">
+              <CalendarClock className="h-4 w-4 text-muted" /> Próximos compromissos
+            </h3>
+            <Link href="/app/vencimentos" className="text-sm text-accent-dim hover:underline">
+              ver todos
+            </Link>
+          </div>
+          <p className="mt-1 text-xs text-muted">
+            {compromissos.length} conta{compromissos.length > 1 ? "s" : ""} prevista
+            {compromissos.length > 1 ? "s" : ""} de {monthName} ·{" "}
+            <strong className="text-ink">{formatCurrency(compromissosTotal, cur)}</strong>
+          </p>
+          <ul className="mt-3 divide-y divide-border">
+            {compromissos.slice(0, 4).map((c, i) => (
+              <li key={i} className="flex items-center justify-between gap-3 py-2 text-sm">
+                <span className="flex items-center gap-2 text-ink">
+                  <span className="text-xs tabular-nums text-muted">
+                    {c.due.slice(8, 10)}/{c.due.slice(5, 7)}
+                  </span>
+                  {c.name}
+                </span>
+                <span className="tabular-nums text-muted">{formatCurrency(c.amount, cur)}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
 
       <div className="mt-6">
         <div className="mb-2 flex items-center justify-between">

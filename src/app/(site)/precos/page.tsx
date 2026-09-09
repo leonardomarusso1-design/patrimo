@@ -40,7 +40,7 @@ export default function PrecosPage() {
         </h1>
         <p className="mx-auto mt-4 max-w-xl text-muted">
           R$ 97,90 pelo ano inteiro, ou 12x de R$ 8,16 no cartão. Orçamento,
-          reserva, metas, investimentos, patrimônio e escola — tudo liberado.
+          reserva, metas, investimentos, patrimônio e academia — tudo liberado.
         </p>
       </div>
 

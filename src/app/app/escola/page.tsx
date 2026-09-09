@@ -1,8 +1,8 @@
 import { requireUser } from "@/lib/data";
 import { PageHeader } from "@/components/app/PageHeader";
-import { EscolaList } from "./ui";
+import { AcademiaList } from "./ui";
 
-export const metadata = { title: "Escola" };
+export const metadata = { title: "Academia" };
 
 export default async function EscolaPage() {
   const { user, supabase } = await requireUser();
@@ -17,10 +17,10 @@ export default async function EscolaPage() {
   return (
     <>
       <PageHeader
-        title="Escola"
+        title="Academia Ordre"
         subtitle="Domine seu dinheiro, uma aula por vez. Vídeos em gravação — o cadeado abre quando ficam prontos."
       />
-      <EscolaList completed={completed} />
+      <AcademiaList completed={completed} />
     </>
   );
 }

@@ -21,8 +21,9 @@ export const PLAN = {
     "Patrimônio: bens, dívidas e patrimônio líquido",
     "Multi-moeda com câmbio aplicado",
     "Todas as calculadoras",
-    "Escola — 13 aulas (liberadas conforme forem gravadas)",
-    "IA de investimentos e Open Finance (em breve)",
+    "Academia Ordre — 13 aulas (liberadas conforme forem gravadas)",
+    "Assistente com IA sobre os seus números",
+    "Open Finance (em breve)",
   ],
 };
 

@@ -30,14 +30,14 @@ const MODULES = [
   { icon: Target, name: "Metas", desc: "Viagem, carro, entrada do apê. Registre aportes e veja quanto guardar por mês." },
   { icon: TrendingUp, name: "Investimentos", desc: "Carteira com valor atual, rendimento e composição por ativo e por classe." },
   { icon: Landmark, name: "Patrimônio", desc: "Liquidez, investimentos, bens e dívidas somados. Veículo puxa valor da tabela FIPE." },
-  { icon: GraduationCap, name: "Escola", desc: "13 aulas do zero à independência financeira. Uma por vez, sem enrolação." },
+  { icon: GraduationCap, name: "Academia", desc: "13 aulas do zero à independência financeira. Uma por vez, sem enrolação." },
   { icon: Calculator, name: "Calculadoras", desc: "Juros compostos, independência financeira, quitação de dívida, 50-30-20." },
   { icon: Globe, name: "Multi-moeda", desc: "Mora fora? Veja tudo em BRL, USD, EUR e mais — com câmbio aplicado de verdade." },
 ];
 
 const DIFERENCIAIS = [
   { icon: Globe, title: "Multi-moeda real", text: "Não é só trocar o símbolo. O câmbio entra no consolidado — pra quem ganha numa moeda e gasta em outra." },
-  { icon: Sparkles, title: "IA de investimentos", text: "A IA lê o mercado todo dia e, pelo seu perfil, sugere onde aportar. Você decide. (em breve)" },
+  { icon: Sparkles, title: "Assistente com IA", text: "Pelos seus números e seu perfil, responde dúvidas e sugere onde reforçar os aportes. Você decide." },
   { icon: TrendingUp, title: "Open Finance", text: "Conecte suas contas e as transações entram categorizadas. Menos digitação, mais decisão. (em breve)" },
 ];
 
@@ -45,7 +45,7 @@ const COMPARISON = [
   "Tudo numa tela (orçamento a patrimônio)",
   "Reserva e metas com acompanhamento visual",
   "Multi-moeda com câmbio aplicado",
-  "IA sugerindo aportes pelo seu perfil",
+  "Assistente com IA sobre os seus números",
   "Open Finance (transações automáticas)",
   "Funciona no celular sem quebrar fórmula",
 ];
@@ -63,7 +63,7 @@ export default function LandingPage() {
               Controle financeiro pessoal
             </p>
             <h1 className="animate-fade-up mt-4 text-4xl font-extrabold leading-[1.05] text-ink sm:text-6xl">
-              Seu dinheiro inteiro, <span className="text-gradient">numa tela só</span>.
+              Clareza para decidir, <span className="text-gradient">patrimônio para construir</span>.
             </h1>
             <p className="animate-fade-up mx-auto mt-6 max-w-xl text-lg text-muted">
               Orçamento, reserva, metas, investimentos e patrimônio no mesmo lugar.
@@ -179,10 +179,10 @@ export default function LandingPage() {
           <PricingTable />
         </section>
 
-        <section id="escola" className="bg-ink py-20 text-[#eaf5ee]">
+        <section id="academia" className="bg-ink py-20 text-[#eaf5ee]">
           <div className="mx-auto max-w-6xl px-4 sm:px-6">
             <h2 className="text-3xl font-extrabold sm:text-4xl">
-              Escola Ordre — {LESSONS.length} aulas do zero à independência
+              Academia Ordre — {LESSONS.length} aulas do zero à independência
             </h2>
             <p className="mt-3 max-w-xl text-[#eaf5ee]/70">
               Do &ldquo;pra onde foi meu salário&rdquo; até &ldquo;quando posso parar de

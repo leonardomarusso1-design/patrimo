@@ -8,7 +8,7 @@ export type Lesson = {
 };
 
 /**
- * Escola Ordre — 13 aulas. Todas incluídas no plano único. O conteúdo em
+ * Academia Ordre — 13 aulas. Todas incluídas no plano único. O conteúdo em
  * vídeo é gravado aos poucos; a aula fica "em gravação" até `videoUrl` existir.
  */
 export const LESSONS: Lesson[] = [

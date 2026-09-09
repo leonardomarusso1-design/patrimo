@@ -54,7 +54,7 @@ export const NAV_SECTIONS: NavSection[] = [
       { href: "/app/investimentos", label: "Investimentos", icon: TrendingUp },
       { href: "/app/assistente", label: "Assistente", icon: Sparkles },
       { href: "/app/calculadoras", label: "Calculadoras", icon: Calculator },
-      { href: "/app/escola", label: "Escola", icon: GraduationCap },
+      { href: "/app/escola", label: "Academia", icon: GraduationCap },
     ],
   },
   {

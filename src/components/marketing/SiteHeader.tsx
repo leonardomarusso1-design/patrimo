@@ -10,7 +10,7 @@ const LINKS = [
   { href: "/#funcionalidades", label: "Funcionalidades" },
   { href: "/precos", label: "Preços" },
   { href: "/blog", label: "Blog" },
-  { href: "/#escola", label: "Escola" },
+  { href: "/#academia", label: "Academia" },
 ];
 
 export function SiteHeader() {

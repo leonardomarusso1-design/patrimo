@@ -1,19 +1,25 @@
 "use client";
 
 import { useState, useTransition } from "react";
-import { Lock, Play, Check } from "lucide-react";
+import { Lock, Play, Check, Zap, ArrowRight } from "lucide-react";
 import { LESSONS } from "@/lib/school";
 import { toggleLesson } from "./actions";
 import { Progress } from "@/components/ui/Misc";
 import { cn } from "@/lib/utils";
 
-export function EscolaList({ completed }: { completed: number[] }) {
+const XP_PER_LESSON = 100;
+
+export function AcademiaList({ completed }: { completed: number[] }) {
   const [done, setDone] = useState<number[]>(completed);
   const [pending, start] = useTransition();
   const [active, setActive] = useState<number | null>(null);
 
   const withVideo = LESSONS.filter((l) => l.videoUrl).length;
   const pct = withVideo ? (done.length / withVideo) * 100 : 0;
+  const xp = done.length * XP_PER_LESSON;
+  const nextLesson =
+    LESSONS.find((l) => l.videoUrl && !done.includes(l.id)) ??
+    LESSONS.find((l) => !done.includes(l.id));
 
   const activeLesson = LESSONS.find((l) => l.id === active);
 
@@ -74,16 +80,39 @@ export function EscolaList({ completed }: { completed: number[] }) {
       </div>
 
       <div className="rounded-2xl border border-border bg-card p-5 shadow-[var(--shadow-card)]">
-        <p className="font-display text-sm font-bold text-ink">Conteúdo do curso</p>
-        <p className="text-xs text-muted">{LESSONS.length} aulas</p>
+        <div className="flex items-center justify-between">
+          <p className="font-display text-sm font-bold text-ink">Seu progresso</p>
+          <span className="inline-flex items-center gap-1 rounded-full bg-gold/15 px-2 py-0.5 text-xs font-bold text-[#8a5e00]">
+            <Zap className="h-3 w-3" /> {xp} XP
+          </span>
+        </div>
+        <p className="text-xs text-muted">
+          {done.length} de {LESSONS.length} aulas concluídas
+        </p>
         <div className="mt-3">
           <Progress value={pct} tone="success" />
           <p className="mt-1.5 text-xs text-muted">
             {withVideo === 0
-              ? "Vídeos em gravação"
+              ? "Vídeos em gravação — concluir libera quando saírem"
               : `${done.length} de ${withVideo} disponíveis concluídas`}
           </p>
         </div>
+
+        {nextLesson && (
+          <button
+            onClick={() => setActive(nextLesson.id)}
+            className="mt-4 flex w-full items-center gap-3 rounded-xl border border-brand/30 bg-brand-50 p-3 text-left"
+          >
+            <div className="min-w-0 flex-1">
+              <p className="text-[11px] font-semibold uppercase tracking-wide text-brand-700">
+                Próxima aula
+              </p>
+              <p className="truncate text-sm font-medium text-ink">{nextLesson.title}</p>
+            </div>
+            <ArrowRight className="h-4 w-4 shrink-0 text-brand-700" />
+          </button>
+        )}
+
         <ul className="mt-4 space-y-1">
           {LESSONS.map((l) => {
             const isDone = done.includes(l.id);
