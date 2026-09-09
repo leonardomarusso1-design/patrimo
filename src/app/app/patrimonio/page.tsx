@@ -83,15 +83,19 @@ export default async function PatrimonioPage() {
     { name: "name", label: "Nome", type: "text", required: true, placeholder: "Casa, BYD Dolphin, Conta corrente…" },
     { name: "value", label: "Valor de compra / referência (R$)", type: "money", required: true },
     { name: "appraised_value", label: "Valor de mercado hoje (R$) — opcional", type: "money" },
-    {
-      name: "linked_debt_id",
-      label: "Está financiado? (opcional)",
-      type: "select",
-      options: debts.map((d) => ({
-        value: d.id,
-        label: `${d.name} — saldo ${formatCurrency(Number(d.remaining_amount), cur)}`,
-      })),
-    },
+    ...(debts.length
+      ? [
+          {
+            name: "linked_debt_id",
+            label: "Está financiado? (deixe em branco se não)",
+            type: "select",
+            options: debts.map((d) => ({
+              value: d.id,
+              label: `${d.name} — saldo ${formatCurrency(Number(d.remaining_amount), cur)}`,
+            })),
+          } as Field,
+        ]
+      : []),
     { name: "fipe_code", label: "Código FIPE (opcional, veículos)", type: "text", placeholder: "095010-6" },
   ];
 
@@ -128,6 +132,12 @@ export default async function PatrimonioPage() {
       )}
 
       <div className="mt-6 space-y-6">
+        {debts.length === 0 && (
+          <p className="rounded-xl border border-border bg-card px-4 py-3 text-sm text-muted">
+            Comprou algo financiado? Cadastre o financiamento em <strong>Dívidas</strong>{" "}
+            (abaixo) primeiro, depois edite o bem para vincular e ver quanto já está quitado.
+          </p>
+        )}
         <EntityManager
           table="patrimony_items"
           path="/app/patrimonio"
