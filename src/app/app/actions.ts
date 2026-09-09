@@ -104,6 +104,11 @@ function toObject(formData: FormData) {
     if (k === "_table" || k === "_id" || k === "_path") continue;
     raw[k] = v === "" ? null : v;
   }
+  // Lançamento do orçamento: o mês de referência é sempre o mês da data.
+  const d = raw.entry_date;
+  if (typeof d === "string" && /^\d{4}-\d{2}-\d{2}$/.test(d)) {
+    raw.reference_month = `${d.slice(0, 7)}-01`;
+  }
   return raw;
 }
 

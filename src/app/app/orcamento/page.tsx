@@ -42,7 +42,6 @@ type Opt = { value: string; label: string };
 
 function fieldsFor(
   kind: string,
-  refMonth: string,
   entryDate: string,
   accOpts: Opt[],
   cardOpts: Opt[],
@@ -75,7 +74,6 @@ function fieldsFor(
       hint: `Não entra no ${isIncome ? "saldo" : "total de despesas"} até você confirmar.`,
     },
     { name: "due_day", label: "Dia de vencimento (opcional)", type: "day" },
-    { name: "reference_month", label: "Mês de referência", type: "text", defaultValue: refMonth, required: true },
   ];
 }
 
@@ -271,8 +269,8 @@ export default async function OrcamentoPage({
                     path={path}
                     title="Receita"
                     addLabel="Adicionar receita"
-                    fields={fieldsFor("income", refMonth, defaultEntryDate, accOpts, cardOpts)}
-                    hidden={{ kind: "income" }}
+                    fields={fieldsFor("income", defaultEntryDate, accOpts, cardOpts)}
+                    hidden={{ kind: "income", reference_month: refMonth }}
                     autoOpen={openKind === "income"}
                     flat
                     filterable
@@ -292,8 +290,8 @@ export default async function OrcamentoPage({
                     path={path}
                     title="Despesa fixa"
                     addLabel="Adicionar despesa fixa"
-                    fields={fieldsFor("expense_fixed", refMonth, defaultEntryDate, accOpts, cardOpts)}
-                    hidden={{ kind: "expense_fixed" }}
+                    fields={fieldsFor("expense_fixed", defaultEntryDate, accOpts, cardOpts)}
+                    hidden={{ kind: "expense_fixed", reference_month: refMonth }}
                     autoOpen={openKind === "fixed"}
                     flat
                     filterable
@@ -313,8 +311,8 @@ export default async function OrcamentoPage({
                     path={path}
                     title="Despesa variável"
                     addLabel="Adicionar despesa variável"
-                    fields={fieldsFor("expense_variable", refMonth, defaultEntryDate, accOpts, cardOpts)}
-                    hidden={{ kind: "expense_variable" }}
+                    fields={fieldsFor("expense_variable", defaultEntryDate, accOpts, cardOpts)}
+                    hidden={{ kind: "expense_variable", reference_month: refMonth }}
                     autoOpen={openKind === "variable"}
                     flat
                     filterable
