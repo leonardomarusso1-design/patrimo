@@ -132,6 +132,11 @@ function toObject(formData: FormData) {
 
 export type MutationState = { error?: string; ok?: boolean };
 
+/** revalidatePath ignora query string — precisa do pathname puro. */
+function revalidate(path: string) {
+  revalidatePath(path.split("?")[0] || "/app");
+}
+
 export async function createRow(
   _prev: MutationState,
   formData: FormData,
@@ -151,7 +156,7 @@ export async function createRow(
       .from(table)
       .insert({ ...parsed.data, user_id: user.id });
     if (error) return { error: safeError(`createRow.${table}`, error) };
-    revalidatePath(path);
+    revalidate(path);
     return { ok: true };
   } catch (err) {
     return { error: safeError(`createRow.${table}`, err) };
@@ -180,7 +185,7 @@ export async function updateRow(
       .eq("id", id)
       .eq("user_id", user.id);
     if (error) return { error: safeError(`updateRow.${table}`, error) };
-    revalidatePath(path);
+    revalidate(path);
     return { ok: true };
   } catch (err) {
     return { error: safeError(`updateRow.${table}`, err) };
@@ -195,7 +200,7 @@ export async function deleteRow(formData: FormData): Promise<void> {
   try {
     const { user, supabase } = await requirePaidUser();
     await supabase.from(table).delete().eq("id", id).eq("user_id", user.id);
-    revalidatePath(path);
+    revalidate(path);
   } catch (err) {
     safeError(`deleteRow.${table}`, err);
   }

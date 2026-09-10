@@ -62,7 +62,7 @@ export async function importBudgetCsv(
 /** Confirma um lançamento previsto: passa a contar nos totais do mês. */
 export async function confirmPending(id: string, path: string) {
   if (!id) return;
-  const safePath = path.startsWith("/app/orcamento") ? path : "/app/orcamento";
+  const safePath = path.startsWith("/app/") ? path.split("?")[0] : "/app/orcamento";
   try {
     const { user, supabase } = await requirePaidUser();
     await supabase
@@ -71,6 +71,7 @@ export async function confirmPending(id: string, path: string) {
       .eq("id", id)
       .eq("user_id", user.id);
     revalidatePath(safePath);
+    revalidatePath("/app/orcamento");
     revalidatePath("/app");
     revalidatePath("/app/vencimentos");
     revalidatePath("/app/fluxo");
