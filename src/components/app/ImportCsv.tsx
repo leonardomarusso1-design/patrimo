@@ -16,11 +16,22 @@ type Draft = ParsedTxn & {
   include: boolean;
 };
 
+type Opt = { value: string; label: string };
+
 const empty: ImportState = {};
 
-export function ImportCsv({ referenceMonth }: { referenceMonth: string }) {
+export function ImportCsv({
+  referenceMonth,
+  accounts = [],
+  cards = [],
+}: {
+  referenceMonth: string;
+  accounts?: Opt[];
+  cards?: Opt[];
+}) {
   const [open, setOpen] = useState(false);
   const [drafts, setDrafts] = useState<Draft[]>([]);
+  const [origin, setOrigin] = useState("");
   const [state, action, pending] = useActionState(importBudgetCsv, empty);
   const fileRef = useRef<HTMLInputElement>(null);
 
@@ -51,6 +62,8 @@ export function ImportCsv({ referenceMonth }: { referenceMonth: string }) {
 
   const payload = JSON.stringify({
     reference_month: referenceMonth,
+    account_id: origin.startsWith("acc:") ? origin.slice(4) : null,
+    card_id: origin.startsWith("card:") ? origin.slice(5) : null,
     items: drafts
       .filter((d) => d.include)
       .map((d) => ({
@@ -79,6 +92,39 @@ export function ImportCsv({ referenceMonth }: { referenceMonth: string }) {
         description="Exporte o extrato do banco em CSV. Detecto data, descrição e valor."
         className="max-w-2xl"
       >
+        {(accounts.length > 0 || cards.length > 0) && (
+          <div className="mb-3">
+            <label className="mb-1 block text-xs font-medium text-muted">
+              Lançar em (opcional) — conta ou cartão de origem do extrato
+            </label>
+            <Select
+              value={origin}
+              onChange={(e) => setOrigin(e.target.value)}
+              className="h-9 text-sm"
+            >
+              <option value="">— não vincular —</option>
+              {accounts.length > 0 && (
+                <optgroup label="Contas">
+                  {accounts.map((a) => (
+                    <option key={a.value} value={`acc:${a.value}`}>
+                      {a.label}
+                    </option>
+                  ))}
+                </optgroup>
+              )}
+              {cards.length > 0 && (
+                <optgroup label="Cartões">
+                  {cards.map((c) => (
+                    <option key={c.value} value={`card:${c.value}`}>
+                      {c.label}
+                    </option>
+                  ))}
+                </optgroup>
+              )}
+            </Select>
+          </div>
+        )}
+
         {drafts.length === 0 ? (
           <div className="space-y-3">
             <input

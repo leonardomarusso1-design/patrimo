@@ -7,6 +7,8 @@ import { safeError } from "@/lib/logger";
 
 const importSchema = z.object({
   reference_month: z.string().regex(/^\d{4}-\d{2}-01$/),
+  account_id: z.string().uuid().optional().nullable(),
+  card_id: z.string().uuid().optional().nullable(),
   items: z
     .array(
       z.object({
@@ -43,6 +45,8 @@ export async function importBudgetCsv(
       ...it,
       user_id: user.id,
       reference_month: parsed.data.reference_month,
+      account_id: parsed.data.account_id ?? null,
+      card_id: parsed.data.card_id ?? null,
     }));
     const { error, count } = await supabase
       .from("budget_entries")

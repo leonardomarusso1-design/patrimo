@@ -279,6 +279,8 @@ export default async function OrcamentoPage({
             referenceMonth={refMonth}
             monthLabel={periodLabel}
             initialTab={openKind ?? undefined}
+            accounts={accOpts}
+            cards={cardOpts}
             tabs={[
               {
                 key: "income",

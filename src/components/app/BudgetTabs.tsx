@@ -30,16 +30,22 @@ const FALLBACK_TINT = {
   idle: "border-transparent text-muted hover:bg-card/60 hover:text-ink",
 };
 
+type Opt = { value: string; label: string };
+
 export function BudgetTabs({
   tabs,
   referenceMonth,
   monthLabel,
   initialTab,
+  accounts = [],
+  cards = [],
 }: {
   tabs: BudgetTab[];
   referenceMonth: string;
   monthLabel: string;
   initialTab?: string;
+  accounts?: Opt[];
+  cards?: Opt[];
 }) {
   const [active, setActive] = useState(
     tabs.some((t) => t.key === initialTab) ? initialTab : tabs[0]?.key,
@@ -73,7 +79,7 @@ export function BudgetTabs({
         </div>
 
         <div className="flex gap-2">
-          <ImportCsv referenceMonth={referenceMonth} />
+          <ImportCsv referenceMonth={referenceMonth} accounts={accounts} cards={cards} />
           <button
             onClick={() => setConfirmClear(true)}
             className="inline-flex items-center gap-1.5 rounded-lg border border-border px-2.5 py-1.5 text-xs font-medium text-muted hover:border-danger/40 hover:text-danger"

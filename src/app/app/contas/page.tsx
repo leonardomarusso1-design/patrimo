@@ -76,10 +76,11 @@ export default async function ContasPage() {
     }
     return b;
   };
-  // fatura do mês por cartão = despesas do cartão no mês de referência
+  // fatura do mês por cartão = todas as compras do cartão no mês (pagas ou não —
+  // a fatura existe independente de você já ter quitado o boleto)
   const faturaOf = (id: string) =>
     rows
-      .filter((e) => e.card_id === id && !e.pending && e.reference_month === refMonth && e.kind !== "income")
+      .filter((e) => e.card_id === id && e.reference_month === refMonth && e.kind !== "income")
       .reduce((s, e) => s + Number(e.amount), 0);
 
   const totalBalance = allAccounts.reduce((s, a) => s + balanceOf(a.id), 0);
