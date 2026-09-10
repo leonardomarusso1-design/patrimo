@@ -74,6 +74,19 @@ function fieldsFor(
       hint: `Não entra no ${isIncome ? "saldo" : "total de despesas"} até você confirmar.`,
     },
     { name: "due_day", label: "Dia de vencimento (opcional)", type: "day" },
+    ...(isIncome
+      ? []
+      : [
+          {
+            name: "installments_total",
+            label: "Parcelado? Em quantas vezes (opcional)",
+            type: "number",
+            step: "1",
+            placeholder: "12",
+            hint: "O valor acima é o da parcela. Aqui você acompanha quantas já pagou.",
+          } as Field,
+          { name: "installments_paid", label: "Parcelas já pagas (opcional)", type: "number", step: "1" } as Field,
+        ]),
   ];
 }
 
@@ -176,6 +189,8 @@ export default async function OrcamentoPage({
         recurring: r.recurring,
         pending: r.pending,
         due_day: r.due_day,
+        installments_total: r.installments_total,
+        installments_paid: r.installments_paid,
         reference_month: r.reference_month,
       },
       node: (
@@ -200,6 +215,12 @@ export default async function OrcamentoPage({
                 #{t}
               </span>
             ))}
+            {r.installments_total ? (
+              <span className="rounded bg-ink/[0.06] px-1.5 py-0.5 text-[10px] font-normal text-muted">
+                {(r.installments_paid ?? 0)}/{r.installments_total}x · total{" "}
+                {formatCurrency(Number(r.amount) * r.installments_total, cur)}
+              </span>
+            ) : null}
             {r.pending && <PendingConfirm id={r.id} path={path} kind={r.kind} />}
           </span>
           <span

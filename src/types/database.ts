@@ -97,6 +97,8 @@ export interface Database {
           account_id: string | null;
           card_id: string | null;
           tags: string[];
+          installments_total: number | null;
+          installments_paid: number | null;
           created_at: string;
         }
       >;

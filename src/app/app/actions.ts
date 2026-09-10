@@ -43,6 +43,8 @@ const SCHEMAS = {
           : (v ?? undefined),
       z.array(z.string().min(1).max(24)).max(8).optional(),
     ),
+    installments_total: z.coerce.number().int().min(1).max(360).optional().nullable(),
+    installments_paid: z.coerce.number().int().min(0).max(360).optional().nullable(),
   }),
   accounts: z.object({
     name: shortText,
@@ -111,14 +113,19 @@ function toObject(formData: FormData) {
   if (typeof d === "string" && /^\d{4}-\d{2}-\d{2}$/.test(d)) {
     raw.reference_month = `${d.slice(0, 7)}-01`;
   }
-  // Dívida parcelada: saldo devedor derivado das parcelas pagas.
+  // Parcelamento: nº de parcelas pagas nunca passa do total.
   const it = Number(raw.installments_total);
-  const tot = Number(raw.total_amount);
-  if (raw.installments_total != null && it > 0 && tot > 0) {
-    const ip = Math.min(Math.max(Number(raw.installments_paid) || 0, 0), it);
-    raw.installments_paid = ip;
-    const paid = Math.min(Math.round((tot / it) * ip), tot);
-    raw.remaining_amount = tot - paid;
+  if (raw.installments_total != null && it > 0) {
+    raw.installments_paid = Math.min(Math.max(Number(raw.installments_paid) || 0, 0), it);
+    // Dívida parcelada: saldo devedor derivado das parcelas pagas.
+    const tot = Number(raw.total_amount);
+    if (tot > 0) {
+      const paid = Math.min(
+        Math.round((tot / it) * Number(raw.installments_paid)),
+        tot,
+      );
+      raw.remaining_amount = tot - paid;
+    }
   }
   return raw;
 }
