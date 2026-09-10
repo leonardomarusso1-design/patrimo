@@ -19,7 +19,7 @@ export const requireUser = cache(async () => {
 
 export const getProfile = cache(async (): Promise<Tables<"profiles">> => {
   const { user, supabase } = await requireUser();
-  const { data } = await supabase.from("profiles").select("*").eq("id", user.id).single();
+  const { data } = await supabase.from("profiles").select("*").eq("id", user.id).maybeSingle();
 
   if (!data) {
     // fallback: trigger ainda não rodou / conta antiga
@@ -27,8 +27,34 @@ export const getProfile = cache(async (): Promise<Tables<"profiles">> => {
       .from("profiles")
       .upsert({ id: user.id, email: user.email ?? "" })
       .select("*")
-      .single();
-    return created as Tables<"profiles">;
+      .maybeSingle();
+    if (created) return created;
+
+    return {
+      id: user.id,
+      email: user.email ?? "",
+      full_name: user.user_metadata?.full_name ?? null,
+      avatar_url: user.user_metadata?.avatar_url ?? null,
+      display_currency: "BRL",
+      income_band: null,
+      occupation: null,
+      country: "BR",
+      state: null,
+      city: null,
+      onboarding_completed: false,
+      plan: "free",
+      plan_expires_at: null,
+      marketing_opt_in: false,
+      investor_profile: null,
+      investor_profile_at: null,
+      renewal_reminded_at: null,
+      theme: "system",
+      dashboard_cards: ["reserva", "metas"],
+      invest_pct: 10,
+      trial_started_at: null,
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString(),
+    } as Tables<"profiles">;
   }
   return data;
 });
