@@ -32,10 +32,9 @@ export async function completeOnboarding(
 
   try {
     const { user, supabase } = await requireUser();
-    const { error } = await supabase.from("profiles").upsert(
-      {
-        id: user.id,
-        email: user.email ?? "",
+    const { error } = await supabase
+      .from("profiles")
+      .update({
         display_currency: d.display_currency,
         income_band: d.income_band,
         occupation: d.occupation,
@@ -44,9 +43,8 @@ export async function completeOnboarding(
         city: d.city || null,
         marketing_opt_in: d.marketing_opt_in === "on",
         onboarding_completed: true,
-      },
-      { onConflict: "id" },
-    );
+      })
+      .eq("id", user.id);
     if (error) return { error: safeError("onboarding.complete", error) };
 
     if (user.email) {
@@ -55,9 +53,13 @@ export async function completeOnboarding(
         .select("full_name")
         .eq("id", user.id)
         .single();
-      await sendEmail(
-        welcomeEmail(user.email, (p?.full_name ?? "").split(" ")[0] || "tudo pronto"),
-      );
+      try {
+        await sendEmail(
+          welcomeEmail(user.email, (p?.full_name ?? "").split(" ")[0] || "tudo pronto"),
+        );
+      } catch {
+        // O e-mail de boas-vindas não pode bloquear a entrada no produto.
+      }
     }
   } catch (err) {
     return { error: safeError("onboarding.complete", err) };

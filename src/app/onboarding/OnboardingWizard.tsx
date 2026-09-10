@@ -3,6 +3,7 @@
 import { useActionState, useState } from "react";
 import Link from "next/link";
 import { ArrowLeft, ArrowRight, Check, ChevronDown, CircleDollarSign, MapPin, Sparkles, UserRound, WalletCards } from "lucide-react";
+import { signOut } from "@/app/auth/actions";
 import { CURRENCIES, INCOME_BANDS, OCCUPATIONS, COUNTRIES, BR_STATES, ONBOARDING_STEPS } from "@/lib/onboarding";
 import { completeOnboarding, type OnboardingState } from "./actions";
 import { Button } from "@/components/ui/Button";
@@ -28,7 +29,7 @@ export function OnboardingWizard({ firstName }: { firstName: string }) {
     <div className="w-full max-w-[440px]">
       <div className="mb-8 flex items-center justify-between px-1">
         <Link href="/" className="font-display text-xl font-extrabold tracking-tight text-ink">Ord<span className="text-accent">re</span></Link>
-        <span className="text-xs font-semibold text-muted">{step + 1} de {ONBOARDING_STEPS.length}</span>
+        <div className="flex items-center gap-4"><span className="text-xs font-semibold text-muted">{step + 1} de {ONBOARDING_STEPS.length}</span><form action={signOut}><button type="submit" className="text-xs font-bold text-muted underline underline-offset-4 hover:text-ink">Sair</button></form></div>
       </div>
       <div className="h-1.5 overflow-hidden rounded-full bg-ink/[0.08]"><div className="h-full rounded-full bg-accent transition-all duration-300" style={{ width: `${((step + 1) / ONBOARDING_STEPS.length) * 100}%` }} /></div>
 
