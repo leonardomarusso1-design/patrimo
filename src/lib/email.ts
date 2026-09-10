@@ -83,16 +83,29 @@ export function welcomeEmail(to: string, firstName: string) {
   };
 }
 
-export function renewalReminderEmail(to: string, firstName: string, daysLeft: number) {
+export function renewalReminderEmail(
+  to: string,
+  firstName: string,
+  daysLeft: number,
+  trial = false,
+) {
+  const d = `<strong>${daysLeft} ${daysLeft === 1 ? "dia" : "dias"}</strong>`;
   return {
     to,
-    subject: `Sua assinatura do Ordre vence em ${daysLeft} dias`,
+    subject: trial
+      ? `Seu teste grátis do Ordre acaba em ${daysLeft} ${daysLeft === 1 ? "dia" : "dias"}`
+      : `Sua assinatura do Ordre vence em ${daysLeft} ${daysLeft === 1 ? "dia" : "dias"}`,
     html: shell(
-      `Renove pra não perder o acesso, ${esc(firstName)}`,
-      `<p>Seu acesso ao Ordre expira em <strong>${daysLeft} dias</strong>. Renove por
-       R$ 97,90 (ou 12x no cartão) e continue com tudo funcionando — seus dados
-       ficam salvos de qualquer forma.</p>
-       <p><a href="${PLAN.checkoutUrl}?email=${encodeURIComponent(to)}" style="display:inline-block;background:#0b7a55;color:#fff;padding:10px 18px;border-radius:10px;text-decoration:none;font-weight:600">Renovar agora</a></p>`,
+      trial
+        ? `Seu teste acaba em breve, ${esc(firstName)}`
+        : `Renove pra não perder o acesso, ${esc(firstName)}`,
+      `<p>${
+        trial
+          ? `Seu teste grátis do Ordre acaba em ${d}.`
+          : `Seu acesso ao Ordre expira em ${d}.`
+      } Assine por R$ 97,90 (ou 12x no cartão) e continue com tudo funcionando —
+       seus dados ficam salvos de qualquer forma.</p>
+       <p><a href="${PLAN.checkoutUrl}?email=${encodeURIComponent(to)}" style="display:inline-block;background:#0b7a55;color:#fff;padding:10px 18px;border-radius:10px;text-decoration:none;font-weight:600">${trial ? "Assinar agora" : "Renovar agora"}</a></p>`,
     ),
   };
 }

@@ -1,11 +1,12 @@
 import { createAdminClient } from "@/lib/supabase/admin";
+import { isTrial } from "@/lib/plans";
 import { formatDate } from "@/lib/utils";
 
 export default async function AssinantesPage() {
   const db = createAdminClient();
   const { data } = await db
     .from("profiles")
-    .select("id, email, full_name, plan, plan_expires_at, investor_profile, created_at")
+    .select("id, email, full_name, plan, plan_expires_at, trial_started_at, investor_profile, created_at")
     .order("created_at", { ascending: false })
     .limit(500);
 
@@ -33,6 +34,7 @@ export default async function AssinantesPage() {
               const active =
                 p.plan !== "free" &&
                 (!p.plan_expires_at || new Date(p.plan_expires_at).getTime() > now);
+              const trial = isTrial(p);
               return (
                 <tr key={p.id} className="border-b border-border last:border-0">
                   <td className="px-4 py-2">
@@ -42,12 +44,14 @@ export default async function AssinantesPage() {
                   <td className="px-4 py-2">
                     <span
                       className={
-                        active
-                          ? "rounded-full bg-success/12 px-2 py-0.5 text-xs font-semibold text-success"
-                          : "rounded-full bg-ink/[0.06] px-2 py-0.5 text-xs font-semibold text-muted"
+                        trial
+                          ? "rounded-full bg-gold/15 px-2 py-0.5 text-xs font-semibold text-[#8a5e00]"
+                          : active
+                            ? "rounded-full bg-success/12 px-2 py-0.5 text-xs font-semibold text-success"
+                            : "rounded-full bg-ink/[0.06] px-2 py-0.5 text-xs font-semibold text-muted"
                       }
                     >
-                      {active ? "ativo" : "sem acesso"}
+                      {trial ? "teste" : active ? "pago" : "sem acesso"}
                     </span>
                   </td>
                   <td className="px-4 py-2 tabular-nums text-muted">

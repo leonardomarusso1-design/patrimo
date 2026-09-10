@@ -19,9 +19,19 @@ export default async function AdminHome() {
   const nowIso = now.toISOString();
   const in30 = new Date(now.getTime() + 30 * 86400000).toISOString();
 
-  const [total, paid, expiring, recent, pending, adviceCount] = await Promise.all([
+  const [total, paid, trials, expiring, recent, pending, adviceCount] = await Promise.all([
     db.from("profiles").select("id", { count: "exact", head: true }),
-    db.from("profiles").select("id", { count: "exact", head: true }).neq("plan", "free").or(`plan_expires_at.is.null,plan_expires_at.gt.${nowIso}`),
+    db
+      .from("profiles")
+      .select("id", { count: "exact", head: true })
+      .neq("plan", "free")
+      .is("trial_started_at", null)
+      .or(`plan_expires_at.is.null,plan_expires_at.gt.${nowIso}`),
+    db
+      .from("profiles")
+      .select("id", { count: "exact", head: true })
+      .not("trial_started_at", "is", null)
+      .gt("plan_expires_at", nowIso),
     db
       .from("profiles")
       .select("id, email, full_name, plan_expires_at")
@@ -48,7 +58,7 @@ export default async function AdminHome() {
 
       <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <Tile label="Contas" value={String(total.count ?? 0)} />
-        <Tile label="Assinantes ativos" value={String(paidCount)} />
+        <Tile label="Assinantes pagos" value={String(paidCount)} sub={`+ ${trials.count ?? 0} em teste grátis`} />
         <Tile label="Receita anual" value={formatCurrency(arr, "BRL")} sub={`${paidCount} × ${formatCurrency(PLAN.price, "BRL")}`} />
         <Tile label="Análises IA geradas" value={String(adviceCount.count ?? 0)} />
       </div>
