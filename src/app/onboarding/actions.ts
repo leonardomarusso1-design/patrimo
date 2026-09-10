@@ -6,6 +6,7 @@ import { requireUser } from "@/lib/data";
 import { safeError } from "@/lib/logger";
 import { sendEmail, welcomeEmail } from "@/lib/email";
 import { CURRENCIES, INCOME_BANDS, OCCUPATIONS } from "@/lib/onboarding";
+import { createAdminClient } from "@/lib/supabase/admin";
 
 const schema = z.object({
   display_currency: z.enum(CURRENCIES.map((c) => c.code) as [string, ...string[]]),
@@ -32,9 +33,12 @@ export async function completeOnboarding(
 
   try {
     const { user, supabase } = await requireUser();
-    const { error } = await supabase
+    const admin = createAdminClient();
+    const { data: saved, error } = await admin
       .from("profiles")
-      .update({
+      .upsert({
+        id: user.id,
+        email: user.email ?? "",
         display_currency: d.display_currency,
         income_band: d.income_band,
         occupation: d.occupation,
@@ -43,9 +47,12 @@ export async function completeOnboarding(
         city: d.city || null,
         marketing_opt_in: d.marketing_opt_in === "on",
         onboarding_completed: true,
-      })
-      .eq("id", user.id);
-    if (error) return { error: safeError("onboarding.complete", error) };
+      }, { onConflict: "id" })
+      .select("id, onboarding_completed")
+      .single();
+    if (error || !saved?.onboarding_completed) {
+      return { error: safeError("onboarding.complete", error ?? new Error("Perfil não foi salvo")) };
+    }
 
     if (user.email) {
       const { data: p } = await supabase
