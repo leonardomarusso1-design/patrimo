@@ -141,7 +141,7 @@ function EntityForm({
         ),
       )}
 
-      <div className="flex justify-end gap-2 pt-2">
+      <div className="sticky bottom-0 -mx-6 -mb-6 flex justify-end gap-2 border-t border-border bg-card px-6 pb-6 pt-3">
         <Button type="button" variant="ghost" onClick={onDone}>
           Cancelar
         </Button>
