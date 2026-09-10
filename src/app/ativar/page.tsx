@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation";
 import { RefreshCw, Check, ShieldCheck } from "lucide-react";
-import { getProfile } from "@/lib/data";
+import { ensureFreeTrial, getProfile } from "@/lib/data";
 import { hasActiveAccess, isTrial, daysLeft, PLAN } from "@/lib/plans";
 import { formatCurrency } from "@/lib/utils";
 import { ButtonLink, Button } from "@/components/ui/Button";
@@ -17,8 +17,10 @@ async function recheck() {
 }
 
 export default async function AtivarPage() {
-  const profile = await getProfile();
-  if (!profile.onboarding_completed) redirect("/onboarding");
+  const loadedProfile = await getProfile();
+  if (!loadedProfile.onboarding_completed) redirect("/onboarding");
+  const profile = await ensureFreeTrial(loadedProfile);
+  if (hasActiveAccess(profile)) redirect("/app");
   // usuário pago: já tem tudo. Em teste: deixa assinar antes de acabar.
   if (hasActiveAccess(profile) && !isTrial(profile)) redirect("/app");
   const trial = isTrial(profile);

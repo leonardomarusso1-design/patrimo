@@ -34,6 +34,14 @@ export async function completeOnboarding(
   try {
     const { user, supabase } = await requireUser();
     const admin = createAdminClient();
+    const { data: current } = await admin
+      .from("profiles")
+      .select("plan, plan_expires_at, trial_started_at")
+      .eq("id", user.id)
+      .maybeSingle();
+    const startTrial = !current || (current.plan === "free" && !current.trial_started_at);
+    const trialStartedAt = new Date().toISOString();
+    const trialExpiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString();
     const { data: saved, error } = await admin
       .from("profiles")
       .upsert({
@@ -47,6 +55,9 @@ export async function completeOnboarding(
         city: d.city || null,
         marketing_opt_in: d.marketing_opt_in === "on",
         onboarding_completed: true,
+        ...(startTrial
+          ? { plan: "pro" as const, plan_expires_at: trialExpiresAt, trial_started_at: trialStartedAt }
+          : {}),
       }, { onConflict: "id" })
       .select("id, onboarding_completed")
       .single();

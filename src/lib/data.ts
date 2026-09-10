@@ -5,6 +5,7 @@ import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import type { Tables } from "@/types/database";
 import { hasActiveAccess } from "@/lib/plans";
+import { createAdminClient } from "@/lib/supabase/admin";
 
 // cache() dedupa por request: layout + page chamam requireUser/getProfile sem
 // repetir a ida ao Supabase Auth / à tabela profiles.
@@ -79,8 +80,27 @@ export async function requirePaidAccess() {
 
   const profile = await getProfile();
   if (!profile.onboarding_completed) redirect("/onboarding");
-  if (!hasActiveAccess(profile)) redirect("/ativar");
-  return profile;
+  const accessProfile = await ensureFreeTrial(profile);
+  if (!hasActiveAccess(accessProfile)) redirect("/ativar");
+  return accessProfile;
+}
+
+/** Recupera o trial de contas antigas cujo trigger de criação não aplicou o período grátis. */
+export async function ensureFreeTrial(profile: Tables<"profiles">) {
+  if (profile.plan !== "free" || profile.trial_started_at) return profile;
+  const startedAt = new Date();
+  const admin = createAdminClient();
+  const { data } = await admin
+    .from("profiles")
+    .update({
+      plan: "pro",
+      plan_expires_at: new Date(startedAt.getTime() + 7 * 24 * 60 * 60 * 1000).toISOString(),
+      trial_started_at: startedAt.toISOString(),
+    })
+    .eq("id", profile.id)
+    .select("*")
+    .single();
+  return data ?? profile;
 }
 
 /** Compatibilidade: com plano único, o gate de feature é o mesmo do paywall. */
