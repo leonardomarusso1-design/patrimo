@@ -32,9 +32,10 @@ export async function completeOnboarding(
 
   try {
     const { user, supabase } = await requireUser();
-    const { error } = await supabase
-      .from("profiles")
-      .update({
+    const { error } = await supabase.from("profiles").upsert(
+      {
+        id: user.id,
+        email: user.email ?? "",
         display_currency: d.display_currency,
         income_band: d.income_band,
         occupation: d.occupation,
@@ -43,8 +44,9 @@ export async function completeOnboarding(
         city: d.city || null,
         marketing_opt_in: d.marketing_opt_in === "on",
         onboarding_completed: true,
-      })
-      .eq("id", user.id);
+      },
+      { onConflict: "id" },
+    );
     if (error) return { error: safeError("onboarding.complete", error) };
 
     if (user.email) {
