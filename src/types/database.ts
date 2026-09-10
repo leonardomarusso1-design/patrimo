@@ -197,6 +197,8 @@ export interface Database {
           monthly_interest: number | null;
           monthly_payment: number | null;
           due_day: number | null;
+          installments_total: number | null;
+          installments_paid: number | null;
         } & Timestamps
       >;
       school_progress: Table<{

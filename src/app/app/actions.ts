@@ -93,6 +93,8 @@ const SCHEMAS = {
     monthly_interest: z.coerce.number().min(0).max(100).optional().nullable(),
     monthly_payment: money.optional().nullable(),
     due_day: z.coerce.number().int().min(1).max(31).optional().nullable(),
+    installments_total: z.coerce.number().int().min(1).max(360).optional().nullable(),
+    installments_paid: z.coerce.number().int().min(0).max(360).optional().nullable(),
   }),
 } as const;
 
@@ -108,6 +110,15 @@ function toObject(formData: FormData) {
   const d = raw.entry_date;
   if (typeof d === "string" && /^\d{4}-\d{2}-\d{2}$/.test(d)) {
     raw.reference_month = `${d.slice(0, 7)}-01`;
+  }
+  // Dívida parcelada: saldo devedor derivado das parcelas pagas.
+  const it = Number(raw.installments_total);
+  const tot = Number(raw.total_amount);
+  if (raw.installments_total != null && it > 0 && tot > 0) {
+    const ip = Math.min(Math.max(Number(raw.installments_paid) || 0, 0), it);
+    raw.installments_paid = ip;
+    const paid = Math.min(Math.round((tot / it) * ip), tot);
+    raw.remaining_amount = tot - paid;
   }
   return raw;
 }

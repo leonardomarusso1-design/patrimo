@@ -21,9 +21,17 @@ const KIND_LABEL: Record<string, string> = {
 };
 
 const DEBT_FIELDS: Field[] = [
-  { name: "name", label: "Dívida", type: "text", required: true, placeholder: "Financiamento do carro…" },
+  { name: "name", label: "Dívida", type: "text", required: true, placeholder: "Notebook do João, financiamento do carro…" },
   { name: "total_amount", label: "Valor total (R$)", type: "money", required: true },
-  { name: "remaining_amount", label: "Saldo devedor (R$)", type: "money", required: true },
+  {
+    name: "remaining_amount",
+    label: "Saldo devedor (R$)",
+    type: "money",
+    required: true,
+    hint: "Se for parcelado, preencha as parcelas abaixo — o saldo é recalculado sozinho.",
+  },
+  { name: "installments_total", label: "Está parcelado? Em quantas parcelas — opcional", type: "number", step: "1", placeholder: "12" },
+  { name: "installments_paid", label: "Parcelas já pagas — opcional", type: "number", step: "1", placeholder: "3" },
   { name: "monthly_interest", label: "Juros ao mês (%) — opcional", type: "number", step: "0.01" },
   { name: "monthly_payment", label: "Parcela mensal (R$) — opcional", type: "money" },
   { name: "due_day", label: "Dia de vencimento — opcional", type: "day" },
@@ -213,35 +221,60 @@ export default async function PatrimonioPage() {
           title="Dívidas"
           addLabel="Adicionar dívida"
           fields={DEBT_FIELDS}
-          rows={debts.map((r) => ({
-            id: r.id,
-            raw: {
-              name: r.name,
-              total_amount: Number(r.total_amount),
-              remaining_amount: Number(r.remaining_amount),
-              monthly_interest: r.monthly_interest,
-              monthly_payment: r.monthly_payment,
-              due_day: r.due_day,
-            },
-            node: (
-              <>
-                <span className="font-medium text-ink">
-                  {r.name}
-                  {linkedDebtIds.has(r.id) && (
-                    <span className="ml-2 text-xs text-brand-700">vinculada a um bem</span>
-                  )}
-                  {r.monthly_payment && (
-                    <span className="ml-2 text-xs text-muted">
-                      {formatCurrency(Number(r.monthly_payment), cur)}/mês
+          rows={debts.map((r) => {
+            const total = Number(r.total_amount);
+            const it = r.installments_total ?? 0;
+            const ip = clamp(r.installments_paid ?? 0, 0, it || 0);
+            const paid =
+              it > 0
+                ? Math.min(Math.round((total / it) * ip), total)
+                : total - Number(r.remaining_amount);
+            const pct = total > 0 ? clamp((paid / total) * 100, 0, 100) : 0;
+            return {
+              id: r.id,
+              raw: {
+                name: r.name,
+                total_amount: total,
+                remaining_amount: Number(r.remaining_amount),
+                installments_total: r.installments_total,
+                installments_paid: r.installments_paid,
+                monthly_interest: r.monthly_interest,
+                monthly_payment: r.monthly_payment,
+                due_day: r.due_day,
+              },
+              node: (
+                <>
+                  <span className="flex flex-col gap-1">
+                    <span className="font-medium text-ink">
+                      {r.name}
+                      {linkedDebtIds.has(r.id) && (
+                        <span className="ml-2 text-xs text-brand-700">vinculada a um bem</span>
+                      )}
+                      {r.monthly_payment && (
+                        <span className="ml-2 text-xs text-muted">
+                          {formatCurrency(Number(r.monthly_payment), cur)}/mês
+                        </span>
+                      )}
                     </span>
-                  )}
-                </span>
-                <span className="tabular-nums text-danger sm:text-right">
-                  {formatCurrency(Number(r.remaining_amount), cur)}
-                </span>
-              </>
-            ),
-          }))}
+                    {it > 0 && (
+                      <>
+                        <span className="text-xs text-muted">
+                          {ip}/{it} parcelas · pago {formatCurrency(paid, cur)} de{" "}
+                          {formatCurrency(total, cur)}
+                        </span>
+                        <span className="mt-0.5 block max-w-[220px]">
+                          <Progress value={pct} tone="success" />
+                        </span>
+                      </>
+                    )}
+                  </span>
+                  <span className="tabular-nums text-danger sm:text-right">
+                    {formatCurrency(Number(r.remaining_amount), cur)}
+                  </span>
+                </>
+              ),
+            };
+          })}
           emptyTitle="Nenhuma dívida registrada"
           emptyDescription="Financiamentos, empréstimos, cartão parcelado, consignado."
         />
