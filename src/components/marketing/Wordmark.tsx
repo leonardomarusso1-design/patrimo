@@ -10,11 +10,11 @@ export function Wordmark({
 }) {
   const inner = (
     <span className={cn("font-display text-xl font-extrabold tracking-tight text-ink", className)}>
-      Ord<span className="text-accent">re</span>
+      Patri<span className="text-accent">mo</span>
     </span>
   );
   return href ? (
-    <Link href={href} aria-label="Ordre — início">
+    <Link href={href} aria-label="Patrimo — início">
       {inner}
     </Link>
   ) : (
