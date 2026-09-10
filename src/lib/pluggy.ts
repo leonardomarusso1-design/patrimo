@@ -9,9 +9,17 @@ export function pluggyConfigured() {
 }
 
 let apiKeyCache: { key: string; exp: number } | null = null;
+let apiKeyRequest: Promise<string> | null = null;
+const REQUEST_TIMEOUT_MS = 15_000;
+
+function withTimeout(signal?: AbortSignal) {
+  return AbortSignal.any([signal ?? new AbortController().signal, AbortSignal.timeout(REQUEST_TIMEOUT_MS)]);
+}
 
 async function getApiKey(): Promise<string> {
   if (apiKeyCache && apiKeyCache.exp > Date.now()) return apiKeyCache.key;
+  if (apiKeyRequest) return apiKeyRequest;
+  apiKeyRequest = (async () => {
   const res = await fetch(`${BASE}/auth`, {
     method: "POST",
     headers: { "content-type": "application/json" },
@@ -19,17 +27,21 @@ async function getApiKey(): Promise<string> {
       clientId: process.env.PLUGGY_CLIENT_ID,
       clientSecret: process.env.PLUGGY_CLIENT_SECRET,
     }),
+    signal: withTimeout(),
   });
   if (!res.ok) throw new Error(`pluggy auth ${res.status}`);
   const json = (await res.json()) as { apiKey: string };
   apiKeyCache = { key: json.apiKey, exp: Date.now() + 100 * 60 * 1000 }; // ~1h40
   return json.apiKey;
+  })();
+  try { return await apiKeyRequest; } finally { apiKeyRequest = null; }
 }
 
 async function api<T>(path: string, init?: RequestInit): Promise<T> {
   const key = await getApiKey();
   const res = await fetch(`${BASE}${path}`, {
     ...init,
+    signal: withTimeout(init?.signal ?? undefined),
     headers: { "X-API-KEY": key, "content-type": "application/json", ...(init?.headers ?? {}) },
   });
   if (!res.ok) {
@@ -81,7 +93,7 @@ export async function listTransactions(accountId: string, fromISO: string) {
   let url: string | null = `${BASE}/v2/transactions?accountId=${accountId}`;
 
   for (let i = 0; url && i < 30; i++) {
-    const res = await fetch(url, { headers: { "X-API-KEY": key } });
+    const res = await fetch(url, { headers: { "X-API-KEY": key }, signal: withTimeout() });
     if (!res.ok) {
       const body = await res.text().catch(() => "");
       logger.error("pluggy.transactions", { status: res.status, body: body.slice(0, 300) });

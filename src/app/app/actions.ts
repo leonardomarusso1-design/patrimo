@@ -141,8 +141,10 @@ export async function createRow(
   _prev: MutationState,
   formData: FormData,
 ): Promise<MutationState> {
-  const table = formData.get("_table") as TableName;
-  const path = (formData.get("_path") as string) || "/app";
+  const tableValue = formData.get("_table");
+  const table = typeof tableValue === "string" ? (tableValue as TableName) : "" as TableName;
+  const pathValue = formData.get("_path");
+  const path = typeof pathValue === "string" && pathValue.startsWith("/") && !pathValue.startsWith("//") ? pathValue : "/app";
   const schema = SCHEMAS[table];
   if (!schema) return { error: "Recurso inválido." };
 
@@ -168,10 +170,11 @@ export async function updateRow(
   formData: FormData,
 ): Promise<MutationState> {
   const table = formData.get("_table") as TableName;
-  const id = formData.get("_id") as string;
-  const path = (formData.get("_path") as string) || "/app";
+  const id = formData.get("_id");
+  const pathValue = formData.get("_path");
+  const path = typeof pathValue === "string" && pathValue.startsWith("/") && !pathValue.startsWith("//") ? pathValue : "/app";
   const schema = SCHEMAS[table];
-  if (!schema || !id) return { error: "Recurso inválido." };
+  if (!schema || typeof id !== "string" || !z.string().uuid().safeParse(id).success) return { error: "Recurso inválido." };
 
   const parsed = schema.partial().safeParse(toObject(formData));
   if (!parsed.success)
@@ -194,9 +197,10 @@ export async function updateRow(
 
 export async function deleteRow(formData: FormData): Promise<void> {
   const table = formData.get("_table") as TableName;
-  const id = formData.get("_id") as string;
-  const path = (formData.get("_path") as string) || "/app";
-  if (!SCHEMAS[table] || !id) return;
+  const id = formData.get("_id");
+  const pathValue = formData.get("_path");
+  const path = typeof pathValue === "string" && pathValue.startsWith("/") && !pathValue.startsWith("//") ? pathValue : "/app";
+  if (!SCHEMAS[table] || typeof id !== "string" || !z.string().uuid().safeParse(id).success) return;
   try {
     const { user, supabase } = await requirePaidUser();
     await supabase.from(table).delete().eq("id", id).eq("user_id", user.id);

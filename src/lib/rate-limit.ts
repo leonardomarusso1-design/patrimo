@@ -4,7 +4,7 @@ import { Redis } from "@upstash/redis";
 /**
  * Rate limiting serverless-native (Upstash). Prioridade: endpoints de auth,
  * webhook de pagamento, tracking de analytics.
- * Fail-open se as env vars não estiverem configuradas (dev local).
+ * Em produção, falhas de configuração/rede bloqueiam por segurança; em desenvolvimento, o limite é desativado explicitamente.
  */
 
 let redis: Redis | null = null;
@@ -71,7 +71,8 @@ export async function checkRateLimit(
   const rl = limiter(bucket, c.tokens, c.window);
   if (!rl) {
     if (process.env.NODE_ENV === "production") {
-      console.error("rate-limit: Upstash não configurado em produção — fail-open", { bucket });
+      console.error("rate-limit: Upstash não configurado em produção — fail-closed", { bucket });
+      return { ok: false, retryAfter: 60 };
     }
     return { ok: true };
   }
@@ -81,12 +82,13 @@ export async function checkRateLimit(
     if (res.success) return { ok: true };
     return { ok: false, retryAfter: Math.ceil((res.reset - Date.now()) / 1000) };
   } catch (err) {
-    // erro de rede do Upstash: fail-open pra não derrubar auth/webhook.
-    // ponytail: revisitar se aparecer abuso durante indisponibilidade do Redis.
-    console.error("rate-limit: falha no Upstash — fail-open", {
+    // Em produção, não liberar operações sensíveis quando o limitador está indisponível.
+    console.error("rate-limit: falha no Upstash — fail-closed", {
       bucket,
       error: err instanceof Error ? err.message : String(err),
     });
-    return { ok: true };
+    return process.env.NODE_ENV === "production"
+      ? { ok: false, retryAfter: 60 }
+      : { ok: true };
   }
 }
