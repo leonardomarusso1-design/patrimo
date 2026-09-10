@@ -14,7 +14,7 @@ export function Wordmark({
     </span>
   );
   return href ? (
-    <Link href={href} aria-label="Patrimo — início">
+    <Link href={href} aria-label="Ordre — início">
       {inner}
     </Link>
   ) : (

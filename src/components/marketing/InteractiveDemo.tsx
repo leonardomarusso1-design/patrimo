@@ -35,7 +35,7 @@ export function InteractiveDemo() {
               <Sparkles className="h-3.5 w-3.5" /> Diagnóstico rápido
             </span>
             <h2 className="mt-4 font-display text-2xl font-extrabold text-ink">Veja seu próximo passo</h2>
-            <p className="mt-2 max-w-sm text-sm leading-6 text-muted">Uma simulação simples para sentir como o Patrimo transforma números em decisão.</p>
+            <p className="mt-2 max-w-sm text-sm leading-6 text-muted">Uma simulação simples para sentir como o Ordre transforma números em decisão.</p>
           </div>
           <div className="hidden rounded-2xl bg-ink p-3 text-right text-[#eaf5ee] sm:block">
             <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-[#eaf5ee]/55">Índice de clareza</p>
