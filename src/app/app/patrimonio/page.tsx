@@ -227,7 +227,7 @@ export default async function PatrimonioPage() {
             const ip = clamp(r.installments_paid ?? 0, 0, it || 0);
             const paid =
               it > 0
-                ? Math.min(Math.round((total / it) * ip), total)
+                ? Math.min(Math.round((total / it) * ip * 100) / 100, total)
                 : total - Number(r.remaining_amount);
             const pct = total > 0 ? clamp((paid / total) * 100, 0, 100) : 0;
             return {

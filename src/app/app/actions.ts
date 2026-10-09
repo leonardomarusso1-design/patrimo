@@ -121,10 +121,10 @@ function toObject(formData: FormData) {
     const tot = Number(raw.total_amount);
     if (tot > 0) {
       const paid = Math.min(
-        Math.round((tot / it) * Number(raw.installments_paid)),
+        Math.round((tot / it) * Number(raw.installments_paid) * 100) / 100,
         tot,
       );
-      raw.remaining_amount = tot - paid;
+      raw.remaining_amount = Math.round((tot - paid) * 100) / 100;
     }
   }
   return raw;
