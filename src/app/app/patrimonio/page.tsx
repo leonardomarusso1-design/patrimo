@@ -32,7 +32,7 @@ const DEBT_FIELDS: Field[] = [
   },
   { name: "installments_total", label: "Está parcelado? Em quantas parcelas — opcional", type: "number", step: "1", placeholder: "12" },
   { name: "installments_paid", label: "Parcelas já pagas — opcional", type: "number", step: "1", placeholder: "3" },
-  { name: "monthly_interest", label: "Juros ao mês (%) — opcional", type: "number", step: "0.01" },
+  { name: "monthly_interest", label: "Juros ao mês (%) — opcional. Com juros, vale o saldo devedor do banco", type: "number", step: "0.01" },
   { name: "monthly_payment", label: "Parcela mensal (R$) — opcional", type: "money" },
   { name: "due_day", label: "Dia de vencimento — opcional", type: "day" },
 ];
@@ -225,11 +225,19 @@ export default async function PatrimonioPage() {
             const total = Number(r.total_amount);
             const it = r.installments_total ?? 0;
             const ip = clamp(r.installments_paid ?? 0, 0, it || 0);
+            // com juros (financiamento) o saldo não é linear: mostra prazo, não "pago de"
+            const amortizing = Number(r.monthly_interest ?? 0) > 0;
             const paid =
               it > 0
                 ? Math.min(Math.round((total / it) * ip * 100) / 100, total)
                 : total - Number(r.remaining_amount);
-            const pct = total > 0 ? clamp((paid / total) * 100, 0, 100) : 0;
+            const pct = amortizing
+              ? it > 0
+                ? clamp((ip / it) * 100, 0, 100)
+                : 0
+              : total > 0
+                ? clamp((paid / total) * 100, 0, 100)
+                : 0;
             return {
               id: r.id,
               raw: {
@@ -259,8 +267,9 @@ export default async function PatrimonioPage() {
                     {it > 0 && (
                       <>
                         <span className="text-xs text-muted">
-                          {ip}/{it} parcelas · pago {formatCurrency(paid, cur)} de{" "}
-                          {formatCurrency(total, cur)}
+                          {amortizing
+                            ? `${ip}/${it} parcelas · faltam ${it - ip} meses · juros ${Number(r.monthly_interest)}% a.m.`
+                            : `${ip}/${it} parcelas · pago ${formatCurrency(paid, cur)} de ${formatCurrency(total, cur)}`}
                         </span>
                         <span className="mt-0.5 block max-w-[220px]">
                           <Progress value={pct} tone="success" />

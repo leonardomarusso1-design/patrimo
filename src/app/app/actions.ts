@@ -117,9 +117,10 @@ function toObject(formData: FormData) {
   const it = Number(raw.installments_total);
   if (raw.installments_total != null && it > 0) {
     raw.installments_paid = Math.min(Math.max(Number(raw.installments_paid) || 0, 0), it);
-    // Dívida parcelada: saldo devedor derivado das parcelas pagas.
+    // Dívida parcelada sem juros: saldo devedor derivado das parcelas pagas.
+    // Com juros (financiamento) o saldo não é linear — vale o que o banco informa.
     const tot = Number(raw.total_amount);
-    if (tot > 0) {
+    if (tot > 0 && !(Number(raw.monthly_interest) > 0)) {
       const paid = Math.min(
         Math.round((tot / it) * Number(raw.installments_paid) * 100) / 100,
         tot,
