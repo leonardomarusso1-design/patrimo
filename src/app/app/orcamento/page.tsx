@@ -138,9 +138,13 @@ export default async function OrcamentoPage({
   const fixed = sum(by("expense_fixed"));
   const variable = sum(by("expense_variable"));
   const balance = income - fixed - variable;
-  const pendingIncome = by("income")
-    .filter((r) => r.pending)
-    .reduce((s, r) => s + Number(r.amount), 0);
+  const pendingOf = (k: Entry["kind"]) =>
+    by(k)
+      .filter((r) => r.pending)
+      .reduce((s, r) => s + Number(r.amount), 0);
+  const pendingIncome = pendingOf("income");
+  const prevHint = (n: number) =>
+    n > 0 ? `+ ${formatCurrency(n, cur)} previsto (ainda não pago)` : undefined;
 
   const byCategory = new Map<string, number>();
   for (const r of rows) {
@@ -249,8 +253,16 @@ export default async function OrcamentoPage({
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
         <StatTile label="Receita" value={formatCurrency(income, cur)} />
         <InvestCard income={income} pct={profile.invest_pct} currency={cur} />
-        <StatTile label="Despesa fixa" value={formatCurrency(fixed, cur)} />
-        <StatTile label="Despesa variável" value={formatCurrency(variable, cur)} />
+        <StatTile
+          label="Despesa fixa"
+          value={formatCurrency(fixed, cur)}
+          hint={prevHint(pendingOf("expense_fixed"))}
+        />
+        <StatTile
+          label="Despesa variável"
+          value={formatCurrency(variable, cur)}
+          hint={prevHint(pendingOf("expense_variable"))}
+        />
         <StatTile
           label={isRange ? "Saldo do período" : "Saldo do mês"}
           value={formatCurrency(balance, cur)}
@@ -258,9 +270,11 @@ export default async function OrcamentoPage({
           hint={
             pendingIncome > 0
               ? `+ ${formatCurrency(pendingIncome, cur)} previsto (não contado)`
-              : balance >= 0
+              : balance > 0
                 ? "Sobrou — direcione para metas"
-                : "No vermelho — corte o variável"
+                : balance < 0
+                  ? "No vermelho — corte o variável"
+                  : "Nada contado ainda — confirme os previstos"
           }
         />
       </div>
