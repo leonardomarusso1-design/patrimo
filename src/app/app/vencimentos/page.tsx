@@ -46,7 +46,12 @@ export default async function VencimentosPage() {
   const todayStr = now.toISOString().slice(0, 10);
   const in7 = new Date(now.getTime() + 7 * 86400000).toISOString().slice(0, 10);
 
+  // sem data nem dia de vencimento não dá pra dizer se está atrasada
+  const semData = rows
+    .filter((r) => !r.entry_date && !r.due_day)
+    .map((r) => ({ r, d: "" }));
   const withDate = rows
+    .filter((r) => r.entry_date || r.due_day)
     .map((r) => ({ r, d: dueDate(r) }))
     .sort((a, b) => a.d.localeCompare(b.d));
 
@@ -71,6 +76,7 @@ export default async function VencimentosPage() {
       <Group title="Atrasadas" items={atrasadas} cur={cur} danger />
       <Group title="Vencem em breve" items={proximas} cur={cur} />
       <Group title="A pagar" items={depois} cur={cur} />
+      <Group title="Sem dia de vencimento (edite pra definir)" items={semData} cur={cur} />
 
       {rows.length === 0 && (
         <p className="mt-8 rounded-2xl border border-border bg-card p-8 text-center text-sm text-muted shadow-[var(--shadow-card)]">
@@ -105,7 +111,7 @@ function Group({
       <ul className="mt-3 divide-y divide-border">
         {items.map(({ r, d }) => (
           <li key={r.id} className="flex flex-wrap items-center gap-x-3 gap-y-1 py-2.5 text-sm">
-            <span className="w-14 shrink-0 tabular-nums text-xs text-muted">{formatDate(d)}</span>
+            <span className="w-14 shrink-0 tabular-nums text-xs text-muted">{d ? formatDate(d) : "—"}</span>
             <span className="min-w-0 flex-1 truncate font-medium text-ink">{r.name}</span>
             <span className="tabular-nums text-ink">{formatCurrency(Number(r.amount), cur)}</span>
             <PendingConfirm id={r.id} path="/app/orcamento" kind={r.kind} />
