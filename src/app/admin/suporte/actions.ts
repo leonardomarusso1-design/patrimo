@@ -58,7 +58,7 @@ export async function replySupport(_prev: ReplyState, fd: FormData): Promise<Rep
         <p style="white-space:pre-wrap">${p.data.text.replace(/</g, "&lt;")}</p>
         <hr style="border:none;border-top:1px solid #e4e8e2;margin:16px 0">
         <p style="font-size:12px;color:#5b6660">Você escreveu: ${msg.message.slice(0, 300).replace(/</g, "&lt;")}</p>
-        <p style="font-size:12px;color:#5b6660">Ordre · Leonardo Marusso</p>
+        <p style="font-size:12px;color:#5b6660">Ordre · Marusso Produções</p>
       </div>`,
     });
 

@@ -54,7 +54,7 @@ function shell(title: string, body: string) {
     <p style="font-size:20px;font-weight:800;color:#0b7a55">Ordre</p>
     <h1 style="font-size:22px;margin:16px 0 8px">${title}</h1>
     ${body}
-    <p style="margin-top:24px;font-size:13px;color:#5b6660">Ordre · Leonardo Marusso</p>
+    <p style="margin-top:24px;font-size:13px;color:#5b6660">Ordre · Marusso Produções</p>
   </div>`;
 }
 
