@@ -2,7 +2,7 @@ import { test, expect } from "@playwright/test";
 
 test("landing carrega e leva ao checkout", async ({ page }) => {
   await page.goto("/");
-  await expect(page).toHaveTitle(/Patrimo/i);
+  await expect(page).toHaveTitle(/Ordre/i);
   await expect(page.getByRole("link", { name: /assinar|começar|criar conta/i }).first()).toBeVisible();
 });
 

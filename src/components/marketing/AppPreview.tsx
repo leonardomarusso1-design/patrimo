@@ -92,7 +92,7 @@ export function AppPreview() {
           <span className="h-2.5 w-2.5 rounded-full bg-ink/15" />
           <span className="h-2.5 w-2.5 rounded-full bg-ink/15" />
           <span className="ml-3 rounded-md bg-card px-3 py-1 text-[0.65rem] text-muted">
-            app.ordre.app
+            ordre.toqy.com.br
           </span>
         </div>
 
