@@ -1,6 +1,6 @@
-# Patrimo — guia de setup passo a passo
+# Ordre — guia de setup passo a passo
 
-Este documento leva o Patrimo do estado atual (código pronto, Supabase provisionado)
+Este documento leva o Ordre do estado atual (código pronto, Supabase provisionado)
 até "no ar em produção". Cada passo tem o que clicar, o que copiar e onde colar.
 
 Estado atual:
@@ -49,18 +49,18 @@ funcionando independente deste passo.
 ### 2.1 Criar as credenciais no Google Cloud
 
 1. Acesse `https://console.cloud.google.com/`.
-2. No topo, crie um projeto novo (menu de projetos → "Novo projeto"). Nome: `Patrimo`.
+2. No topo, crie um projeto novo (menu de projetos → "Novo projeto"). Nome: `Ordre`.
    Aguarde criar e selecione esse projeto.
 3. Menu lateral → **APIs e serviços → Tela de permissão OAuth** (OAuth consent screen).
    - Tipo de usuário: **Externo**. Criar.
-   - Nome do app: `Patrimo`. E-mail de suporte: o seu. Domínio do desenvolvedor: o seu e-mail.
+   - Nome do app: `Ordre`. E-mail de suporte: o seu. Domínio do desenvolvedor: o seu e-mail.
    - Em "Escopos", não precisa adicionar nada (o padrão `email`, `profile`, `openid` basta).
    - Salvar e continuar até o fim. Pode deixar em modo "Teste" por enquanto (funciona
      com sua conta; publique depois para abrir para todos).
 4. Menu lateral → **APIs e serviços → Credenciais** → **Criar credenciais → ID do
    cliente OAuth**.
    - Tipo de aplicativo: **Aplicativo da Web**.
-   - Nome: `Patrimo Web`.
+   - Nome: `Ordre Web`.
    - **URIs de redirecionamento autorizados** — adicione exatamente esta:
      ```
      https://rhztczldzsopjkbaitqg.supabase.co/auth/v1/callback
@@ -134,7 +134,7 @@ Production, Preview e Development):
 
 | Nome | Valor |
 |---|---|
-| `NEXT_PUBLIC_SITE_URL` | `https://patrimo.vercel.app` (troque depois pelo domínio real) |
+| `NEXT_PUBLIC_SITE_URL` | `https://ordre.toqy.com.br` |
 | `NEXT_PUBLIC_SUPABASE_URL` | `https://rhztczldzsopjkbaitqg.supabase.co` |
 | `NEXT_PUBLIC_SUPABASE_ANON_KEY` | (mesma do `.env.local`) |
 
@@ -154,11 +154,11 @@ A anon key está em `C:\patrimo\.env.local` — copie a linha `NEXT_PUBLIC_SUPAB
 Clique **Deploy**. Em ~2 minutos você recebe uma URL tipo
 `https://patrimo-xxxx.vercel.app`.
 
-### 4.4 Depois do deploy (domínio atual: `patrimo-ashy.vercel.app`)
+### 4.4 Depois do deploy (domínio atual: `ordre.toqy.com.br`)
 
 1. Volte ao Supabase → **Authentication → URL Configuration**:
-   - **Site URL**: `https://patrimo-ashy.vercel.app` (ou o domínio final).
-   - **Redirect URLs**: adicione `https://patrimo-ashy.vercel.app/**`.
+   - **Site URL**: `https://ordre.toqy.com.br`.
+   - **Redirect URLs**: adicione `https://ordre.toqy.com.br/**` (e, enquanto houver link antigo em uso, `https://patrimo-ashy.vercel.app/**`).
 2. Habilite **Leaked Password Protection** em Authentication → Providers → Email
    (checa senhas vazadas no HaveIBeenPwned). Advisor do Supabase pediu isso.
 2. Na Vercel → **Settings → Environment Variables**: ajuste `NEXT_PUBLIC_SITE_URL`
@@ -170,18 +170,19 @@ Clique **Deploy**. Em ~2 minutos você recebe uma URL tipo
    "Tela de permissão OAuth" (botão "Publicar app") quando quiser abrir para o
    público geral.
 
-### 4.5 Domínio próprio (quando tiver)
+### 4.5 Domínio
 
-Vercel → **Settings → Domains** → adicione `patrimo.com.br` → siga as instruções de
-DNS (apontar registros para a Vercel). Depois refaça o Passo 4.4 com o domínio real.
+O app roda em `ordre.toqy.com.br` (subdomínio do Toqy). Na Vercel → **Settings → Domains** o domínio já está no projeto. No Cloudflare
+(DNS do `toqy.com.br`) existe um CNAME `ordre` apontando para `cname.vercel-dns.com`, só DNS (nuvem cinza). Se um dia o Ordre ganhar domínio próprio,
+adicione-o na Vercel e refaça o Passo 4.4.
 
 ---
 
 ## Passo 5 — Cloudflare (WAF + DDoS)
 
-Faça só depois de ter o domínio.
+O DNS do `toqy.com.br` já está no Cloudflare. Este passo só vale se o Ordre ganhar domínio próprio.
 
-1. Crie conta em `https://cloudflare.com`, **Add a site** → `patrimo.com.br`.
+1. Crie conta em `https://cloudflare.com`, **Add a site** → o domínio novo.
 2. Cloudflare mostra os nameservers dele. Vá no seu registrador de domínio e troque
    os nameservers para os da Cloudflare.
 3. Nos registros DNS da Cloudflare, aponte para a Vercel (a Vercel te dá o alvo
@@ -207,7 +208,7 @@ Faça só depois de ter o domínio.
 Sem isso o app roda, mas sem limite de tentativas nos endpoints de login/consent.
 
 1. `https://upstash.com` → login → **Create Database**.
-   - Tipo: Redis. Nome: `patrimo`. Região: `sa-east-1` (São Paulo) ou a mais próxima.
+   - Tipo: Redis. Nome: `ordre`. Região: `sa-east-1` (São Paulo) ou a mais próxima.
    - Primary Region só, não precisa réplica.
 2. Na página do banco criado, aba **REST API**, copie:
    - `UPSTASH_REDIS_REST_URL`
@@ -228,7 +229,7 @@ O que falta na Kiwify:
    - Preço **R$ 97,90**, cobrança **anual** (ou pagamento único de 1 ano).
    - **Parcelamento em até 12x** habilitado no cartão.
 2. **Apps → Webhooks → Criar webhook**:
-   - URL: `https://patrimo-ashy.vercel.app/api/kiwify/webhook`
+   - URL: `https://ordre.toqy.com.br/api/kiwify/webhook`
    - Eventos: **compra aprovada**, **compra recusada/reembolsada**, **chargeback**,
      **assinatura renovada**, **assinatura cancelada**.
    - Copie o **token/segredo** do webhook.
@@ -253,11 +254,9 @@ Como o acesso funciona (hard paywall):
 
 Antes de gastar com identidade visual / anúncios:
 
-1. Confirme o registro de `patrimo.com.br` (e `patrimo.app` se quiser) no
-   `registro.br`.
+1. O app usa `ordre.toqy.com.br`. Se quiser um domínio próprio, confirme o registro no `registro.br`.
 2. Faça a busca de marca no INPI (`https://busca.inpi.gov.br`) na classe de software /
-   serviços financeiros. "Patrimo" foi checado só em disponibilidade de Instagram na
-   fase de brainstorm — a busca formal do INPI ainda não foi feita.
+   serviços financeiros. A busca formal do INPI para "Ordre" ainda não foi feita.
 
 ---
 

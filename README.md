@@ -1,4 +1,4 @@
-# Patrimo
+# Ordre
 
 Controle financeiro pessoal — orçamento, reserva de emergência, metas, investimentos e
 patrimônio numa tela só, com escola e blog de educação financeira. PT-BR primeiro,

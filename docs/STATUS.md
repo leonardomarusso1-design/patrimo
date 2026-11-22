@@ -1,4 +1,9 @@
-# Patrimo — status da build
+# Ordre — status da build
+
+> **Atualização de 2026-11-22.** O app se chama **Ordre** e está no ar em **https://ordre.toqy.com.br**
+> (subdomínio do Toqy, projeto `patrimo` na Vercel; o endereço `patrimo-ashy.vercel.app` continua valendo).
+> Os nomes técnicos antigos seguem como são: repositório e projeto da Vercel `patrimo`, projeto do Supabase `patrimo`
+> (ref `rhztczldzsopjkbaitqg`). O que falta fazer está na seção "Pendências de 2026-11-22" no fim deste arquivo.
 
 Gerado na sessão inicial de construção (2026-09-07). `npm run build` e `npx eslint .`
 passam limpos. 43 rotas.
@@ -44,7 +49,7 @@ passam limpos. 43 rotas.
 - **Kiwify**: criar os produtos dos 3 planos, pegar as URLs de checkout e o segredo do
   webhook (`KIWIFY_WEBHOOK_SECRET`).
 - **Cloudflare** na frente do domínio; **Dependabot + Secret Scanning** no GitHub.
-- Nome **Patrimo** e domínio `patrimo.com.br` / `patrimo.app` — confirmar registro e INPI.
+- Nome **Ordre**: confirmar a busca de marca no INPI e se vale registrar um domínio próprio (hoje o app usa `ordre.toqy.com.br`).
 
 ## Construído depois (sessão 2)
 
@@ -89,3 +94,20 @@ passam limpos. 43 rotas.
 3. **Cron de análise da IA** — hoje é sob demanda. Um Vercel Cron diário gerando a
    análise para todos os assinantes é opcional (custo de tokens).
 4. **Aviso de renovação por e-mail** — falta um cron que olha `plan_expires_at`.
+
+## Pendências de 2026-11-22
+1. **Vercel**: a variável `NEXT_PUBLIC_SITE_URL` do projeto `patrimo` precisa valer `https://ordre.toqy.com.br`, com novo deploy
+   (ela monta os links dos e-mails, o sitemap e os endereços de retorno do login).
+2. **Supabase → Authentication → URL Configuration**: Site URL `https://ordre.toqy.com.br` e Redirect URLs `https://ordre.toqy.com.br/**`
+   (mantenha o endereço antigo `patrimo-ashy.vercel.app/**` enquanto houver link antigo em uso).
+3. **Kiwify**: o webhook pode continuar no endereço antigo, mas o certo é migrar para `https://ordre.toqy.com.br/api/kiwify/webhook`
+   (dá para ter os dois ao mesmo tempo durante a troca).
+4. **E-mail (Resend)**: o remetente padrão no código é `Ordre <ola@ordre.app>`, e só funciona se o domínio `ordre.app` for nosso e estiver verificado no Resend
+   (não confirmei). Se não estiver, defina `RESEND_FROM` na Vercel com um domínio verificado (por exemplo `Ordre <noreply@toqy.com.br>`).
+5. **Segurança**: Next e zod foram atualizados (o Next 16.3.8 tinha falhas críticas). Conferir que o próximo deploy passa.
+6. **Banco compartilhado**: o projeto do Supabase `patrimo` tem também ~22 tabelas que **não são do Ordre** (workspaces, perfis,
+   itens_conteudo, personagens, renders, publicacoes e parecidas) e nenhuma migration deste repositório as cria. Descobrir de qual app
+   são antes de qualquer limpeza ou de juntar este banco com outro.
+7. **Redes e contato**: o Instagram `@ordre.app` e o domínio `ordre.app` aparecem nas páginas legais e no rodapé. Conferir se existem.
+8. Itens antigos que continuam abertos: Google no login, Upstash Redis (limite de tentativas), produtos e segredo do webhook da Kiwify,
+   Cloudflare, Dependabot e Secret Scanning, Open Finance (Pluggy), player de vídeo da Escola, cron de análise da IA.
