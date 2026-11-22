@@ -54,6 +54,16 @@ export default async function ConfiguracoesPage() {
           <MfaSetup />
 
           <div className="rounded-2xl border border-border bg-card p-5 text-sm shadow-[var(--shadow-card)]">
+            <p className="font-display font-bold text-ink">WhatsApp</p>
+            <p className="mt-2 text-muted">
+              Vincule seu número, veja a cota do mês e, se precisar, compre um pacote avulso.
+            </p>
+            <Link href="/app/whatsapp" className="mt-3 inline-block font-semibold text-accent-dim hover:underline">
+              Abrir WhatsApp →
+            </Link>
+          </div>
+
+          <div className="rounded-2xl border border-border bg-card p-5 text-sm shadow-[var(--shadow-card)]">
             <p className="font-display font-bold text-ink">Seus dados</p>
             <p className="mt-2 text-muted">
               Você pode exportar ou solicitar a exclusão da sua conta e dos seus dados
