@@ -5,6 +5,9 @@ import { checkRateLimit, getClientIp } from "@/lib/rate-limit";
 import { logger, safeError } from "@/lib/logger";
 import { PLAN } from "@/lib/plans";
 import { sendEmail, accessGrantedEmail } from "@/lib/email";
+import { packProductId } from "@/lib/whatsapp/config";
+import { isWhatsappPack } from "@/lib/whatsapp/kiwify-pack";
+import { applyWhatsappPack } from "@/lib/whatsapp/packs";
 
 /**
  * Webhook da Kiwify. Assinatura: HMAC-SHA1 do corpo cru com KIWIFY_WEBHOOK_SECRET,
@@ -106,6 +109,21 @@ export async function POST(req: Request) {
 
     const userId = await findUserIdByEmail(email);
     const ref = payload.order_id ?? null;
+
+    // Pacote avulso do WhatsApp: não mexe no plano anual.
+    // Sem KIWIFY_WHATSAPP_PACK_PRODUCT_ID, toda compra segue o fluxo do plano.
+    if (isWhatsappPack(payload, packProductId())) {
+      await applyWhatsappPack({
+        email,
+        userId,
+        orderRef: ref ?? bodyHash ?? "",
+        action: action === "revoke" ? "revoke" : "grant",
+      });
+      return NextResponse.json({
+        ok: true,
+        action: action === "revoke" ? "pack_revoked" : "pack_granted",
+      });
+    }
 
     if (action === "grant") {
       const expiresAt = new Date(
