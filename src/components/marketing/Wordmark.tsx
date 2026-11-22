@@ -10,7 +10,7 @@ export function Wordmark({
 }) {
   const inner = (
     <span className={cn("font-display text-xl font-extrabold tracking-tight text-ink", className)}>
-      Patri<span className="text-accent">mo</span>
+      Ord<span className="text-accent">re</span>
     </span>
   );
   return href ? (
