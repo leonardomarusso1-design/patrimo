@@ -51,7 +51,7 @@ function esc(s: string) {
 
 function shell(title: string, body: string) {
   return `<div style="font-family:system-ui,sans-serif;max-width:520px;margin:0 auto;color:#14211c">
-    <p style="font-size:20px;font-weight:800;color:#0b7a55">Ordre</p>
+    <table role="presentation" cellpadding="0" cellspacing="0" style="margin:0 0 4px"><tr><td style="padding-right:10px;vertical-align:middle"><img src="${SITE_URL}/email/ordre-logo.png" width="36" height="36" alt="" style="display:block;border:0"></td><td style="vertical-align:middle;font-size:22px;font-weight:800;letter-spacing:-0.02em;color:#14211c">Ord<span style="color:#0b7a55">re</span></td></tr></table>
     <h1 style="font-size:22px;margin:16px 0 8px">${title}</h1>
     ${body}
     <p style="margin-top:24px;font-size:13px;color:#5b6660">Ordre · Marusso Produções</p>
