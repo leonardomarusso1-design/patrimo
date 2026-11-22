@@ -264,7 +264,7 @@ Antes de gastar com identidade visual / anúncios:
 
 O bot já está no código e **fica desligado**. Nada é enviado e o webhook não grava
 lançamento enquanto `WHATSAPP_BOT_ENABLED` não for exatamente `true`. Sem a migration
-`0025_whatsapp.sql` aplicada, a tela em `/app/whatsapp` mostra "em preparação" e o
+`0026_whatsapp.sql` aplicada, a tela em `/app/whatsapp` mostra "em preparação" e o
 painel continua no ar.
 
 Ordem, sem pular:
@@ -276,7 +276,7 @@ Ordem, sem pular:
    permanente (usuário do sistema, permissão `whatsapp_business_messaging`). O App
    Secret fica em Configurações do app. Crie um Verify token seu (uma senha longa).
 3. **Banco.** No SQL editor do Supabase, rode o arquivo
-   `supabase/migrations/0025_whatsapp.sql`. Não rode nada além desse arquivo por causa
+   `supabase/migrations/0026_whatsapp.sql`. Não rode nada além desse arquivo por causa
    do bot. A migration **não foi aplicada** por este trabalho.
 4. **Variáveis na Vercel** (Production), ainda com a flag desligada:
 
