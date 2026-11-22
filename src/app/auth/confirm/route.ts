@@ -16,5 +16,6 @@ export async function GET(request: Request) {
       return NextResponse.redirect(`${origin}${next}`);
     }
   }
+  if (type === "recovery") return NextResponse.redirect(`${origin}/recuperar-senha?erro=link`);
   return NextResponse.redirect(`${origin}/login?erro=confirm`);
 }
