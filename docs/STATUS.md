@@ -105,9 +105,10 @@ passam limpos. 43 rotas.
 4. **E-mail (Resend)**: o remetente padrão no código é `Ordre <ola@ordre.app>`, e só funciona se o domínio `ordre.app` for nosso e estiver verificado no Resend
    (não confirmei). Se não estiver, defina `RESEND_FROM` na Vercel com um domínio verificado (por exemplo `Ordre <noreply@toqy.com.br>`).
 5. **Segurança**: Next e zod foram atualizados (o Next 16.3.8 tinha falhas críticas). Conferir que o próximo deploy passa.
-6. **Banco compartilhado**: o projeto do Supabase `patrimo` tem também ~22 tabelas que **não são do Ordre** (workspaces, perfis,
-   itens_conteudo, personagens, renders, publicacoes e parecidas) e nenhuma migration deste repositório as cria. Descobrir de qual app
-   são antes de qualquer limpeza ou de juntar este banco com outro.
+6. **Banco compartilhado**: o projeto do Supabase `patrimo` também guarda ~22 tabelas que **não são do Ordre** (workspaces, perfis,
+   itens_conteudo, personagens, renders, publicacoes e parecidas). São do painel de conteúdo da **tropa dos bots** (o "Motor"), que
+   usa este mesmo projeto de propósito (confirmado pelo Leonardo em 2026-11-22). Nenhuma migration deste repositório as cria e elas
+   não devem ser apagadas nem alteradas daqui. Qualquer limpeza ou migração deste banco precisa tratar os dois apps.
 7. **Redes e contato**: o Instagram `@ordre.app` e o domínio `ordre.app` aparecem nas páginas legais e no rodapé. Conferir se existem.
 8. Itens antigos que continuam abertos: Google no login, Upstash Redis (limite de tentativas), produtos e segredo do webhook da Kiwify,
    Cloudflare, Dependabot e Secret Scanning, Open Finance (Pluggy), player de vídeo da Escola, cron de análise da IA.
