@@ -1,3 +1,8 @@
+export type BlogPostCover = {
+  src: string;
+  alt: string;
+};
+
 export type BlogCategory =
   | "Comece aqui"
   | "Orçamento e dívidas"
@@ -17,7 +22,9 @@ export type BlogPost = {
   category: BlogCategory;
   /** id da calculadora relacionada em /app/calculadoras (CTA no fim do artigo). */
   calc?: string;
-  /** Markdown simples (h1/h2, listas, tabelas, parágrafos, --- e *itálico*). */
+  /** Capa opcional. Sem ela, a página usa o degradê gerado pelo slug. */
+  coverImage?: BlogPostCover;
+  /** Markdown simples: títulos, listas, tabelas, links e imagens locais. Sem HTML. */
   content: string;
 };
 
@@ -31,7 +38,7 @@ export const BLOG_CATEGORY_ORDER: BlogCategory[] = [
 ];
 
 /**
- * 10 artigos iniciais de educação financeira, com fontes citadas.
+ * Artigos de educação financeira, com fontes citadas.
  * Servem para SEO e para atrair usuários ao produto. Conteúdo comprovado —
  * nada de números inventados sem fonte.
  */
@@ -76,77 +83,133 @@ O módulo de Orçamento calcula seus percentuais automaticamente e avisa quando 
     slug: "reserva-de-emergencia-6-ou-12-meses",
     title: "Reserva de emergência: 6 ou 12 meses?",
     excerpt:
-      "Famílias com reserva de 3+ meses têm menos chance de se endividar no curto prazo. Veja qual nível faz sentido pro seu tipo de renda.",
+      "Quase um terço dos brasileiros não tem reserva para um imprevisto. Veja quanto guardar, onde deixar o dinheiro e quando pode usar — com dados da ANBIMA e do Banco Central.",
     author: "Time Ordre",
     publishedAt: "2026-08-04",
     readingMinutes: 5,
     tags: ["reserva", "iniciante"],
     category: "Reserva e metas",
     calc: "reserva",
+    coverImage: {
+      src: "/blog/reserva-de-emergencia-6-ou-12-meses.webp",
+      alt: "Professor Bento, um professor idoso de cardigã verde e gravata-borboleta dourada, em uma sala de aula clara, ao lado de um cofre de porquinho e um pote de moedas.",
+    },
     content: `# Reserva de emergência: 6 ou 12 meses?
 
-A reserva é o alicerce de qualquer plano financeiro. A pergunta é quanto guardar.
+A reserva de emergência é o dinheiro que existe para um imprevisto: perder o emprego, um conserto do carro, uma despesa de saúde. Ela não é investimento para ficar rico. É o colchão que impede um susto de virar dívida cara.
 
-## O que diz a pesquisa
+Na 9ª edição do [Raio-X do Investidor Brasileiro](https://www.anbima.com.br/pt_br/especial/raio-x-do-investidor-brasileiro.htm) (ANBIMA e Datafolha, campo de 4 a 21 de novembro de 2025, 5.832 entrevistas), **31% dos brasileiros não tinham reserva para uma emergência**. Para outros 20%, o que havia guardado duraria no máximo um mês. Só **26% da população** teriam recursos para se manter por mais de seis meses. Entre quem o estudo classifica como investidor, 11% ainda assim não tinham reserva.
 
-Um estudo do Pew Charitable Trusts (2019) encontrou que famílias com reserva de 3+ meses de despesas têm menor chance de endividamento de curto prazo e menos estresse financeiro reportado.
+Esse texto é educativo e não é recomendação de investimento.
 
-## 6 meses (nível Básico)
+## Quanto guardar
 
-Faz sentido para quem tem emprego estável (CLT, servidor), plano de saúde pelo empregador e nenhum dependente.
+O alvo costuma ser um múltiplo do **custo essencial** — o que você precisa para viver um mês sem o supérfluo: moradia, alimentação, transporte, saúde, contas básicas. Não é a renda bruta, e não entra streaming, delivery e lazer.
 
-## 12 meses (nível Blindado)
+Uma referência prática, usada também no módulo de Reserva do Ordre:
 
-Recomendado para autônomos e PJ, quem tem dependentes, ou trabalha em setor volátil.
+- **6 meses (nível Básico):** faz sentido para quem tem renda relativamente estável (CLT ou servidor), poucos dependentes e alguma rede de apoio.
+- **12 meses (nível Blindado):** faz mais sentido para autônomos, PJ, quem tem dependentes, trabalha em setor instável ou é a única renda da casa.
+
+Três meses é melhor do que zero, e pode ser um primeiro degrau. Não precisa chegar no alvo de uma vez: o hábito de separar um pedaço da renda todo mês importa mais do que acertar o número perfeito no começo.
+
+O estudo da ANBIMA mostra a distância entre o recomendado e o real: mesmo entre investidores, quase metade teria reserva para no máximo seis meses.
 
 ## Onde guardar
 
-Ativos líquidos e seguros: Tesouro Selic, CDB de liquidez diária, fundos DI. **Nunca** em ações, cripto ou imóveis.
+A reserva precisa de três coisas ao mesmo tempo: **liquidez** (sair rápido), **segurança** (não pode oscilar forte) e um rendimento que pelo menos dispute com a inflação. Por isso ela não combina com ações, fundos imobiliários, criptomoedas ou imóvel.
+
+Caminhos comuns no Brasil:
+
+- **Tesouro Selic**, com liquidez em D+1. É o título público que menos sofre com a marcação a mercado, mas [não é verdade que "nunca" tenha variação negativa](/blog/tesouro-direto) em prazos muito curtos.
+- **CDB de liquidez diária**, de preferência de um banco coberto pelo [FGC](https://www.fgc.org.br/sobre-garantia-fgc).
+- **Fundos DI** de taxa baixa, se a liquidez for diária — lembrando do come-cotas.
+
+O FGC cobre até **R$ 250 mil por CPF por instituição** (somando CDB, LCI, LCA, poupança e outros produtos elegíveis no mesmo conglomerado). Há ainda um **teto global de R$ 1 milhão** a cada período de quatro anos. Quem concentra um valor alto num único banco deve dividir o risco. Tesouro Selic não depende do FGC: a garantia é do Tesouro Nacional.
+
+A [poupança](/blog/onde-o-dinheiro-rende-mais) é líquida e isenta de IR, mas, com a Selic acima de 8,5% ao ano, rende 0,5% ao mês mais a TR — em geral abaixo de um Tesouro Selic ou de um CDB de liquidez diária, depois do imposto. A diferença se acumula.
+
+## Quando pode usar — e quando não deve
+
+Pode usar quando o imprevisto é real e não cabe no orçamento do mês: desemprego, emergência de saúde, conserto indispensável, uma conta atrasada que cobraria juros muito mais altos do que o rendimento da reserva.
+
+Não é para viagem, troca de celular ou entrada de um bem que pode esperar. Se você sacar, o próximo passo é repor. Sem a reposição, a reserva vira um número que existiu só no papel.
+
+Uma regra que evita confusão: a reserva fica num produto (ou em poucos produtos) separado do dinheiro do dia a dia e separado dos investimentos de longo prazo.
+
+## Como começar hoje
+
+1. Some o custo essencial de um mês. Se ainda não lança as despesas, comece por aí.
+2. Multiplique por 6 ou por 12, conforme o tipo de renda.
+3. Veja quanto já tem em aplicações líquidas e seguras. O que falta é o alvo.
+4. Defina um aporte mensal realista. A [regra 50-30-20](/blog/regra-50-30-20) reserva 20% da renda para poupar e investir; no começo, boa parte desse pedaço pode ir para a reserva.
+5. Só depois de a reserva estar de pé faz sentido aumentar o risco da carteira.
+
+Na [Academia Ordre](/app/escola), a aula 7 ("Reserva de emergência") aprofunda o mesmo tema em vídeo. A aula 1 mostra como a reserva se encaixa nos quatro pilares, junto com orçamento, investimentos e patrimônio.
 
 ## No Ordre
 
-O módulo de Reserva analisa seu custo de vida essencial e mostra o alvo (6 ou 12 meses), com acompanhamento visual.
+O módulo de Reserva usa o seu custo de vida essencial e mostra o alvo de 6 ou 12 meses, com o acompanhamento visual do quanto já está coberto. A calculadora de Reserva faz a conta com os seus números. No Início, um alerta aparece quando a reserva fica abaixo de 30% da meta. As [Metas](/cadastro) ajudam a programar o aporte mensal até o alvo.
+
+O Assistente tira dúvidas sobre o seu próprio orçamento; ele não recomenda investimento e não é consultoria.
 
 ---
-*Fonte: Pew Charitable Trusts (2019). The Role of Emergency Savings in Family Financial Security.*`,
+*Fontes: ANBIMA e Datafolha, Raio-X do Investidor Brasileiro, 9ª edição (campo de 4 a 21/11/2025; a pergunta sobre reserva entrou nesta edição). FGC, [regras de cobertura](https://www.fgc.org.br/sobre-garantia-fgc). Banco Central do Brasil (Selic e regra da poupança quando a meta está acima de 8,5% a.a.). Tesouro Nacional — programa Tesouro Direto. Atualizado em 22/11/2026. Conteúdo educativo, não é recomendação de investimento.*`,
   },
   {
     slug: "juros-compostos",
     title: "Juros compostos: a força que transforma aportes pequenos em fortuna",
     excerpt:
-      "R$ 500 por mês a 10% ao ano viram mais de R$ 1 milhão em 30 anos. E adiar 10 anos custa mais de R$ 700 mil. A matemática por trás.",
+      "R$ 500 por mês a 10% ao ano, com aporte no fim de cada mês, viram cerca de R$ 1,13 milhão em 30 anos. Adiar dez anos custa cerca de R$ 750 mil.",
     author: "Time Ordre",
     publishedAt: "2026-08-07",
-    readingMinutes: 6,
+    readingMinutes: 3,
     tags: ["investimentos", "juros compostos"],
     category: "Conceitos e indicadores",
     calc: "juros",
     content: `# Juros compostos
 
-Com juros compostos, o dinheiro rende — e o rendimento também rende. É uma bola de neve matemática.
+Com juros compostos, o dinheiro rende — e o rendimento também rende. É uma bola de neve matemática. As contas abaixo são simulação: sem imposto, sem inflação e sem taxa.
 
-## O exemplo
+## Capital único
 
-| Aporte mensal | Taxa anual | Prazo | Montante |
+Um valor aplicado de uma vez e deixado lá segue:
+
+**M = P × (1 + i)ⁿ**
+
+P é o principal, i a taxa do período e n o número de períodos. A taxa e o prazo precisam estar na mesma unidade. R$ 1.000 a 10% ao ano, durante 5 anos, viram cerca de R$ 1.611. Em 30 anos, os mesmos R$ 1.000 viram cerca de R$ 17.449.
+
+## Aporte mensal
+
+"R$ 500 por mês" usa outra conta. Com um aporte igual no fim de cada mês, o montante é a série uniforme, também chamada de anuidade ordinária:
+
+**M = PMT × [((1 + i)ⁿ − 1) ÷ i]**
+
+PMT é o aporte, i a taxa mensal e n o número de meses. Nesta tabela, a taxa mensal é a taxa anual nominal dividida por 12 (10% ao ano vira cerca de 0,833% ao mês):
+
+| Aporte mensal | Taxa anual nominal | Prazo | Montante |
 |---|---|---|---|
-| R$ 500 | 10% | 30 anos | ~R$ 1,08 milhão |
-| R$ 1.000 | 10% | 30 anos | ~R$ 2,16 milhões |
-| R$ 500 | 12% | 30 anos | ~R$ 1,75 milhão |
+| R$ 500 | 10% | 30 anos (360 meses) | ~R$ 1,13 milhão |
+| R$ 1.000 | 10% | 30 anos (360 meses) | ~R$ 2,26 milhões |
+| R$ 500 | 12% | 30 anos (360 meses) | ~R$ 1,75 milhão |
+
+No primeiro caso, i = 0,10 ÷ 12 e n = 360. O resultado fica em torno de R$ 1,13 milhão. Tratar o ano inteiro (R$ 6.000) como um único aporte no começo de cada ano dá cerca de R$ 1,08 milhão: é a conta de um aporte anual, não a do aporte mensal.
 
 ## O inimigo é a procrastinação
 
-Começar aos 25 vs. aos 35, aportando R$ 500/mês a 10% a.a., faz diferença de centenas de milhares de reais no total acumulado aos 55.
+Começar aos 25 ou aos 35, com R$ 500 por mês a 10% ao ano na mesma convenção da tabela, até os 55:
 
-## A fórmula
+- dos 25 aos 55 (30 anos): cerca de R$ 1,13 milhão;
+- dos 35 aos 55 (20 anos): cerca de R$ 380 mil.
 
-**M = P × (1 + i)ⁿ**, onde P é o principal, i a taxa por período e n o número de períodos.
+A diferença fica em torno de **R$ 750 mil**. Dez anos a menos de aportes, nessa simulação, passam de R$ 700 mil.
 
 ## No Ordre
 
-As calculadoras mostram a projeção em tempo real: defina meta, veja o aporte necessário, acompanhe o progresso.
+As calculadoras mostram a projeção com os seus números: defina a meta, veja o aporte e acompanhe o progresso. O resultado usa a taxa que você informar e descreve a conta.
 
 ---
-*Fonte: adaptado de Hardy, D. (2010). The Compound Effect; dados de referência do Banco Central do Brasil.*`,
+*Fonte: fórmula de juros compostos para capital único e fórmula da série uniforme (anuidade ordinária, aporte no fim do período, taxa mensal = taxa anual nominal ÷ 12). Valores simulados, sem IR, inflação ou custos.*`,
   },
   {
     slug: "perfil-de-investidor",
@@ -155,18 +218,18 @@ As calculadoras mostram a projeção em tempo real: defina meta, veja o aporte n
       "O desalinhamento entre perfil e carteira causa ansiedade e decisões impulsivas. Descubra o seu e a alocação que combina.",
     author: "Time Ordre",
     publishedAt: "2026-08-10",
-    readingMinutes: 5,
+    readingMinutes: 1,
     tags: ["investimentos", "perfil"],
     category: "Comece aqui",
     content: `# Perfil de investidor
 
-A CVM exige que corretoras avaliem o perfil do investidor antes de liberar operações. O motivo é prático: carteira desalinhada do perfil gera decisões ruins.
+A CVM exige que corretoras avaliem o perfil do investidor (suitability) antes de liberar operações. Carteira desalinhada do perfil gera decisões ruins. As fatias abaixo são a sugestão do quiz do Ordre, a mesma divisão que o app mostra.
 
 ## Os três perfis
 
-- **Conservador:** prioriza segurança. Carteira de referência: ~80% renda fixa, 20% variável.
-- **Moderado:** equilíbrio. ~60% renda fixa, 40% variável.
-- **Arrojado:** busca retorno, aceita volatilidade. ~40% renda fixa, 60% variável.
+- **Conservador:** prioriza segurança. Referência no Ordre: **85% renda fixa e 15% renda variável**.
+- **Moderado:** equilíbrio entre os dois. **60% renda fixa e 40% renda variável**.
+- **Arrojado:** busca retorno e aceita oscilação. **35% renda fixa e 65% renda variável**.
 
 ## O erro comum
 
@@ -174,10 +237,10 @@ Investir em ações sendo conservador, ou deixar tudo na poupança sendo arrojad
 
 ## No Ordre
 
-No Ordre, a IA observa seu comportamento real (não só o que você declara) e sugere ajustes de carteira.
+O quiz de perfil sugere essa divisão. O módulo de Investimentos acompanha quanto você tem em cada classe. A sugestão organiza a carteira; a decisão de aplicar continua sua.
 
 ---
-*Fonte: CVM — materiais de educação do investidor.*`,
+*Fonte: CVM, regras de suitability das corretoras. As fatias 85/15, 60/40 e 35/65 são a referência do quiz do Ordre.*`,
   },
   {
     slug: "open-finance-no-brasil",
@@ -186,7 +249,7 @@ No Ordre, a IA observa seu comportamento real (não só o que você declara) e s
       "Desde 2021 você decide quem acessa seus dados bancários. Como isso automatiza o controle financeiro — com consentimento e revogação a qualquer momento.",
     author: "Time Ordre",
     publishedAt: "2026-08-13",
-    readingMinutes: 5,
+    readingMinutes: 2,
     tags: ["open finance", "automação"],
     category: "Comece aqui",
     content: `# Open Finance no Brasil
@@ -200,7 +263,9 @@ Regulamentado pelo Banco Central desde 2021, o Open Finance permite compartilhar
 | 1 | Fev/2021 | Dados cadastrais |
 | 2 | Jul/2021 | Contas e transações |
 | 3 | Ago/2021 | Iniciação de pagamentos |
-| 4 | Dez/2021 | Produtos de crédito |
+| 4 | A partir de dez/2021 | Crédito, investimentos, seguros, câmbio e previdência, com datas escalonadas |
+
+Cada produto dessa fase entrou em datas diferentes. O calendário vigente está no portal do Banco Central.
 
 ## Benefícios
 
@@ -212,10 +277,10 @@ Consentimento explícito, token com validade limitada, revogação a qualquer mo
 
 ## No Ordre
 
-No Ordre conectamos suas contas via Open Finance e as transações entram categorizadas.
+A tela de Open Finance do app está com cadeado e o aviso de em construção. A conexão com os bancos ainda não está liberada. Enquanto isso, as movimentações entram no Orçamento pelo lançamento manual. Quando a conexão existir, o compartilhamento segue com o seu consentimento e com revogação a qualquer momento.
 
 ---
-*Fonte: Banco Central do Brasil — portal Open Finance.*`,
+*Fonte: Banco Central do Brasil — portal Open Finance. No Ordre, a tela de conexão segue bloqueada (conferido em 22/11/2026).*`,
   },
   {
     slug: "diversificacao",
@@ -336,7 +401,7 @@ O relatório fiscal anual resume vendas, lucros, prejuízos a compensar e preço
       "Comparativo de rentabilidade, liquidez e risco. E o custo real de deixar a reserva parada na poupança.",
     author: "Time Ordre",
     publishedAt: "2026-08-25",
-    readingMinutes: 6,
+    readingMinutes: 2,
     tags: ["renda fixa", "comparativo"],
     category: "Investimentos",
     content: `# Onde o dinheiro rende mais
@@ -356,7 +421,7 @@ A escolha da aplicação depende de três coisas: prazo, liquidez e tolerância 
 
 ## Onde deixar a reserva
 
-Tesouro Selic ou CDB de liquidez diária. Segurança e liquidez pesam mais que rentabilidade aqui.
+Tesouro Selic ou CDB de liquidez diária. Segurança e liquidez pesam mais que rentabilidade aqui. Produtos elegíveis ao [FGC](https://www.fgc.org.br/sobre-garantia-fgc) têm cobertura de até R$ 250 mil por CPF por instituição, com teto global de R$ 1 milhão a cada quatro anos. A garantia do Tesouro Direto é do Tesouro Nacional.
 
 ## Longo prazo
 
@@ -507,40 +572,84 @@ A calculadora "Primeiro milhão" resolve para o aporte: você diz a meta, o praz
     slug: "quanto-rende-o-cdi",
     title: "Quanto rende o CDI, e por que ele é a régua da renda fixa",
     excerpt:
-      "CDB de 100% do CDI, 110%, LCI isenta... entenda o que o CDI é, quanto paga hoje e como comparar aplicações.",
+      "CDB de 100% do CDI, 110%, LCI isenta... entenda o que o CDI é, quanto paga hoje e como comparar o rendimento líquido, com a alíquota certa para cada prazo.",
     author: "Time Ordre",
     publishedAt: "2026-09-10",
     readingMinutes: 5,
     tags: ["renda fixa", "iniciante"],
     category: "Investimentos",
     calc: "cdi",
+    coverImage: {
+      src: "/blog/quanto-rende-o-cdi.webp",
+      alt: "Professor Bento, um professor idoso de cardigã verde e gravata-borboleta dourada, em uma sala de aula clara, segurando uma régua de madeira, com um ábaco sobre a mesa.",
+    },
     content: `# Quanto rende o CDI
 
-## O que é o CDI
+CDI é a taxa dos empréstimos que os bancos fazem entre si, de um dia para o outro. A B3 calcula essa taxa (a taxa DI); o Banco Central publica a série anualizada, base 252 dias úteis, no SGS com o código 4389.
 
-CDI é a taxa dos empréstimos que os bancos fazem entre si, de um dia para o outro. Ela anda **quase colada na Selic**. Quando você vê "CDB paga 110% do CDI", significa 110% dessa taxa.
+Ela anda **quase colada na Selic**. Quando o Copom sobe ou corta a taxa básica, o CDI acompanha a poucos centésimos de distância, em geral um pouco abaixo. Por isso um CDB de "100% do CDI" rende, na prática, muito perto da Selic — e "110% do CDI" rende um pouco mais do que isso.
 
-## Quanto rende hoje
+Esse texto é educativo e não é recomendação de investimento. Taxas mudam. Confira o valor vigente antes de decidir.
 
-Com o CDI em torno de **10,65% ao ano** (varia com a Selic), R$ 10.000 por 12 meses:
+## Quanto está pagando agora
 
-- **100% do CDI:** ~R$ 1.065 bruto
-- **110% do CDI:** ~R$ 1.170 bruto
+Na reunião de 3 e 4 de novembro de 2026, o [Copom manteve a Selic em 13,75% ao ano](https://www.bcb.gov.br/controleinflacao/comunicadoscopom/cronologicos). O CDI anualizado (SGS 4389) estava em **13,65% ao ano** na última observação útil disponível, em 19 de novembro de 2026 — a sexta-feira 20/11 foi feriado em vários estados, e este texto foi atualizado no domingo 22/11.
+
+Uma conta simples, só para dimensionar, com R$ 10.000 aplicados por 12 meses à taxa de 13,65% a.a. (aproximação, sem capitalização diária):
+
+- **100% do CDI:** cerca de R$ 1.365 brutos.
+- **110% do CDI:** cerca de R$ 1.502 brutos.
+
+O valor líquido depende do imposto, e o imposto depende do prazo. A calculadora do Ordre usa a taxa vigente do Banco Central, então o número na tela pode já ser outro amanhã.
 
 ## O imposto muda o jogo
 
-Renda fixa tributável (CDB, Tesouro) tem **IR regressivo**: 22,5% até 180 dias, caindo até 15% após 720 dias. LCI, LCA e poupança são **isentas** — por isso uma LCI de 90% do CDI pode render mais, no líquido, que um CDB de 100%.
+CDB, Tesouro e a maior parte dos fundos de renda fixa têm **IR regressivo**, retido na fonte:
 
-## Como comparar
+| Prazo | Alíquota |
+|---|---|
+| Até 180 dias | 22,5% |
+| 181 a 360 dias | 20% |
+| 361 a 720 dias | 17,5% |
+| Acima de 720 dias | 15% |
 
-Sempre no **líquido**. Uma LCI de 95% do CDI isenta ≈ um CDB de ~112% do CDI para prazo de 1 ano.
+Para um prazo de **um ano** (361 a 720 dias), a alíquota é **17,5%**, não 15%. Os 15% valem só depois de dois anos.
+
+LCI, LCA e a poupança são **isentas** de Imposto de Renda para pessoa física, nas regras vigentes em novembro de 2026 (Lei 11.033/2004). A Medida Provisória 1.303/2025 chegou a prever tributação para alguns desses papéis, mas **perdeu a validade em 8 de outubro de 2025**, sem virar lei. Isso pode mudar no futuro; a regra que vale é a da lei em vigor.
+
+Por isso uma LCI de 90% ou 95% do CDI pode, no líquido, ganhar de um CDB de 100% — e pode perder, conforme o prazo e a taxa. A comparação certa é sempre no **líquido**, no mesmo prazo.
+
+## A conta que muita gente erra
+
+Uma LCI de 95% do CDI, isenta, equivale a um CDB de:
+
+- **cerca de 115% do CDI** num prazo de um ano (IR de 17,5%): 0,95 ÷ 0,825 ≈ 1,1515.
+- **cerca de 112% do CDI** num prazo de mais de dois anos (IR de 15%): 0,95 ÷ 0,85 ≈ 1,118.
+
+O artigo anterior deste blog usava ~112% para o prazo de um ano. Esse número é o do prazo longo, não o de 12 meses.
+
+No exemplo dos R$ 10.000 por 12 meses, com CDI em 13,65% (aproximação):
+
+- CDB de 100% do CDI, líquido de 17,5%: cerca de R$ 1.126.
+- LCI de 95% do CDI, isenta: cerca de R$ 1.297.
+
+A LCI costuma ter **carência** (não é liquidez diária). O CDB pode ser de liquidez diária ou ter vencimento travado, e só os produtos elegíveis entram na cobertura do [FGC](https://www.fgc.org.br/sobre-garantia-fgc) (até R$ 250 mil por CPF por instituição, com teto global de R$ 1 milhão a cada quatro anos). Tesouro Selic não usa FGC: a garantia é do governo federal.
+
+## Como usar o CDI no dia a dia
+
+- "100% do CDI" não é o mesmo rendimento líquido para todo mundo: prazo e tipo de papel mudam o resultado.
+- Compare sempre papéis no **mesmo prazo** e no **líquido de IR**.
+- Uma taxa prefixada alta só é boa se você entender o risco de crédito e a liquidez. Promessa de retorno fixo bem acima do CDI, "sem risco", pede o filtro de [como investir com segurança](/blog/investir-com-seguranca).
+- A [taxa Selic](/blog/taxa-selic) é a origem da movimentação. O CDI é a régua que o mercado usa para remunerar o CDB, a LCI e boa parte dos fundos DI.
+
+Na [Academia Ordre](/app/escola), a aula 12 ("O que é a taxa Selic") liga Selic, CDI e o custo do dinheiro no seu orçamento. A aula 8 trata do perfil de investidor, que entra na escolha entre liquidez e prazo.
 
 ## No Ordre
 
-A calculadora "Rendimento do CDI" traz a taxa atual do Banco Central e calcula o líquido de IR para CDB e para papéis isentos.
+A faixa de indicadores do painel mostra o CDI e a Selic atuais, com dados da API do Banco Central, para todos os usuários. A calculadora "Rendimento do CDI" aplica a taxa vigente e calcula o líquido de IR para CDB e para papéis isentos, no prazo que você escolher. O módulo de Investimentos registra a carteira por classe; o Assistente tira dúvidas sobre os seus números e não recomenda ativo.
 
 ---
-*Fonte: série 4389 do Banco Central; tabela de IR da Receita Federal.*`,
+*Fontes: Banco Central do Brasil, [SGS série 4389](https://www3.bcb.gov.br/sgspub/) (CDI anualizado, base 252; valor de 13,65% a.a. em 19/11/2026) e [comunicados do Copom](https://www.bcb.gov.br/controleinflacao/comunicadoscopom/cronologicos) (Selic em 13,75% a.a. na 282ª reunião, 4/11/2026). Receita Federal, tabela regressiva de IR em aplicações de renda fixa (Lei 11.033/2004). FGC, regras de cobertura. Atualizado em 22/11/2026. Conteúdo educativo, não é recomendação de investimento. Confira a taxa e a lei vigentes antes de aplicar.*`,
   },
   {
     slug: "como-calcular-porcentagem",
@@ -739,43 +848,72 @@ O quiz de perfil de investidor sugere uma divisão. O módulo de Investimentos a
     slug: "tesouro-direto",
     title: "Tesouro Direto: Selic, Prefixado e IPCA+ explicados",
     excerpt:
-      "O investimento mais seguro do país tem três sabores. Cada um serve para um objetivo diferente — usar o errado custa dinheiro.",
+      "O investimento mais seguro do país tem três sabores. Cada um serve para um objetivo diferente — e o Tesouro Selic, apesar de estável, não é imune a uma variação pequena no resgate antecipado.",
     author: "Time Ordre",
     publishedAt: "2026-09-16",
-    readingMinutes: 6,
-    tags: ["iniciante", "renda fixa"],
+    readingMinutes: 5,
+    tags: ["renda fixa", "iniciante"],
     category: "Investimentos",
-    content: `# Tesouro Direto
+    coverImage: {
+      src: "/blog/tesouro-direto.webp",
+      alt: "Professor Bento, um professor idoso de cardigã verde e gravata-borboleta dourada, em uma sala de aula clara, apresentando três blocos de madeira em tons de verde e creme.",
+    },
+    content: `# Tesouro Direto: Selic, Prefixado e IPCA+ explicados
 
-Comprar título público é emprestar para o governo federal — o devedor de menor risco do Brasil. Você acessa pelo site do Tesouro ou pela corretora, a partir de ~R$ 30.
+Comprar um título público no Tesouro Direto é emprestar dinheiro ao governo federal. No Brasil, esse é o emissor de menor risco de crédito: o Tesouro Nacional. Você acessa pelo [site do Tesouro Direto](https://www.tesourodireto.com.br/) ou pela corretora, em geral a partir de cerca de R$ 30 (o mínimo é uma fração do título, e o valor varia).
+
+Esse texto é educativo e não é recomendação de investimento. Não indica qual título comprar, nem em qual vencimento.
 
 ## Tesouro Selic
 
-Rende a taxa Selic. **Não sofre perda se resgatado antes do vencimento** — por isso é o queridinho da reserva de emergência. Liquidez em D+1.
+Rende a taxa Selic, a taxa básica definida pelo [Copom](/blog/taxa-selic). Em 4 de novembro de 2026 a meta da Selic estava em **13,75% ao ano**; o rendimento do título acompanha essa taxa ao longo do tempo, descontados custos e imposto.
+
+É o título mais usado para [reserva de emergência](/blog/reserva-de-emergencia-6-ou-12-meses) porque a marcação a mercado é pequena e a liquidez é em **D+1** (o dinheiro cai no dia útil seguinte).
+
+Uma correção importante: **não é verdade que o Tesouro Selic "não sofre perda" se resgatado antes do vencimento**. O Tesouro recompra pelo preço de mercado. Em prazos muito curtos pode haver uma variação negativa pequena, por causa da marcação a mercado e do spread entre compra e venda. Imposto de renda e, em resgates com menos de 30 dias, IOF também reduzem o valor líquido. O risco é baixo em comparação com o Prefixado e o IPCA+, mas não é zero.
 
 ## Tesouro Prefixado
 
-Taxa travada na compra (ex.: "12,5% ao ano"). Se você segura até o vencimento, é exatamente isso. Se vender antes e os juros do mercado subiram, **pode ter prejuízo** (marcação a mercado). Serve para quem quer travar uma taxa e tem data certa.
+A taxa é travada na compra (por exemplo, "12,5% ao ano"). Se você **segura até o vencimento**, recebe exatamente essa taxa, menos os custos e o IR. Se vender antes e os juros do mercado tiverem subido, o preço do título cai — e aí **pode haver prejuízo**. Se os juros tiverem caído, o preço sobe.
+
+Serve para quem tem uma data certa e pretende carregar o título até o fim. Não é o melhor lugar para a reserva, justamente porque o preço oscila.
 
 ## Tesouro IPCA+
 
-Paga **inflação + um percentual fixo** (ex.: "IPCA + 6%"). Protege o poder de compra no longo prazo. Ideal para aposentadoria e objetivos de 10+ anos. Também sofre marcação a mercado se vendido antes.
+Paga a **inflação medida pelo IPCA mais um percentual fixo** (por exemplo, "IPCA + 6%"). Se carregado até o vencimento, protege o poder de compra: o principal é corrigido pelo [IPCA](/blog/tipos-de-inflacao) e ainda há o juro real combinado.
 
-## Custos
+Também sofre marcação a mercado se vendido antes do vencimento. Quanto maior o prazo, maior a oscilação do preço quando a taxa de juro real muda. Por isso costuma aparecer em objetivos longos — aposentadoria, independência financeira, uma meta daqui a 10 anos ou mais — e não na reserva.
 
-- Taxa de custódia da B3: 0,20% ao ano (isenta nos primeiros R$ 10 mil em Tesouro Selic).
-- IR regressivo de 22,5% a 15% sobre o rendimento.
+Há ainda o Tesouro Renda+ e o Tesouro Educa+, pensados para converter o saldo em pagamentos periódicos no futuro. A lógica de risco é parecida com a de um título longo atrelado à inflação: até a conversão, o preço oscila.
 
-## Regra prática
+## Custos e imposto
 
-| Objetivo | Título |
-|---|---|
-| Reserva de emergência | Tesouro Selic |
-| Meta com data fixa em 2–5 anos | Prefixado (segurar até o fim) |
-| Aposentadoria / muito longo prazo | IPCA+ |
+- **Taxa de custódia da B3:** 0,20% ao ano, proporcional ao prazo. No Tesouro Selic, há isenção sobre os primeiros **R$ 10 mil por CPF**; a taxa incide só sobre o que passar disso. Confirme a [tabela vigente na B3](https://www.b3.com.br/pt_br/produtos-e-servicos/tarifas/tarifas-de-tesouro-direto/), porque esse valor já mudou no passado.
+- Algumas corretoras cobram taxa própria; muitas hoje cobram zero.
+- **IR regressivo** de 22,5% a 15% sobre o rendimento, conforme o prazo (a mesma tabela da [renda fixa](/blog/imposto-de-renda-investimentos)). O imposto é recolhido no vencimento, no pagamento de juros ou no resgate — não há come-cotas.
+- Resgate em menos de 30 dias pode ter IOF, como nas demais aplicações de renda fixa.
+
+## Qual título combina com qual objetivo
+
+Não existe título "melhor" no abstrato. Existe título alinhado a um prazo e a um uso.
+
+| Objetivo | Caminho mais coerente | Por quê |
+|---|---|---|
+| Reserva de emergência | Tesouro Selic | Liquidez em D+1 e baixa oscilação |
+| Meta com data em 2 a 5 anos, que você consegue carregar até o fim | Prefixado | Taxa travada, se não vender antes |
+| Aposentadoria ou meta muito longa | IPCA+ (ou Renda+) | Protege o poder de compra |
+| Dinheiro que pode ser preciso este mês | Tesouro Selic, não Prefixado nem IPCA+ longo | Evita vender no meio de uma oscilação |
+
+Se a Selic cair, o Tesouro Selic passa a render menos daí para a frente — isso é o desenho do título, não um defeito. Prefixado e IPCA+ já comprados até o vencimento mantêm a taxa combinada; o preço deles, se você quiser vender no meio do caminho, reage à Selic nova.
+
+Na [Academia Ordre](/app/escola), a aula 12 explica a Selic e o CDI, que são a referência do Tesouro Selic e de boa parte da renda fixa. A aula 7 trata da reserva. A aula 13, da regra dos 4% e do patrimônio para viver de renda — cenário em que o IPCA+ costuma entrar na conversa, sem ser o único caminho.
+
+## No Ordre
+
+A faixa de indicadores do painel mostra Selic, CDI e IPCA acumulado em 12 meses, com dados do Banco Central, para todos os usuários. A calculadora de [Rendimento do CDI](/app/calculadoras?c=cdi) ajuda a comparar um título pós-fixado com um papel isento, no líquido. O módulo de Investimentos registra o que você já tem em renda fixa, ações, FIIs, ETFs, cripto e caixa, e o quiz de perfil sugere uma divisão-alvo — é sugestão do app, não uma regra oficial. O Assistente tira dúvidas sobre os seus números e não recomenda título.
 
 ---
-*Fonte: Tesouro Nacional — programa Tesouro Direto; tabela de IR da Receita Federal.*`,
+*Fontes: [Tesouro Nacional — Tesouro Direto](https://www.tesourodireto.com.br/) (regras, tipos de título e recompra pelo preço de mercado). [B3, tarifas do Tesouro Direto](https://www.b3.com.br/pt_br/produtos-e-servicos/tarifas/tarifas-de-tesouro-direto/) (custódia de 0,20% a.a. e isenção dos primeiros R$ 10 mil em Tesouro Selic, conferidas em 22/11/2026). Banco Central do Brasil, [Copom](https://www.bcb.gov.br/controleinflacao/comunicadoscopom/cronologicos) (Selic em 13,75% a.a. em 4/11/2026). Receita Federal, tabela regressiva de IR. Atualizado em 22/11/2026. Conteúdo educativo, não é recomendação de investimento.*`,
   },
   {
     slug: "fundos-imobiliarios",
@@ -907,7 +1045,7 @@ O foco do Ordre é o **seu** patrimônio consolidado, não a análise de ativos 
       "Dá para ter Apple e S&P 500 na carteira sem abrir conta lá fora. Veja os três caminhos e o risco que ninguém conta: o câmbio.",
     author: "Time Ordre",
     publishedAt: "2026-09-20",
-    readingMinutes: 6,
+    readingMinutes: 2,
     tags: ["iniciante", "investimentos"],
     category: "Investimentos",
     content: `# Investir no exterior
@@ -926,15 +1064,15 @@ Se você compra um ativo em dólar e o real **se valoriza**, seu retorno em reai
 
 ## Imposto
 
-- BDR e ETF na B3: 15% sobre o ganho de capital, **sem** a isenção de R$ 20 mil.
-- Conta lá fora: ganho de capital com alíquota progressiva; dividendos recebidos do exterior entram no carnê-leão.
+- **BDR e ETF na B3:** 15% sobre o ganho de capital, sem a isenção de R$ 20 mil das ações à vista.
+- **Aplicações financeiras no exterior:** desde o ano-calendário de 2024, a [Lei 14.754/2023](https://www.planalto.gov.br/ccivil_03/_ato2023-2026/2023/lei/l14754.htm) tributa rendimentos de investimentos financeiros mantidos lá fora — ganho de capital e dividendos desses investimentos — na declaração anual, em regra à alíquota de **15%**. A apuração é anual, fora do carnê-leão mensal e fora da tabela progressiva do ganho de capital. Renda no exterior de outra natureza, como aluguel, pode seguir regra diferente. Confirme o enquadramento no ano-calendário.
 
 ## Quanto alocar
 
 Não há número mágico. Muitos investidores de longo prazo colocam entre **10% e 30%** da carteira de renda variável no exterior.
 
 ---
-*Fonte: Resolução CVM 3/2020 (BDR); regras de tributação da Receita Federal.*`,
+*Fonte: Resolução CVM 3/2020 (BDR); Lei 14.754/2023 e regras de tributação da Receita Federal. Confirme alíquotas no ano-calendário.*`,
   },
   {
     slug: "criptomoedas-basico",
@@ -1227,7 +1365,7 @@ Registre seus ETFs na classe "ETFs" do módulo de Investimentos — o gráfico d
       "Não existe investimento sem risco — existe risco que você entende e risco que te pega de surpresa. Cinco perguntas antes de clicar em 'aplicar'.",
     author: "Time Ordre",
     publishedAt: "2026-09-28",
-    readingMinutes: 6,
+    readingMinutes: 2,
     tags: ["iniciante", "segurança"],
     category: "Comece aqui",
     content: `# Como investir com segurança
@@ -1240,7 +1378,7 @@ Se você não consegue explicar em uma frase de onde vem o retorno, não invista
 
 ## 2. Qual a garantia?
 
-- **FGC:** cobre até R$ 250 mil por CPF por instituição em CDB, LCI, LCA, poupança.
+- **FGC:** cobre até **R$ 250 mil por CPF por instituição** (ou conglomerado) em CDB, LCI, LCA, poupança e outros produtos elegíveis, com **teto global de R$ 1 milhão a cada quatro anos**.
 - **Tesouro Direto:** garantido pelo governo federal.
 - **Ações, FIIs, cripto, debênture:** sem garantia. O risco é da empresa/ativo.
 
@@ -1261,7 +1399,7 @@ Retorno fixo acima de ~1,5% ao mês, "sem risco", com pressão para entrar rápi
 O quiz de perfil de investidor calibra quanto de risco faz sentido pra você. Os alertas do painel avisam quando a carteira sai do alvo.
 
 ---
-*Fonte: FGC (regras de cobertura); CVM e Banco Central (alertas sobre fraudes financeiras).*`,
+*Fonte: [FGC — regras de cobertura](https://www.fgc.org.br/sobre-garantia-fgc); CVM e Banco Central (alertas sobre fraudes financeiras).*`,
   },
 ];
 

@@ -43,7 +43,14 @@ export default function BlogIndex() {
             {g.posts.map((p) => (
               <article key={p.slug}>
                 <Link href={`/blog/${p.slug}`} className="group block">
-                  <BlogCover slug={p.slug} tag={p.tags[0]} className="h-40" />
+                  <BlogCover
+                    slug={p.slug}
+                    tag={p.tags[0]}
+                    coverImage={p.coverImage}
+                    decorative
+                    sizes="(max-width: 640px) 100vw, 24rem"
+                    className="h-40"
+                  />
                   <h3 className="mt-3 font-display text-lg font-bold text-ink group-hover:underline">
                     {p.title}
                   </h3>
