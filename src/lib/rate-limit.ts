@@ -57,7 +57,7 @@ export function ipFromHeaders(h: HeaderGetter): string {
 export type RateLimitResult = { ok: true } | { ok: false; retryAfter: number };
 
 export async function checkRateLimit(
-  bucket: "auth" | "webhook" | "analytics" | "ai" | "default",
+  bucket: "auth" | "webhook" | "analytics" | "ai" | "whatsapp" | "default",
   identifier: string,
 ): Promise<RateLimitResult> {
   const config: Record<string, { tokens: number; window: `${number} ${"s" | "m" | "h"}` }> = {
@@ -65,6 +65,7 @@ export async function checkRateLimit(
     webhook: { tokens: 60, window: "1 m" },
     analytics: { tokens: 40, window: "1 m" },
     ai: { tokens: 20, window: "1 h" },
+    whatsapp: { tokens: 40, window: "1 m" },
     default: { tokens: 30, window: "1 m" },
   };
   const c = config[bucket] ?? config.default;

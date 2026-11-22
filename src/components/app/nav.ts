@@ -15,6 +15,7 @@ import {
   Waves,
   CalendarClock,
   FileText,
+  MessageCircle,
   type LucideIcon,
 } from "lucide-react";
 
@@ -61,6 +62,7 @@ export const NAV_SECTIONS: NavSection[] = [
     title: "Conta",
     items: [
       { href: "/app/conexoes", label: "Open Finance", icon: Link2, locked: true },
+      { href: "/app/whatsapp", label: "WhatsApp", icon: MessageCircle },
       { href: "/app/configuracoes", label: "Configurações", icon: Settings },
     ],
   },

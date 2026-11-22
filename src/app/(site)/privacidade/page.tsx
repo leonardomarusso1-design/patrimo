@@ -15,6 +15,7 @@ ${COMPANY.legalName} (${COMPANY.doc}), ${COMPANY.city}, é a controladora dos da
 - **Dados financeiros que você insere:** lançamentos de orçamento, reserva, metas, investimentos, patrimônio e dívidas.
 - **Uso:** eventos de navegação e desempenho, sempre que você consentir com cookies de análise.
 - **Técnicos:** um hash irreversível do seu IP em registros de segurança (o IP em si não é armazenado em claro).
+- **WhatsApp, se você conectar:** o número fica cifrado e também em hash, para achar a sua conta sem guardar o número em claro nos registros. A mensagem em si não fica armazenada. Foto de comprovante é lida na hora e apagada em seguida. Você pode desconectar e apagar o histórico do bot no painel.
 
 ## 3. Para que usamos
 
@@ -25,11 +26,13 @@ ${COMPANY.legalName} (${COMPANY.doc}), ${COMPANY.city}, é a controladora dos da
 | Sugestões da IA de investimentos (plano Elite) | Execução de contrato |
 | Segurança, prevenção a fraude e abuso | Legítimo interesse |
 | Métricas de produto | Consentimento (cookies) |
+| Registrar o que você manda no WhatsApp do Ordre | Execução de contrato |
+| Avisos proativos no WhatsApp (resumo e conta a pagar) | Consentimento (opt-in, desligado por padrão) |
 | Comunicações de marketing | Consentimento (opt-in) |
 
 ## 4. Compartilhamento
 
-Compartilhamos dados apenas com operadores necessários ao funcionamento do serviço: infraestrutura e banco (Supabase), hospedagem (Vercel), pagamento (Kiwify), e-mail transacional (Resend) e análise (Google Analytics, se consentido). Não vendemos dados pessoais.
+Compartilhamos dados apenas com operadores necessários ao funcionamento do serviço: infraestrutura e banco (Supabase), hospedagem (Vercel), pagamento (Kiwify), e-mail transacional (Resend), WhatsApp (Meta), quando você usa o bot, leitura de comprovante e texto ambíguo (OpenAI) e análise (Google Analytics, se consentido). Não vendemos dados pessoais.
 
 ## 5. Transferência internacional
 
@@ -37,7 +40,7 @@ Alguns operadores processam dados fora do Brasil. Exigimos que adotem salvaguard
 
 ## 6. Retenção
 
-Mantemos seus dados enquanto sua conta existir. Após a exclusão da conta, apagamos ou anonimizamos os dados em até 30 dias, salvo obrigação legal de guarda (ex.: registros fiscais e de pagamento).
+Mantemos seus dados enquanto sua conta existir. O registro técnico das mensagens do WhatsApp (sem o texto) é apagado em até 30 dias. Após a exclusão da conta, apagamos ou anonimizamos os dados em até 30 dias, salvo obrigação legal de guarda (ex.: registros fiscais e de pagamento).
 
 ## 7. Seus direitos
 
@@ -58,6 +61,6 @@ A Ordre não é destinada a menores de 18 anos e não coletamos dados dessa faix
 
 export default function PrivacidadePage() {
   return (
-    <LegalPage title="Política de Privacidade" updatedAt="6 de setembro de 2026" content={content} />
+    <LegalPage title="Política de Privacidade" updatedAt="22 de novembro de 2026" content={content} />
   );
 }

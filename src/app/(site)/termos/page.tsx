@@ -14,7 +14,7 @@ A Ordre é uma ferramenta de organização financeira pessoal. Ela ajuda você a
 
 ## 3. Conteúdo informativo, não consultoria
 
-Os textos, calculadoras, aulas e sugestões da IA têm caráter educativo e informativo. Não constituem recomendação personalizada de investimento, consultoria financeira, contábil ou jurídica registrada. As decisões sobre seu dinheiro são exclusivamente suas.
+Os textos, calculadoras, aulas, o canal de WhatsApp e as sugestões da IA têm caráter educativo e informativo. Não constituem recomendação personalizada de investimento, consultoria ou análise de valores mobiliários (Resoluções CVM 19 e 20). O WhatsApp explica conceitos e compara a sua carteira com o perfil que você escolheu no app. Não indica compra ou venda de ativo. As decisões sobre seu dinheiro são exclusivamente suas.
 
 ## 4. Sua conta
 
@@ -25,7 +25,7 @@ Os textos, calculadoras, aulas e sugestões da IA têm caráter educativo e info
 
 ## 5. Planos e pagamento
 
-Os planos, preços e o que cada um inclui estão na página de Preços. A cobrança é processada por parceiro de pagamento (Kiwify). O acesso ao plano é ativado após a confirmação do pagamento e permanece ativo até o fim do período pago.
+Os planos, preços e o que cada um inclui estão na página de Preços. A cobrança é processada por parceiro de pagamento (Kiwify). O acesso ao plano é ativado após a confirmação do pagamento e permanece ativo até o fim do período pago. O teste dura 7 dias. Depois dele não há plano grátis: o painel e o WhatsApp ficam bloqueados até a compra. O WhatsApp entra no plano com uma cota mensal de ações. Pacote avulso, quando estiver à venda, soma ações só naquele mês e não substitui o plano.
 
 ## 6. Cancelamento
 
@@ -53,5 +53,5 @@ Aplica-se a lei brasileira. Fica eleito o foro da comarca de Indaiatuba – SP, 
 `;
 
 export default function TermosPage() {
-  return <LegalPage title="Termos de Uso" updatedAt="6 de setembro de 2026" content={content} />;
+  return <LegalPage title="Termos de Uso" updatedAt="22 de novembro de 2026" content={content} />;
 }

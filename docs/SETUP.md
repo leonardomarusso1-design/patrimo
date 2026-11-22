@@ -260,6 +260,81 @@ Antes de gastar com identidade visual / anúncios:
 
 ---
 
+## Passo 10 — WhatsApp (quando o chip existir)
+
+O bot já está no código e **fica desligado**. Nada é enviado e o webhook não grava
+lançamento enquanto `WHATSAPP_BOT_ENABLED` não for exatamente `true`. Sem a migration
+`0026_whatsapp.sql` aplicada, a tela em `/app/whatsapp` mostra "em preparação" e o
+painel continua no ar.
+
+Ordem, sem pular:
+
+1. **Meta Business.** Crie ou use uma conta WhatsApp Business na Meta, com a empresa
+   verificada. O número do chip precisa ser **novo para o WhatsApp** (não pode estar
+   no app do celular). Anote o Phone number ID e o WhatsApp Business Account ID.
+2. **App e token.** No app da Meta, adicione o produto WhatsApp. Gere um token
+   permanente (usuário do sistema, permissão `whatsapp_business_messaging`). O App
+   Secret fica em Configurações do app. Crie um Verify token seu (uma senha longa).
+3. **Banco.** No SQL editor do Supabase, rode o arquivo
+   `supabase/migrations/0026_whatsapp.sql`. Não rode nada além desse arquivo por causa
+   do bot. A migration **não foi aplicada** por este trabalho.
+4. **Variáveis na Vercel** (Production), ainda com a flag desligada:
+
+   | Nome | Para que serve |
+   |---|---|
+   | `WHATSAPP_BOT_ENABLED` | `true` só no fim. Qualquer outro valor desliga. |
+   | `WHATSAPP_PHONE_NUMBER_ID` | ID do número na Cloud API |
+   | `WHATSAPP_BUSINESS_ACCOUNT_ID` | ID da conta WhatsApp Business (referência) |
+   | `WHATSAPP_ACCESS_TOKEN` | token permanente |
+   | `WHATSAPP_APP_SECRET` | valida `X-Hub-Signature-256` |
+   | `WHATSAPP_VERIFY_TOKEN` | o desafio do webhook (GET) |
+   | `WHATSAPP_DISPLAY_NUMBER` | número público com DDI, só dígitos, para o link wa.me |
+   | `WHATSAPP_PHONE_PEPPER` | segredo para hash e cifra do telefone. `openssl rand -base64 32`. Não troque depois: os vínculos quebram. |
+   | `WHATSAPP_GRAPH_VERSION` | opcional, padrão `v22.0` |
+   | `WHATSAPP_MONTHLY_QUOTA` | ações por mês incluídas no plano. Padrão `80`. |
+   | `WHATSAPP_PACK_MESSAGES` | tamanho do pacote avulso. Padrão `100`. |
+   | `WHATSAPP_PACK_CHECKOUT_URL` | link https da Kiwify do pacote, quando o produto existir |
+   | `KIWIFY_WHATSAPP_PACK_PRODUCT_ID` | id do produto na Kiwify. Sem isso, compra não vira crédito e o plano anual segue igual. |
+   | `WHATSAPP_TEMPLATE_DAILY` | nome do modelo de contas do dia |
+   | `WHATSAPP_TEMPLATE_WEEKLY` | nome do modelo do resumo semanal |
+   | `WHATSAPP_TEMPLATE_MONTHLY` | nome do modelo do fechamento |
+   | `WHATSAPP_TEMPLATE_LANG` | opcional, padrão `pt_BR` |
+   | `OPENAI_API_KEY` | a mesma chave do Assistente. Sem ela, texto com regra pronta funciona; foto pede o valor em texto. |
+   | `UPSTASH_REDIS_REST_URL` / `UPSTASH_REDIS_REST_TOKEN` | limite por IP. Há também um limite no banco, por número. |
+   | `CRON_SECRET` | o cron das 8h (Brasília) já usa o mesmo segredo dos outros crons. |
+
+5. **Webhook.** URL `https://ordre.toqy.com.br/api/whatsapp/webhook`. A Meta manda um
+   GET com o verify token: isso responde mesmo com a flag desligada. Campos assinados
+   em `messages`.
+6. **Modelos de utilidade** (aprovação da Meta, categoria utilidade, idioma pt_BR).
+   Sem modelo aprovado o cron não manda resumo nem lembrete — de propósito, porque
+   fora da janela de 24 h a Meta não aceita texto livre.
+   - `ordre_lembrete_diario` — corpo: `Oi, {{1}}. Contas de hoje e amanhã: {{2}}. Painel: https://ordre.toqy.com.br/app/vencimentos`
+   - `ordre_resumo_semanal` — corpo: `Resumo da semana, {{1}}. Gastos: {{2}}. Semana anterior: {{3}}. Categoria que mais cresceu: {{4}}.`
+   - `ordre_resumo_mensal` — corpo: `Fechamento de {{1}}. Gastos {{2}}, receitas {{3}}, saldo {{4}}. Patrimônio líquido: {{5}}.`
+   Coloque o nome aprovado na variável correspondente. Horário: todo dia 8h, resumo
+   semanal na segunda, fechamento no dia 1. Só para quem ligou os avisos no painel.
+7. **Pacote avulso na Kiwify.** Crie o produto (ainda não existe). Webhook o mesmo de
+   sempre (`/api/kiwify/webhook`). Copie o id do produto e o link de checkout para as
+   variáveis. O crédito cai no mês corrente, no e-mail da conta. Reembolso tira o
+   crédito e não cancela o plano anual.
+8. **Ligar.** Redeploy com `WHATSAPP_BOT_ENABLED=true`. No painel, Configurações →
+   WhatsApp, gere um código e mande `ORDRE-123456` do seu celular.
+
+Custo da Meta (tabela Brasil a partir de 01/10/2026, conferir de novo no rate card
+antes de ligar, porque muda no começo de cada trimestre): mensagem que o usuário
+manda não é cobrada; resposta de serviço e modelo de utilidade cerca de R$ 0,035;
+as primeiras 1.000 mensagens de serviço do mês, por número, são grátis. Para 1.000
+pessoas ativas, uma conta de exemplo é cerca de R$ 1,33 por pessoa por mês (30
+respostas e 9 avisos), mais o gpt-4o-mini das fotos e das frases que a regra não
+resolve. O plano de R$ 97,90/ano cabe nisso com a cota; a cota padrão é 80 ações
+por mês. Aviso automático não gasta a cota da pessoa.
+
+O teste de 7 dias usa o bot. No oitavo dia o acesso acaba por completo, no painel e
+no WhatsApp. Não há plano grátis.
+
+---
+
 ## O que já está pronto e não exige ação sua
 
 - Todas as 8 áreas do painel com CRUD real.

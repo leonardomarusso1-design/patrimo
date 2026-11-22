@@ -99,6 +99,8 @@ export interface Database {
           tags: string[];
           installments_total: number | null;
           installments_paid: number | null;
+          source: "app" | "csv" | "whatsapp" | "pluggy";
+          confidence: number | null;
           created_at: string;
         }
       >;
@@ -307,6 +309,67 @@ export interface Database {
         status: string;
         admin_reply: string | null;
         replied_at: string | null;
+        created_at: string;
+      }>;
+      whatsapp_links: Table<{
+        user_id: string;
+        phone_hash: string | null;
+        phone_ciphertext: string | null;
+        verify_code_hash: string | null;
+        verify_expires_at: string | null;
+        verified_at: string | null;
+        consent_at: string | null;
+        alerts_opt_in: boolean;
+        daily_digest: boolean;
+        weekly_digest: boolean;
+        monthly_digest: boolean;
+        active: boolean;
+        last_entry_id: string | null;
+        last_entry_at: string | null;
+        last_daily_on: string | null;
+        last_weekly_on: string | null;
+        last_monthly_on: string | null;
+        created_at: string;
+        updated_at: string;
+      }>;
+      whatsapp_usage: Table<{
+        user_id: string;
+        period: string;
+        used: number;
+        bonus: number;
+      }>;
+      whatsapp_pack_grants: Table<{
+        id: string;
+        user_id: string | null;
+        email: string | null;
+        order_ref: string;
+        messages: number;
+        period: string;
+        revoked: boolean;
+        created_at: string;
+      }>;
+      user_category_rules: Table<{
+        id: string;
+        user_id: string;
+        pattern: string;
+        category: string;
+        kind: BudgetKind | null;
+        created_at: string;
+      }>;
+      whatsapp_pending: Table<{
+        user_id: string;
+        payload: Json;
+        expires_at: string;
+        created_at: string;
+      }>;
+      whatsapp_messages: Table<{
+        id: string;
+        wa_message_id: string;
+        user_id: string | null;
+        phone_hash: string;
+        direction: "in" | "out";
+        kind: string;
+        action: string | null;
         created_at: string;
       }>;
     };
