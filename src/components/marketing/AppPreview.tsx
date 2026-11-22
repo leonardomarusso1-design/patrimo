@@ -100,7 +100,7 @@ export function AppPreview() {
           {/* sidebar */}
           <div className="hidden w-40 shrink-0 flex-col gap-1 border-r border-border p-3 sm:flex">
             <p className="px-2 py-1 font-display text-sm font-extrabold text-ink">
-              Patri<span className="text-brand">mo</span>
+              Ord<span className="text-brand">re</span>
             </p>
             {NAV.map((item) => (
               <span
