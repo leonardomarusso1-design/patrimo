@@ -8,6 +8,7 @@ import { checkRateLimit } from "@/lib/rate-limit";
 import { safeError } from "@/lib/logger";
 import { SITE_URL } from "@/lib/seo";
 import { safeNext } from "@/lib/url";
+import { validateNewPassword } from "@/lib/password";
 
 export type AuthState = { error?: string; message?: string };
 
@@ -105,11 +106,38 @@ export async function requestPasswordReset(
 
   const supabase = await createClient();
   await supabase.auth.resetPasswordForEmail(email.data, {
-    redirectTo: `${await origin()}/auth/callback?next=/app/configuracoes`,
+    redirectTo: `${await origin()}/auth/callback?next=/nova-senha`,
   });
   return {
     message: "Se existir uma conta com esse e-mail, o link de redefinição chegou nele.",
   };
+}
+
+/** Define a nova senha da conta logada (depois do link de "esqueci a senha" ou por Configurações). */
+export async function updatePassword(_prev: AuthState, formData: FormData): Promise<AuthState> {
+  if (await rateLimited()) return { error: "Muitas tentativas. Aguarde um minuto." };
+  const invalid = validateNewPassword(formData.get("password"), formData.get("confirm"));
+  if (invalid) return { error: invalid };
+
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) return { error: "O link venceu. Peça um novo em Recuperar senha." };
+
+  const { error } = await supabase.auth.updateUser({ password: String(formData.get("password")) });
+  if (error) {
+    const msg = error.message.toLowerCase();
+    if (msg.includes("different") || msg.includes("same"))
+      return { error: "Escolha uma senha diferente da atual." };
+    if (msg.includes("aal2") || msg.includes("mfa"))
+      return {
+        error:
+          "Sua conta tem verificação em duas etapas. Entre pelo login, confirme o código e troque a senha em Configurações.",
+      };
+    return { error: safeError("auth.update_password", error) };
+  }
+  redirect("/app");
 }
 
 export async function signOut() {

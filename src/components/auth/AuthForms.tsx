@@ -5,7 +5,7 @@ import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
-import { signIn, signUp, requestPasswordReset, type AuthState } from "@/app/auth/actions";
+import { signIn, signUp, requestPasswordReset, updatePassword, type AuthState } from "@/app/auth/actions";
 import { Button } from "@/components/ui/Button";
 import { Input, Label, FieldError } from "@/components/ui/Field";
 
@@ -130,6 +130,33 @@ export function ResetForm() {
       </div>
       <Button type="submit" className="w-full" loading={pending}>
         Enviar link de redefinição
+      </Button>
+    </form>
+  );
+}
+
+export function NewPasswordForm() {
+  const [state, action, pending] = useActionState(updatePassword, empty);
+  return (
+    <form action={action} className="space-y-4">
+      <Alert state={state} />
+      <div>
+        <Label htmlFor="password">Nova senha</Label>
+        <PasswordInput
+          id="password"
+          name="password"
+          autoComplete="new-password"
+          minLength={8}
+          placeholder="Mínimo 8 caracteres"
+          required
+        />
+      </div>
+      <div>
+        <Label htmlFor="confirm">Repita a nova senha</Label>
+        <PasswordInput id="confirm" name="confirm" autoComplete="new-password" minLength={8} required />
+      </div>
+      <Button type="submit" className="w-full" loading={pending}>
+        Salvar nova senha
       </Button>
     </form>
   );

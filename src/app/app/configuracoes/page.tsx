@@ -43,6 +43,14 @@ export default async function ConfiguracoesPage() {
             )}
           </div>
 
+          <div className="rounded-2xl border border-border bg-card p-5 text-sm shadow-[var(--shadow-card)]">
+            <p className="font-display font-bold text-ink">Senha</p>
+            <p className="mt-2 text-muted">Troque a senha da sua conta quando quiser.</p>
+            <Link href="/nova-senha" className="mt-3 inline-block font-semibold text-accent-dim hover:underline">
+              Alterar senha →
+            </Link>
+          </div>
+
           <MfaSetup />
 
           <div className="rounded-2xl border border-border bg-card p-5 text-sm shadow-[var(--shadow-card)]">
