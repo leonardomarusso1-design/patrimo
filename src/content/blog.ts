@@ -1401,6 +1401,577 @@ O quiz de perfil de investidor calibra quanto de risco faz sentido pra você. Os
 ---
 *Fonte: [FGC — regras de cobertura](https://www.fgc.org.br/sobre-garantia-fgc); CVM e Banco Central (alertas sobre fraudes financeiras).*`,
   },
+  {
+    slug: "os-4-pilares-da-liberdade-financeira",
+    title: "Os 4 pilares da liberdade financeira: orçamento, reserva, investimentos e patrimônio",
+    excerpt:
+      "Orçamento, reserva, investimentos e patrimônio, nessa ordem. O que cada pilar faz, como se encaixam e por que pular a reserva costuma sair caro.",
+    author: "Time Ordre",
+    publishedAt: "2026-11-23",
+    readingMinutes: 4,
+    tags: ["iniciante", "orçamento"],
+    category: "Comece aqui",
+    coverImage: {
+      src: "/blog/os-4-pilares-da-liberdade-financeira.webp",
+      alt: "Professor Bento, um professor idoso de cardigã verde e gravata-borboleta dourada, em uma sala de aula clara, apresentando quatro blocos de madeira em tons de verde e creme.",
+    },
+    content: `# Os 4 pilares da liberdade financeira
+
+Liberdade financeira, neste texto, não é um número mágico nem uma data prometida. É a capacidade de pagar a vida, aguentar um susto, fazer o dinheiro trabalhar e saber, em reais, quanto você tem de verdade. Quatro pilares organizam isso: orçamento, reserva, investimentos e patrimônio.
+
+Esse texto é educativo e não é recomendação de investimento.
+
+## Orçamento
+
+O orçamento responde a uma pergunta simples: para onde foi o mês. Renda de um lado, gastos do outro, e o que sobrou. Sem essa conta, os outros pilares ficam no escuro. Você não sabe quanto pode separar para a reserva, nem se um gasto novo cabe.
+
+Uma forma de começar é a [regra 50-30-20](/blog/regra-50-30-20): 50% da renda em necessidades, 30% em desejos e 20% para poupar e investir. Os percentuais são uma referência, não uma lei. Quem carrega dívida cara muitas vezes precisa inverter a ordem e atacar o juro antes de investir.
+
+## Reserva
+
+A [reserva de emergência](/blog/reserva-de-emergencia-6-ou-12-meses) é o dinheiro do imprevisto: emprego, saúde, conserto. Ela não existe para render o máximo. Existe para estar lá, em algo líquido e de baixa oscilação, quando o orçamento do mês não cobre o susto.
+
+Seis meses do custo essencial é um alvo comum para renda mais estável. Doze meses faz mais sentido para autônomo, PJ ou quem sustenta dependentes. Três meses já é melhor do que zero.
+
+## Investimentos
+
+Investir é o que vem depois da reserva, com o dinheiro que pode esperar. A [taxa Selic](/blog/taxa-selic) e o CDI são a régua da renda fixa. A [regra dos 4%](/blog/regra-dos-4-por-cento) é uma conta de estudos americanos para estimar um patrimônio que sustentaria uma retirada: não é garantia, e o Brasil tem inflação e juros diferentes dos Estados Unidos.
+
+O [perfil de investidor](/blog/perfil-de-investidor) ajuda a decidir quanto oscilar. A sugestão do Ordre é 85/15, 60/40 ou 35/65, conforme o quiz. É sugestão do app, não regra da CVM.
+
+## Patrimônio
+
+O [patrimônio líquido](/blog/o-que-e-patrimonio-liquido) é o placar: o que você tem menos o que você deve. Casa, carro, investimentos e reserva entram. Financiamento e outras dívidas saem. Um bem financiado conta só a parte que já é sua.
+
+Patrimônio não é um passo que se "faz" depois dos outros. Ele é a foto do conjunto. A foto só fica honesta se o orçamento, a reserva e os investimentos estiverem lançados.
+
+## A ordem, e o erro de pular a reserva
+
+A ordem prática é esta:
+
+1. Ver o mês (orçamento).
+2. Separar o colchão (reserva).
+3. Só então aumentar o risco (investimentos).
+4. Olhar o placar (patrimônio) para saber se a direção está certa.
+
+O erro clássico é pular a reserva. A pessoa aporta em algo que oscila, vem um imprevisto e ela vende no meio da queda, ou entra no rotativo do cartão. O rendimento que parecia alto some no juro da dívida. A reserva existe para que o investimento de longo prazo não precise ser o socorro de curto prazo.
+
+Na [Academia Ordre](/app/escola), a aula 1 ("Os 4 pilares da liberdade financeira") percorre o mesmo mapa. A aula 7 trata da reserva e a aula 13, da regra dos 4%.
+
+## No Ordre
+
+O Início junta o mês, os alertas e a faixa de indicadores (Selic, CDI e IPCA). O Orçamento mostra para onde a renda foi. A Reserva acompanha o alvo de 6 ou 12 meses. Investimentos registra a carteira por classe. Patrimônio calcula o líquido, com bem financiado só na parte quitada. O Assistente tira dúvidas sobre os seus números e não recomenda ativo.
+
+---
+*Fontes: estrutura didática alinhada à aula 1 da Academia Ordre. Reserva, Selic e regra dos 4% remetem aos artigos correspondentes deste blog, com as fontes citadas em cada um. Atualizado em 23/11/2026. Conteúdo educativo, não é recomendação de investimento.*`,
+  },
+  {
+    slug: "cartao-de-credito",
+    title: "Cartão de crédito: a ferramenta que constrói ou destrói",
+    excerpt:
+      "Fatura, rotativo e parcelado não são a mesma coisa. Em setembro de 2026, a taxa média do rotativo estava em 15,29% ao mês.",
+    author: "Time Ordre",
+    publishedAt: "2026-11-23",
+    readingMinutes: 3,
+    tags: ["dívidas", "cartão"],
+    category: "Orçamento e dívidas",
+    calc: "divida",
+    coverImage: {
+      src: "/blog/cartao-de-credito.webp",
+      alt: "Professor Bento, um professor idoso de cardigã verde e gravata-borboleta dourada, em uma sala de aula clara, segurando um cartão em branco, com um envelope sobre a mesa.",
+    },
+    content: `# Cartão de crédito: a ferramenta que constrói ou destrói
+
+O cartão não é, por si, vilão nem atalho. Ele é um prazo. Se a fatura fecha e você paga o total, você usou o prazo sem juro sobre as compras do período. Se paga menos que o total, o que ficou entra no rotativo, e aí o preço deixa de ser o da compra.
+
+Esse texto é educativo e não é recomendação de crédito.
+
+## Fatura, rotativo e parcelado
+
+- **Fatura:** a soma do que você comprou no ciclo, com vencimento. Pagar o total até a data evita o juro do rotativo sobre aquelas compras.
+- **Rotativo:** o crédito que nasce quando você paga qualquer valor menor que a fatura, inclusive o mínimo. O saldo restante é financiado a uma taxa alta.
+- **Parcelado da fatura:** o banco divide o saldo em prestações. Também tem juro. A taxa e o número de parcelas estão no contrato, e variam de banco para banco.
+
+O mínimo da fatura não é um desconto. É a porta de entrada do rotativo.
+
+## Quanto custa o mínimo
+
+O Banco Central publica a taxa média de juros das novas operações de cartão de crédito rotativo para pessoa física. Na série SGS 25477, a observação de setembro de 2026 (data 01/09/2026) foi **15,29% ao mês**. Na série anual SGS 22022, a mesma competência foi **451,71% ao ano**. Consulta à API do BC em 23/11/2026. É média do mercado, ponderada pelas concessões. A taxa do seu cartão pode ser outra, e o CET inclui encargos além do juro.
+
+Uma conta só para dimensionar, sem ser a fórmula do seu contrato: R$ 1.000 deixados no rotativo por um mês a 15,29% geram cerca de **R$ 153** de juros. Pagar o mínimo e empurrar o resto é contratar esse preço.
+
+O parcelado da fatura costuma ter taxa menor que o rotativo, mas continua sendo dívida. Sem a taxa do seu contrato na mesa, não dá para dizer que "parcelar sai barato".
+
+## Regras de uso
+
+- Trate o limite como um teto de gasto, não como renda extra.
+- Se a compra não cabe na fatura deste mês, ela não cabe no cartão.
+- Pague o total. O mínimo é emergência de verdade, e mesmo assim o passo seguinte é sair do rotativo.
+- Anote a data de vencimento. Atraso muda a conversa de "prazo sem juro" para "dívida cara".
+- Não use o cartão no lugar da [reserva de emergência](/blog/reserva-de-emergencia-6-ou-12-meses). O juro do rotativo é o oposto do colchão.
+
+Se a dívida já existe, o caminho é listar saldo, taxa e prestação, e negociar. O artigo [como sair das dívidas](/blog/como-sair-das-dividas) compara bola de neve e avalanche.
+
+Na [Academia Ordre](/app/escola), a aula 10 ("Cartão de crédito") aprofunda as mesmas regras. A aula 9 trata de dívidas.
+
+## No Ordre
+
+Em Contas e cartões você registra o cartão e o limite. Em Contas a pagar entra o vencimento da fatura, para o mês não ser surpreendido. A calculadora de quitação de dívida estima tempo e juros a partir do saldo, da taxa e da prestação que você informar. O número da tela descreve a conta. Não é oferta de crédito.
+
+---
+*Fontes: Banco Central do Brasil, SGS série 25477 (taxa média mensal do cartão de crédito rotativo, pessoa física: 15,29% em 01/09/2026) e série 22022 (451,71% ao ano na mesma competência). API consultada em 23/11/2026. A conta de R$ 153 é 15,29% de R$ 1.000, ilustração, não o CET do seu contrato. Atualizado em 23/11/2026. Conteúdo educativo, não é recomendação de crédito.*`,
+  },
+  {
+    slug: "o-que-e-cdb",
+    title: "CDB: o que é, como rende e o que o FGC cobre de verdade",
+    excerpt:
+      "Liquidez, percentual do CDI, IR de 22,5% a 15% e a garantia do FGC: R$ 250 mil por instituição e teto de R$ 1 milhão em quatro anos.",
+    author: "Time Ordre",
+    publishedAt: "2026-11-23",
+    readingMinutes: 4,
+    tags: ["renda fixa", "iniciante"],
+    category: "Investimentos",
+    calc: "cdi",
+    coverImage: {
+      src: "/blog/o-que-e-cdb.webp",
+      alt: "Professor Bento, um professor idoso de cardigã verde e gravata-borboleta dourada, em uma sala de aula clara, apontando para uma maquete de banco e um ábaco.",
+    },
+    content: `# CDB: o que é, como rende e o que o FGC cobre de verdade
+
+CDB é Certificado de Depósito Bancário. Você empresta dinheiro a um banco e recebe juros. O banco combina, na hora da aplicação, como essa remuneração funciona: um percentual do CDI, uma taxa prefixada ou inflação mais um juro. Este texto fica no CDB pós-fixado, o do tipo "100% do CDI", porque é a comparação mais comum com a LCI e com o Tesouro Selic.
+
+Esse texto é educativo e não é recomendação de investimento. Não indica banco, prazo nem percentual.
+
+## Liquidez e prazo
+
+Há CDB com liquidez diária, em que o resgate volta em D+0 ou D+1, conforme o emissor. E há CDB com vencimento: o dinheiro fica até a data, às vezes com resgate antecipado e às vezes sem. A taxa maior costuma aparecer no papel que prende o prazo. Liquidez e taxa não vêm grátis ao mesmo tempo.
+
+O rendimento acompanha o CDI. O CDI anualizado (SGS 4389) estava em **13,65% ao ano** em 19/11/2026. A meta da Selic estava em **13,75% ao ano** na reunião do Copom de 4/11/2026. Os dois andam colados. O artigo [quanto rende o CDI](/blog/quanto-rende-o-cdi) explica a régua.
+
+## O imposto
+
+CDB tem IR regressivo sobre o rendimento, retido na fonte:
+
+| Prazo | Alíquota |
+|---|---|
+| Até 180 dias | 22,5% |
+| 181 a 360 dias | 20% |
+| 361 a 720 dias | 17,5% |
+| Acima de 720 dias | 15% |
+
+Em um ano (361 a 720 dias), a alíquota é **17,5%**. Os 15% valem depois de dois anos. LCI e LCA são isentas de IR para pessoa física, nas regras vigentes em novembro de 2026.
+
+## O que o FGC cobre
+
+O [FGC](https://www.fgc.org.br/sobre-garantia-fgc) cobre CDB, LCI, LCA, poupança e outros produtos elegíveis até **R$ 250 mil por CPF ou CNPJ, por instituição ou conglomerado**. Há ainda um teto de **R$ 1 milhão** a cada período de quatro anos para o que o FGC paga ao mesmo CPF, na hipótese de liquidação de mais de uma instituição. A contagem desse período, segundo o FGC, começa na liquidação ou intervenção. Tesouro Direto não usa o FGC: a garantia é do Tesouro Nacional.
+
+O FGC não cobre o rendimento que ainda não existe, nem transforma um banco frágil em "sem risco". Ele cobre o crédito elegível até aqueles tetos, se a instituição não pagar.
+
+## CDB, LCI e Tesouro Selic no líquido
+
+Conta de ilustração, a mesma do artigo do CDI: R$ 10.000 por 12 meses, sem capitalização diária, CDI a 13,65% e Selic a 13,75%. Não é previsão.
+
+| Papel | Bruto aproximado | IR no prazo de 1 ano | Líquido aproximado |
+|---|---|---|---|
+| CDB 100% do CDI | R$ 1.365 | 17,5% | cerca de R$ 1.126 |
+| LCI 95% do CDI | R$ 1.297 | isenta | cerca de R$ 1.297 |
+| Tesouro Selic, pela meta da Selic | R$ 1.375 | 17,5% | cerca de R$ 1.134 |
+
+A LCI de 95% ganha este exemplo no líquido porque não paga IR. Ela costuma ter carência. O CDB de liquidez diária sai no curto prazo, e só entra no FGC se for elegível. No Tesouro Selic, a custódia da B3 de 0,20% ao ano tem isenção sobre os primeiros R$ 10 mil, então este exemplo de R$ 10.000 não desconta custódia. O [Tesouro Direto](/blog/tesouro-direto) pode ter variação pequena no resgate antecipado. Não é "zero de oscilação".
+
+Na [Academia Ordre](/app/escola), o extra "CDB, LCI/LCA e FGC" trata desses três papéis. A aula 12 liga Selic e CDI.
+
+## No Ordre
+
+A calculadora Rendimento do CDI aplica a taxa vigente do Banco Central e o IR do prazo, para papel tributável e para papel isento. O módulo de Investimentos registra a classe, não escolhe o banco. O Assistente não recomenda ativo.
+
+---
+*Fontes: Banco Central, SGS 4389 (CDI 13,65% a.a. em 19/11/2026) e Copom (Selic 13,75% a.a. em 4/11/2026). Receita Federal, tabela regressiva de IR da renda fixa. [FGC, regras de cobertura](https://www.fgc.org.br/sobre-garantia-fgc), consulta em 23/11/2026. B3, custódia do Tesouro Selic. A tabela de R$ 10.000 é aproximação sem capitalização diária. Atualizado em 23/11/2026. Conteúdo educativo, não é recomendação de investimento.*`,
+  },
+  {
+    slug: "rendimento-da-poupanca",
+    title: "Poupança: quanto rende quando a Selic está alta (e quando não está)",
+    excerpt:
+      "Com a Selic acima de 8,5%, a poupança rende 0,5% ao mês mais TR. Abaixo disso, a regra muda. A comparação com CDB e Tesouro Selic, com data.",
+    author: "Time Ordre",
+    publishedAt: "2026-11-23",
+    readingMinutes: 4,
+    tags: ["renda fixa", "poupança"],
+    category: "Investimentos",
+    calc: "cdi",
+    coverImage: {
+      src: "/blog/rendimento-da-poupanca.webp",
+      alt: "Professor Bento, um professor idoso de cardigã verde e gravata-borboleta dourada, em uma sala de aula clara, colocando uma moeda em um pote, ao lado de um cofre de porquinho.",
+    },
+    content: `# Poupança: quanto rende quando a Selic está alta (e quando não está)
+
+A poupança é um depósito. O saldo em reais não cai por causa da regra de rendimento. Isso não significa que ela ganhe de todo o resto, nem que o poder de compra esteja garantido. A regra muda conforme a meta da Selic.
+
+Esse texto é educativo e não é recomendação de investimento.
+
+## A regra
+
+O art. 12 da Lei nº 8.177/1991, com a redação da Lei nº 12.703/2012, define duas parcelas para depósitos feitos a partir de 4 de maio de 2012:
+
+- **Remuneração básica:** a TR do período.
+- **Remuneração adicional:** **0,5% ao mês**, enquanto a meta da Selic ao ano for **superior a 8,5%**; ou **70% da meta da Selic ao ano, mensalizada**, quando a meta for igual ou inferior a 8,5%.
+
+O crédito sai no aniversário da conta, sobre o menor saldo do período. Quem saca antes do aniversário perde o rendimento daquele período. Depósitos de pessoa física fazem aniversário todo mês. O Banco Central publica a remuneração dos depósitos de poupança com essa regra.
+
+Depósitos anteriores a 4 de maio de 2012 seguem com 0,5% ao mês mais TR, pela Lei nº 12.703/2012. A poupança de pessoa física é isenta de Imposto de Renda.
+
+## Com a Selic a 13,75%
+
+Na reunião do Copom de 4/11/2026, a meta da Selic estava em **13,75% ao ano**, acima de 8,5%. Vale, portanto, 0,5% ao mês mais TR.
+
+Na série SGS 195, a remuneração da poupança no período de **18/11/2026 a 18/12/2026** foi **0,6701%**. Sobre R$ 10.000, isso é cerca de **R$ 67** naquele aniversário. Se essa taxa mensal se repetisse por 12 meses, o acumulado seria cerca de **8,34%** (R$ 834 em R$ 10.000). Isso é ilustração da taxa observada, não previsão: a TR muda.
+
+O IPCA acumulado em 12 meses, série SGS 13522, estava em **4,63%** na observação de 01/10/2026. As janelas não são as mesmas, então não dá para subtrair 4,63% de 8,34% e chamar o resultado de rendimento real oficial. Dá para ver a ordem de grandeza: na fotografia de outubro e novembro de 2026, a poupança nominal não estava abaixo daquele IPCA de 12 meses. Em outros ciclos, quando a inflação passou na frente, o poder de compra caiu mesmo com saldo nominal maior. "Não perde" vale para o saldo em reais da regra, não para o poder de compra em qualquer ano.
+
+## No líquido, ao lado de CDB e Tesouro Selic
+
+Mesma ilustração do artigo do [CDI](/blog/quanto-rende-o-cdi), sem capitalização diária, R$ 10.000 em 12 meses, CDI a **13,65%** em 19/11/2026 e IR de 17,5% no prazo de um ano:
+
+| Aplicação | Líquido aproximado em 12 meses |
+|---|---|
+| Poupança, se 0,6701% ao mês se repetisse | cerca de R$ 834, isenta |
+| CDB 100% do CDI | cerca de R$ 1.126, já com IR de 17,5% |
+| Tesouro Selic, pela meta de 13,75% | cerca de R$ 1.134, já com IR de 17,5% |
+
+Com a Selic alta, o 0,5% ao mês mais a TR fica atrás de um CDB de 100% do CDI e de um Tesouro Selic, no líquido deste exemplo. A poupança devolve no aniversário e entra no [FGC](https://www.fgc.org.br/sobre-garantia-fgc), até R$ 250 mil por CPF por instituição, com teto de R$ 1 milhão a cada período de quatro anos. O [Tesouro Selic](/blog/tesouro-direto) não usa FGC.
+
+Quando a meta da Selic estiver em 8,5% ou menos, a parcela adicional deixa de ser 0,5% ao mês e passa a 70% da meta mensalizada, mais a TR. O BC divulga a taxa resultante. Não há, neste texto, um exemplo numérico dessa faixa, porque a meta vigente em 4/11/2026 estava acima do gatilho.
+
+Na [Academia Ordre](/app/escola), a aula 12 ("O que é a taxa Selic") liga a taxa básica ao custo do dinheiro.
+
+## No Ordre
+
+No Início, a faixa de indicadores mostra Selic, CDI e IPCA em 12 meses, com dados do Banco Central. A calculadora Rendimento do CDI compara um papel tributável com um papel isento no prazo que você escolher. A poupança em si não é uma linha dessa calculadora: a comparação acima é a conta deste artigo.
+
+---
+*Fontes: Lei nº 8.177/1991, art. 12, redação da Lei nº 12.703/2012. Banco Central, página de remuneração dos depósitos de poupança. SGS 195 (0,6701% no período 18/11/2026 a 18/12/2026), SGS 13522 (IPCA 4,63% em 01/10/2026), SGS 4389 (CDI 13,65% em 19/11/2026) e Copom (Selic 13,75% em 4/11/2026). API consultada em 23/11/2026. [FGC](https://www.fgc.org.br/sobre-garantia-fgc). Atualizado em 23/11/2026. Conteúdo educativo, não é recomendação de investimento.*`,
+  },
+  {
+    slug: "custo-por-hora-de-trabalho",
+    title: "O verdadeiro preço: quanto custa em horas do seu trabalho",
+    excerpt:
+      "Renda líquida dividida pelas horas de trabalho. O teste antes de comprar, e por que o parcelado também é hora.",
+    author: "Time Ordre",
+    publishedAt: "2026-11-23",
+    readingMinutes: 3,
+    tags: ["orçamento", "iniciante"],
+    category: "Orçamento e dívidas",
+    calc: "porcentagem",
+    coverImage: {
+      src: "/blog/custo-por-hora-de-trabalho.webp",
+      alt: "Professor Bento, um professor idoso de cardigã verde e gravata-borboleta dourada, em uma sala de aula clara, segurando uma ampulheta, com um saco de papel sobre a mesa.",
+    },
+    content: `# O verdadeiro preço: quanto custa em horas do seu trabalho
+
+Um preço em reais esconde o tempo. Dividir a renda líquida pelas horas de trabalho devolve o preço em horas. A conta não diz se a compra é certa. Diz quantas horas de trabalho ela consome.
+
+Esse texto é educativo. Não é recomendação de compra.
+
+## A conta
+
+**Preço por hora = renda líquida do mês ÷ horas trabalhadas no mês.**
+
+Renda líquida é o que cai na conta, depois dos descontos, não o salário bruto. As horas são as que você de fato trabalha. A Constituição limita a duração normal do trabalho a 8 horas por dia e 44 por semana. Quem trabalha outro ritmo usa o próprio número.
+
+Exemplo, só para ver a ordem: R$ 4.400 líquidos e 176 horas (44 horas por semana, em quatro semanas). A hora sai a **R$ 25**. Uma compra de R$ 250 são **10 horas**. O número muda no dia em que a renda ou a jornada mudam.
+
+## O teste antes de comprar
+
+Antes de fechar, três perguntas:
+
+1. Quantas horas de trabalho esta compra representa, na minha hora de verdade?
+2. Ela cabe no [orçamento](/blog/regra-50-30-20) deste mês, na linha de necessidade ou de desejo?
+3. Se eu não comprar, o que essas horas financiam: a [reserva](/blog/reserva-de-emergencia-6-ou-12-meses), uma dívida cara, ou nada?
+
+Não há resposta universal. Um conserto do freio e um jantar de R$ 250 podem custar as mesmas 10 horas e não ter o mesmo papel na vida.
+
+## Parcelado também é hora
+
+Dez parcelas de R$ 50 são R$ 500, ou 20 horas no exemplo de R$ 25. O parcelado sem juro continua sendo essas 20 horas, só que distribuídas. O parcelado com juro custa mais horas do que o preço de vitrine. A taxa está no contrato. Sem ela, este texto não inventa um percentual.
+
+O [cartão](/blog/cartao-de-credito) deixa isso mais fácil de não ver, porque a fatura chega depois. A hora já foi trabalhada, ou ainda vai ser.
+
+Na [Academia Ordre](/app/escola), a aula 3 ("O verdadeiro preço das coisas") faz esse teste. O Ordre ainda não tem uma calculadora de horas de trabalho. A conta cabe numa divisão.
+
+## No Ordre
+
+O Orçamento mostra a renda e os gastos do mês, que são a matéria da conta. A calculadora de Porcentagem responde "quanto é X% de Y" e a variação entre dois valores, útil para ver o peso de uma compra na renda. Nenhuma das duas divide renda por hora. Essa divisão continua manual.
+
+---
+*Fontes: a fórmula é renda líquida dividida pelas horas. O exemplo de R$ 4.400 e 176 horas é hipotético (44 horas semanais em quatro semanas). A Constituição, no art. 7º, inciso XIII, limita a duração normal a 8 horas por dia e 44 por semana. Atualizado em 23/11/2026. Conteúdo educativo, não é recomendação de compra.*`,
+  },
+  {
+    slug: "inflacao-do-estilo-de-vida",
+    title: "Vida alugada: por que a renda sobe e o padrão come tudo",
+    excerpt:
+      "Custo fixo e custo variável. Como travar o padrão quando a renda sobe, antes que a sobra desapareça.",
+    author: "Time Ordre",
+    publishedAt: "2026-11-23",
+    readingMinutes: 3,
+    tags: ["orçamento", "hábitos"],
+    category: "Orçamento e dívidas",
+    calc: "503020",
+    coverImage: {
+      src: "/blog/inflacao-do-estilo-de-vida.webp",
+      alt: "Professor Bento, um professor idoso de cardigã verde e gravata-borboleta dourada, em uma sala de aula clara, segurando um balão que levanta um saco de papel, com uma carteira sobre a mesa.",
+    },
+    content: `# Vida alugada: por que a renda sobe e o padrão come tudo
+
+A renda sobe e, meses depois, a sobra some. Não é só inflação de preço. É inflação de padrão: o aluguel melhor, o delivery, o plano, a parcela. O mês fica cheio de novo. A vida fica alugada ao padrão novo.
+
+Esse texto é educativo. Não é recomendação de consumo.
+
+## Custo fixo e custo variável
+
+**Fixo** é o que se repete mesmo num mês quieto: aluguel, condomínio, escola, plano de saúde, financiamento, assinaturas. **Variável** é o que oscila: mercado acima do básico, restaurante, lazer, compras por impulso.
+
+Os dois sobem quando o padrão sobe. O fixo é mais difícil de desfazer. Trocar de bairro ou assumir uma parcela longa trava a renda por anos. O variável parece pequeno em cada nota e pesa no fechamento do mês.
+
+A [regra 50-30-20](/blog/regra-50-30-20) separa necessidade, desejo e a fatia de poupar. Ela não impede o padrão de subir. Ela mostra quando a fatia de desejo, ou o total, passou do que você tinha combinado consigo.
+
+## Como travar o padrão
+
+O travamento é uma decisão anterior ao gasto, não uma culpa depois:
+
+1. Quando a renda subir, defina primeiro quanto vai para a [reserva](/blog/reserva-de-emergencia-6-ou-12-meses) e para a meta. O resto é o que pode mudar de padrão.
+2. Espere um ou dois meses antes de assumir custo fixo novo. O variável dá para testar. O fixo fica.
+3. Olhe a despesa variável como percentual da renda, não só em reais. R$ 800 a mais num salário que também subiu pode ser o mesmo percentual, ou pode ter comido a sobra inteira.
+4. Revise assinatura e parcela uma vez por ano. O que entrou "por um mês" vira fixo disfarçado.
+
+Não há percentual mágico que sirva para todo mundo. Há um número que o Ordre usa como alerta, descrito abaixo, e há a regra 50-30-20 como referência de orçamento.
+
+Na [Academia Ordre](/app/escola), a aula 2 ("Vivendo uma vida alugada") trata deste padrão. A aula 1 mostra onde ele se encaixa nos quatro pilares.
+
+## No Ordre
+
+No Início, se o mês não está no vermelho, um alerta avisa quando a despesa variável passa de **40% da renda**. O aviso leva ao Orçamento. A Visão geral mostra seis meses de receita e gasto e a evolução do patrimônio líquido. Nenhum dos dois escolhe o que cortar. Os dois mostram o padrão antes que ele vire contrato.
+
+---
+*Fontes: o alerta de 40% é a regra do Início do Ordre (despesa variável sobre a renda do mês, quando o saldo do mês não está negativo). A regra 50-30-20 está no artigo correspondente. Atualizado em 23/11/2026. Conteúdo educativo, não é recomendação de consumo.*`,
+  },
+  {
+    slug: "taxa-de-poupanca",
+    title: "Taxa de poupança importa mais que salário (a conta que prova)",
+    excerpt:
+      "Dois salários e duas taxas de poupança, na fórmula de juros compostos. A simulação em que quem ganha menos acumula mais.",
+    author: "Time Ordre",
+    publishedAt: "2026-11-23",
+    readingMinutes: 3,
+    tags: ["metas", "juros compostos"],
+    category: "Reserva e metas",
+    calc: "primeiro-milhao",
+    coverImage: {
+      src: "/blog/taxa-de-poupanca.webp",
+      alt: "Professor Bento, um professor idoso de cardigã verde e gravata-borboleta dourada, em uma sala de aula clara, comparando dois potes de moedas, com uma balança de madeira sobre a mesa.",
+    },
+    content: `# Taxa de poupança importa mais que salário (a conta que prova)
+
+Taxa de poupança, aqui, é a fatia da renda que você não gasta: reserva, meta, investimento. Dois salários diferentes podem terminar em lugares opostos se as taxas forem opostas. A conta abaixo é simulação. Não é previsão de rendimento e não promete que alguém ficará rico.
+
+Esse texto é educativo e não é recomendação de investimento.
+
+## Dois salários, duas taxas
+
+A fórmula é a da série uniforme, a mesma do artigo de [juros compostos](/blog/juros-compostos): aporte no fim de cada mês, taxa mensal igual à taxa anual nominal dividida por 12, sem imposto, sem inflação e sem taxa. A taxa usada na simulação é **10% ao ano**. É uma hipótese de cálculo, não uma taxa de mercado.
+
+| Pessoa | Renda líquida | Taxa de poupança | Aporte mensal | 30 anos nesta simulação |
+|---|---|---|---|---|
+| A | R$ 5.000 | 20% | R$ 1.000 | cerca de R$ 2,26 milhões |
+| B | R$ 10.000 | 5% | R$ 500 | cerca de R$ 1,13 milhão |
+
+A ganha a metade e, nesta conta, acumula cerca do dobro. Em 30 anos, A aporta R$ 360 mil (R$ 1.000 × 360 meses). B aporta R$ 180 mil. O resto do montante, na fórmula, é juro sobre juro. Se a taxa da simulação for outra, os dois montantes mudam, e a ordem entre quem poupa mais e quem poupa menos se mantém enquanto os aportes forem esses.
+
+Em 20 anos, o aporte de R$ 1.000 na mesma hipótese fica em cerca de R$ 759 mil. Tempo e taxa de poupança pesam juntos. Salário maior sem sobra não entra na fórmula.
+
+## O que a conta não diz
+
+Ela não diz que 10% ao ano é o que a sua carteira vai render. Não desconta IR, inflação nem um mês em que o aporte falha. Não recomenda um produto. Serve para separar duas decisões: quanto entra e quanto fica.
+
+Quem está endividado no rotativo, no juro do artigo do [cartão](/blog/cartao-de-credito), primeiro reduz essa taxa. Juro de 15% ao mês come qualquer taxa de poupança desta simulação.
+
+Na [Academia Ordre](/app/escola), a aula 4 ("Como ficar rico ganhando pouco") usa esta comparação. A aula 6 revisa os juros compostos.
+
+## No Ordre
+
+As Metas acompanham um objetivo com prazo e valor já guardado. A calculadora Primeiro milhão inverte a conta: você informa meta, prazo e uma taxa, e ela devolve o aporte mensal. A taxa é a que você digita. O resultado descreve a fórmula, não um rendimento contratado.
+
+---
+*Fonte: fórmula da anuidade ordinária, aporte no fim do mês, i = 0,10/12, n = 360 ou 240. Montantes arredondados: R$ 2.260.488, R$ 1.130.244 e R$ 759.369. Simulação sem IR, inflação ou custos. Atualizado em 23/11/2026. Conteúdo educativo, não é recomendação de investimento.*`,
+  },
+  {
+    slug: "mitos-sobre-dinheiro",
+    title: "Tudo que você aprendeu sobre dinheiro e o que não se sustenta",
+    excerpt:
+      "Oito frases curtas sobre poupança, FGC, dividendo, FII, cartão, Tesouro, exterior e a regra dos 4%, cada uma com a fonte.",
+    author: "Time Ordre",
+    publishedAt: "2026-11-23",
+    readingMinutes: 4,
+    tags: ["iniciante", "mitos"],
+    category: "Comece aqui",
+    coverImage: {
+      src: "/blog/mitos-sobre-dinheiro.webp",
+      alt: "Professor Bento, um professor idoso de cardigã verde e gravata-borboleta dourada, em uma sala de aula clara, limpando um quadro verde vazio.",
+    },
+    content: `# Tudo que você aprendeu sobre dinheiro e o que não se sustenta
+
+Mito, aqui, é uma frase curta que sobrevive sem a regra por trás. Abaixo vão oito. Cada um tem a fonte da correção. Nenhum é conselho do que comprar.
+
+Esse texto é educativo e não é recomendação de investimento.
+
+## 1. "Poupança não perde"
+
+O saldo em reais da regra de rendimento não fica negativo. O poder de compra depende da inflação do período, e quem saca antes do aniversário perde o rendimento daquele mês. A regra está no art. 12 da Lei nº 8.177/1991, com a Lei nº 12.703/2012. O artigo da [poupança](/blog/rendimento-da-poupanca) traz a Selic de 13,75% em 4/11/2026, a taxa de 0,6701% no período de 18/11 a 18/12/2026 e o IPCA de 4,63% até outubro de 2026, com a ressalva de que as janelas não coincidem.
+
+## 2. "O FGC cobre qualquer valor"
+
+O [FGC](https://www.fgc.org.br/sobre-garantia-fgc) cobre até R$ 250 mil por CPF ou CNPJ, por instituição ou conglomerado, nos produtos elegíveis. Há teto de R$ 1 milhão a cada período de quatro anos para o que o FGC paga ao mesmo CPF quando mais de uma instituição é liquidada. Tesouro não entra nessa garantia. O artigo [como investir com segurança](/blog/investir-com-seguranca) lista o filtro.
+
+## 3. "Dividendo é sempre isento"
+
+Desde janeiro de 2026, a Lei nº 15.270/2025 retém 10% na fonte quando uma mesma empresa paga a uma mesma pessoa física residente mais de R$ 50 mil no mês, sobre o total pago. Há exceção para lucros apurados até 2025, com distribuição aprovada até 31/12/2025, pagos nos termos do ato. O artigo de [renda passiva](/blog/o-que-e-renda-passiva) detalha.
+
+## 4. "Rendimento de FII é sempre isento"
+
+A isenção da pessoa física, no art. 3º da Lei nº 11.033/2004, com a redação da Lei nº 14.754/2023, depende de cotas negociadas só em bolsa ou balcão organizado, de no mínimo 100 cotistas, e não alcança quem tem 10% ou mais das cotas ou direito a mais de 10% dos rendimentos. O artigo de [fundos imobiliários](/blog/fundos-imobiliarios) fica nesse ponto.
+
+## 5. "Pagar o mínimo do cartão é só um pouquinho"
+
+Em setembro de 2026, a taxa média do rotativo para pessoa física estava em 15,29% ao mês (SGS 25477, 01/09/2026). R$ 1.000 nessa taxa, por um mês, são cerca de R$ 153, antes do CET do contrato. O artigo do [cartão](/blog/cartao-de-credito) separa fatura, rotativo e parcelado.
+
+## 6. "Tesouro Selic não oscila nunca"
+
+A recompra é a preço de mercado. Em prazo curto pode haver variação negativa pequena, além de IR e, em menos de 30 dias, IOF. O risco é baixo, não é zero. Está no artigo de [Tesouro Direto](/blog/tesouro-direto).
+
+## 7. "Ganho no exterior entra no carnê-leão"
+
+Desde 2024, a Lei nº 14.754/2023 tributa aplicações financeiras no exterior, em regra, na declaração anual, à alíquota de 15%. O artigo [investir no exterior](/blog/investir-no-exterior) distingue isso de outras rendas, como aluguel.
+
+## 8. "A regra dos 4% garante a renda"
+
+O estudo de Cooley, Hubbard e Walz (1998) olhou carteiras americanas em janelas de 30 anos, com retornos históricos. Não é lei brasileira e não garante o próximo período. O artigo da [regra dos 4%](/blog/regra-dos-4-por-cento) cabe nessa ressalva.
+
+Na [Academia Ordre](/app/escola), a aula 5 ("Tudo que você aprendeu sobre dinheiro") percorre mitos no mesmo espírito: frase curta de um lado, regra do outro.
+
+## No Ordre
+
+O quiz de perfil, a calculadora de CDI, a de dívidas e a de dividendos fazem contas com os números que você informa ou com a taxa do Banco Central, no caso do CDI. Nenhuma delas transforma um mito em produto. O Assistente não recomenda ativo.
+
+---
+*Fontes: Lei nº 8.177/1991 e Lei nº 12.703/2012; [FGC](https://www.fgc.org.br/sobre-garantia-fgc); Lei nº 15.270/2025; Lei nº 11.033/2004 e Lei nº 14.754/2023; Banco Central, SGS 25477 (15,29% em 01/09/2026); Tesouro Nacional, recompra a mercado; Lei nº 14.754/2023; Cooley, Hubbard e Walz, 1998. Atualizado em 23/11/2026. Conteúdo educativo, não é recomendação de investimento.*`,
+  },
+  {
+    slug: "o-que-e-renda-passiva",
+    title: "Renda passiva: o que é, o que não é, e a matemática dos dividendos",
+    excerpt:
+      "Yield e yield on cost, a regra dos 4% com as ressalvas, e o imposto do dividendo alto e do FII com as condições da lei.",
+    author: "Time Ordre",
+    publishedAt: "2026-11-23",
+    readingMinutes: 4,
+    tags: ["dividendos", "investimentos"],
+    category: "Investimentos",
+    calc: "dividendos",
+    coverImage: {
+      src: "/blog/o-que-e-renda-passiva.webp",
+      alt: "Professor Bento, um professor idoso de cardigã verde e gravata-borboleta dourada, em uma sala de aula clara, regando um vaso pequeno, com envelopes em branco sobre a mesa.",
+    },
+    content: `# Renda passiva: o que é, o que não é, e a matemática dos dividendos
+
+Renda passiva, neste texto, é dinheiro que chega sem que você venda uma hora de trabalho naquele mês: juro de um título, aluguel, dividendo de ação, rendimento de fundo imobiliário. Não é um salário escondido, nem a promessa de um curso. E não está garantida só porque chegou no mês passado.
+
+Esse texto é educativo e não é recomendação de investimento. Não indica ação, FII nem taxa.
+
+## O que não é
+
+- Não é "viver de renda" só porque um mês pagou provento. Um mês não faz uma regra.
+- Não é yield alto escrito na tela. Preço cai, e o mesmo dividendo vira um percentual maior sem você ter ficado mais rico.
+- Não é o principal voltando para a sua conta com outro nome. Se o fundo paga mais do que o resultado sustenta, parte do que chega pode ser o seu próprio dinheiro.
+- Não é isenção automática. A regra depende do ativo e do tamanho do pagamento.
+
+## Dividend yield e yield on cost
+
+**Dividend yield** é o provento dos últimos doze meses dividido pelo preço de hoje. Se a cota custa R$ 100 e pagou R$ 8 no ano, o yield é 8%. Se a cota cai a R$ 80 e o provento continua R$ 8, o yield vai a 10%. O percentual subiu porque o preço caiu.
+
+**Yield on cost** troca o preço de hoje pelo preço que você pagou. Os mesmos R$ 8 sobre um custo de R$ 50 são 16%. O número descreve a sua compra antiga. Não descreve o que o mercado paga hoje, nem o que a empresa vai pagar ano que vem. Provento passado não garante o próximo.
+
+A conta da [regra dos 4%](/blog/regra-dos-4-por-cento) é outra: patrimônio = gasto anual ÷ 0,04. Para um gasto de R$ 5.000 por mês (R$ 60.000 por ano), a conta dá **R$ 1,5 milhão**. É a definição aritmética da regra, não a prova de que uma carteira sustenta essa retirada. O estudo de Cooley, Hubbard e Walz (1998) usou dados americanos, de 1926 a 1995, em janelas de 30 anos. O Brasil tem inflação e juros diferentes. O estudo descreve o passado americano. Não garante a retirada daqui para a frente.
+
+## Ações e FIIs, no imposto
+
+Dividendo de ação, para a pessoa física residente: a partir de janeiro de 2026, a [Lei nº 15.270/2025](https://www.planalto.gov.br/ccivil_03/_ato2023-2026/2025/lei/l15270.htm) manda reter **10%** na fonte quando uma mesma pessoa jurídica paga a uma mesma pessoa física mais de **R$ 50 mil no mês**, sobre o total desse pagamento. Abaixo desse valor no mês, a lei não manda essa retenção. Lucros apurados até 2025, com distribuição aprovada até 31/12/2025 e pagos nos termos do ato, ficam de fora. Se a renda anual for alta, a própria lei ainda prevê um ajuste anual. Confirme o seu caso no ano-calendário.
+
+Rendimento distribuído por FII, para a pessoa física, pode ser isento na fonte e na declaração quando as cotas só são negociadas em bolsa ou balcão organizado e o fundo tem, no mínimo, **100 cotistas** (art. 3º da Lei nº 11.033/2004, redação da Lei nº 14.754/2023). A isenção não vale para quem tem 10% ou mais das cotas, nem para quem tem direito a rendimento superior a 10% do total. O artigo de [fundos imobiliários](/blog/fundos-imobiliarios) trata também do ganho na venda da cota.
+
+Na [Academia Ordre](/app/escola), a aula 13 ("Quando você vai viver de renda") fica na regra dos 4%. O extra "Renda passiva" separa o que é renda do que é promessa.
+
+## No Ordre
+
+A calculadora de dividendos pede preço, quantidade e um yield que você informa, e estima o provento do ano. Se você informar o preço médio pago, ela mostra o yield on cost. O texto da tela avisa que dividendo passado não garante o futuro. A calculadora de independência faz a conta da retirada a partir do gasto mensal e da taxa que você digitar, com o 4% como ponto de partida. As duas descrevem fórmula. Não escolhem ativo.
+
+---
+*Fontes: definição de dividend yield e yield on cost. Lei nº 15.270, de 26/11/2025, art. 6º-A da Lei nº 9.249/1995, efeitos em 1º/01/2026. Lei nº 11.033/2004, art. 3º, com a Lei nº 14.754/2023 (mínimo de 100 cotistas). Cooley, Hubbard e Walz, 1998. A conta de R$ 1,5 milhão é 60.000 ÷ 0,04. Atualizado em 23/11/2026. Conteúdo educativo, não é recomendação de investimento.*`,
+  },
+  {
+    slug: "o-que-e-patrimonio-liquido",
+    title: "Patrimônio líquido: o que você tem menos o que você deve",
+    excerpt:
+      "Bens, investimentos e reserva, menos as dívidas. O carro financiado entra só pela parte quitada, com a FIPE como referência.",
+    author: "Time Ordre",
+    publishedAt: "2026-11-23",
+    readingMinutes: 3,
+    tags: ["patrimônio", "iniciante"],
+    category: "Comece aqui",
+    coverImage: {
+      src: "/blog/o-que-e-patrimonio-liquido.webp",
+      alt: "Professor Bento, um professor idoso de cardigã verde e gravata-borboleta dourada, em uma sala de aula clara, equilibrando uma balança com uma casa em miniatura e um cubo verde.",
+    },
+    content: `# Patrimônio líquido: o que você tem menos o que você deve
+
+Patrimônio líquido é uma subtração. Entram os bens, os investimentos e o dinheiro da reserva. Saem as dívidas. O resultado é o que sobraria se tudo fosse avaliado hoje e as dívidas fossem pagas. Não é o saldo da conta corrente, e não é o preço de tabela de um carro que ainda está financiado.
+
+Esse texto é educativo. Não é avaliação de bem nem recomendação de compra.
+
+## O que entra e o que sai
+
+Entra:
+
+- o bem pelo valor de hoje, não pelo que você pagou anos atrás;
+- os investimentos pelo valor atual;
+- a [reserva de emergência](/blog/reserva-de-emergencia-6-ou-12-meses).
+
+Sai:
+
+- o saldo do financiamento;
+- o cartão, o empréstimo e qualquer outra dívida ainda aberta.
+
+Um exemplo hipotético, sem ser anúncio de preço: carro avaliado em R$ 50.000, com R$ 30.000 ainda de financiamento. A parte que já é sua é **R$ 20.000**. Lançar o carro pelos R$ 50.000 e esquecer a dívida infla o placar em R$ 30.000.
+
+A ordem dos [quatro pilares](/blog/os-4-pilares-da-liberdade-financeira) cabe aqui. O patrimônio é o placar. Orçamento, reserva e investimentos são o que faz o placar andar. Pular a reserva para "aumentar o patrimônio" em algo que oscila deixa o placar frágil no primeiro susto.
+
+## Bem financiado
+
+O bem financiado conta pela diferença entre o valor e o saldo devedor. À medida que as parcelas reduzem o saldo, essa diferença cresce, se o valor do bem se mantiver. Se o valor de mercado cair mais do que a dívida diminui, a diferença encolhe. Por isso o valor precisa ser revisto, não congelado no dia da compra.
+
+Dívida sem bem do outro lado, como o rotativo do [cartão](/blog/cartao-de-credito), só entra na subtração. Não há ativo correspondente.
+
+## Veículo e a FIPE
+
+Para carro, um referencial público de preço é a tabela FIPE. Ela não é o preço pelo qual o seu carro vai ser vendido amanhã. É uma referência de mercado para marca, modelo e ano. Usar essa referência evita lançar o carro pelo valor de compra, já defasado, ou por um chute.
+
+Na [Academia Ordre](/app/escola), a aula 1 fecha o mapa no patrimônio. A aula 13 olha o mesmo placar pelo lado da renda futura, com as ressalvas da regra dos 4%.
+
+## No Ordre
+
+O módulo Patrimônio lista bens e dívidas. O bem financiado entra só pela parte quitada: o valor menos o saldo do financiamento vinculado. A consulta FIPE, na mesma tela, busca marca, modelo e ano e devolve um valor de referência para o veículo. A Visão geral guarda uma foto mensal do líquido e mostra a evolução. O Início usa essa conta no resumo. Nada disso avalia o seu imóvel nem recomenda vender ou comprar.
+
+---
+*Fontes: definição de patrimônio líquido como ativos menos dívidas. O exemplo de R$ 50.000 e R$ 30.000 é hipotético. A tabela FIPE é a referência de preço de veículos usada na consulta do módulo. Atualizado em 23/11/2026. Conteúdo educativo, não é recomendação de compra ou de venda.*`,
+  },
+
 ];
 
 export function getPost(slug: string) {
