@@ -12,6 +12,10 @@ const supabaseHost = (() => {
 
 const devEval = process.env.NODE_ENV === "production" ? "" : " 'unsafe-eval'";
 
+// Bucket público da Academia. O <track> VTT é cross-origin (crossorigin no
+// <video>) e alguns browsers buscam a legenda via connect-src.
+const academiaOrigin = "https://rhztczldzsopjkbaitqg.supabase.co";
+
 const ContentSecurityPolicy = [
   "default-src 'self'",
   "base-uri 'self'",
@@ -22,7 +26,8 @@ const ContentSecurityPolicy = [
   "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
   "font-src 'self' https://fonts.gstatic.com data:",
   "img-src 'self' data: blob: https://www.google-analytics.com https://*.supabase.co https://cdn.pluggy.ai",
-  `connect-src 'self' https://${supabaseHost} wss://${supabaseHost} https://www.google-analytics.com https://region1.google-analytics.com https://api.pluggy.ai https://connect.pluggy.ai`,
+  `connect-src 'self' https://${supabaseHost} wss://${supabaseHost} ${academiaOrigin} https://www.google-analytics.com https://region1.google-analytics.com https://api.pluggy.ai https://connect.pluggy.ai`,
+  `media-src 'self' blob: ${academiaOrigin}`,
   "frame-src 'self' https://connect.pluggy.ai",
   "upgrade-insecure-requests",
 ].join("; ");

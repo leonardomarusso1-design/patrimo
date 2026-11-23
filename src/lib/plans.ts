@@ -21,7 +21,7 @@ export const PLAN = {
     "Patrimônio: bens, dívidas e patrimônio líquido",
     "Multi-moeda com câmbio aplicado",
     "Todas as calculadoras",
-    "Academia Ordre — 13 aulas (liberadas conforme forem gravadas)",
+    "Academia Ordre — 13 aulas + 3 extras (liberadas conforme forem gravadas)",
     "Assistente com IA sobre os seus números",
     "Ordre no WhatsApp: lançamento por texto ou foto, resumo e lembrete (cota mensal; pacote avulso à parte)",
     "Open Finance (em breve)",
