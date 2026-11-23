@@ -7,6 +7,7 @@ import { Markdown } from "@/components/Markdown";
 import { BlogCover } from "@/components/BlogCover";
 import { formatDate } from "@/lib/utils";
 import { SITE_URL } from "@/lib/seo";
+import { safeCover } from "@/lib/markdown-href";
 import { ButtonLink } from "@/components/ui/Button";
 
 export function generateStaticParams() {
@@ -21,6 +22,7 @@ export async function generateMetadata({
   const { slug } = await params;
   const post = getPost(slug);
   if (!post) return { title: "Artigo não encontrado" };
+  const cover = safeCover(post.coverImage);
   return {
     title: post.title,
     description: post.excerpt,
@@ -31,7 +33,20 @@ export async function generateMetadata({
       description: post.excerpt,
       url: `${SITE_URL}/blog/${post.slug}`,
       publishedTime: post.publishedAt,
+      ...(cover
+        ? { images: [{ url: cover.src, width: 1280, height: 720, alt: cover.alt }] }
+        : {}),
     },
+    ...(cover
+      ? {
+          twitter: {
+            card: "summary_large_image" as const,
+            title: post.title,
+            description: post.excerpt,
+            images: [cover.src],
+          },
+        }
+      : {}),
   };
 }
 
@@ -43,6 +58,7 @@ export default async function BlogPostPage({
   const { slug } = await params;
   const post = getPost(slug);
   if (!post) notFound();
+  const cover = safeCover(post.coverImage);
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -52,6 +68,7 @@ export default async function BlogPostPage({
     datePublished: post.publishedAt,
     author: { "@type": "Organization", name: post.author },
     publisher: { "@type": "Organization", name: "Ordre" },
+    ...(cover ? { image: [`${SITE_URL}${cover.src}`] } : {}),
   };
 
   return (
@@ -69,7 +86,14 @@ export default async function BlogPostPage({
         <ArrowLeft className="h-4 w-4" /> Todos os artigos
       </Link>
 
-      <BlogCover slug={post.slug} tag={post.tags[0]} className="mt-6 h-44 sm:h-52" />
+      <BlogCover
+        slug={post.slug}
+        tag={post.tags[0]}
+        coverImage={post.coverImage}
+        preload={Boolean(cover)}
+        sizes="(max-width: 42rem) 100vw, 42rem"
+        className="mt-6 aspect-video"
+      />
 
       <h1 className="mt-6 font-display text-3xl font-extrabold leading-tight text-ink sm:text-4xl">
         {post.title}

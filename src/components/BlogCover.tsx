@@ -1,4 +1,6 @@
+import Image from "next/image";
 import { cn } from "@/lib/utils";
+import { safeCover } from "@/lib/markdown-href";
 
 const GRADIENTS = [
   "linear-gradient(135deg,#0b7a55,#08573d)",
@@ -14,16 +16,53 @@ function pick(slug: string) {
   return GRADIENTS[Math.abs(h) % GRADIENTS.length];
 }
 
-/** Capa gerada por slug — sem asset de imagem. Arcos concêntricos + a tag. */
+/**
+ * Capa do artigo. Com `coverImage` válido, mostra a foto; senão, o degradê do slug.
+ */
 export function BlogCover({
   slug,
   tag,
+  coverImage,
   className,
+  preload = false,
+  decorative = false,
+  sizes = "(max-width: 768px) 100vw, 40rem",
 }: {
   slug: string;
   tag?: string;
+  coverImage?: { src: string; alt: string };
   className?: string;
+  /** Só na capa do artigo, que é o elemento principal da página. */
+  preload?: boolean;
+  /** No card, o título do link já nomeia o artigo. */
+  decorative?: boolean;
+  sizes?: string;
 }) {
+  const cover = safeCover(coverImage);
+
+  if (cover) {
+    return (
+      <div className={cn("relative overflow-hidden rounded-xl bg-brand-50", className)}>
+        <Image
+          src={cover.src}
+          alt={decorative ? "" : cover.alt}
+          fill
+          preload={preload}
+          sizes={sizes}
+          className="object-cover object-[center_18%]"
+        />
+        {tag ? (
+          <span
+            aria-hidden
+            className="absolute bottom-3 left-3 rounded-full bg-ink/80 px-2.5 py-1 text-[0.7rem] font-semibold uppercase tracking-wide text-white"
+          >
+            {tag}
+          </span>
+        ) : null}
+      </div>
+    );
+  }
+
   return (
     <div
       className={cn("relative flex items-end overflow-hidden rounded-xl", className)}
