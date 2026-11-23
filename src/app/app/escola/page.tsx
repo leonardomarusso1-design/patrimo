@@ -18,7 +18,7 @@ export default async function EscolaPage() {
     <>
       <PageHeader
         title="Academia Ordre"
-        subtitle="Domine seu dinheiro, uma aula por vez. Vídeos em gravação — o cadeado abre quando ficam prontos."
+        subtitle="Domine seu dinheiro, uma aula por vez."
       />
       <AcademiaList completed={completed} />
     </>
