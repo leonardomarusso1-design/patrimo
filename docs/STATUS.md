@@ -89,8 +89,7 @@ passam limpos. 43 rotas.
 
 1. **Open Finance** — precisa de conta **Pluggy** ou **Belvo** (client id/secret). Só
    isso destrava. O código de importação via CSV já cobre o caso manual.
-2. **Player de vídeo da Escola** — as aulas ficam "em gravação"; plugar o host quando
-   os vídeos existirem (campo `video_url` a adicionar em `LESSONS`/tabela).
+2. **Academia** — pronta: 13 aulas + 3 extras com vídeo, legenda e e-book (PR #25).
 3. **Cron de análise da IA** — hoje é sob demanda. Um Vercel Cron diário gerando a
    análise para todos os assinantes é opcional (custo de tokens).
 4. **Aviso de renovação por e-mail** — falta um cron que olha `plan_expires_at`.
