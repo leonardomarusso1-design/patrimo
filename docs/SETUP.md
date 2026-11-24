@@ -338,7 +338,7 @@ no WhatsApp. Não há plano grátis.
 ## O que já está pronto e não exige ação sua
 
 - Todas as 8 áreas do painel com CRUD real.
-- Escola com 13 aulas (cadeado por plano; vídeos entram quando você gravar).
+- Academia com 13 aulas + 3 extras em vídeo, com e-book, todas incluídas no plano.
 - Blog com 10 artigos.
 - Páginas legais (Termos, Privacidade, Cookies, Contrato, Segurança) — modelos LGPD,
   **peça revisão de um advogado antes de operar comercialmente**.
